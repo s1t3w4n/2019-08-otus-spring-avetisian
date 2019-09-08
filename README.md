@@ -9,9 +9,13 @@ home works in otus spring framework cource
 Yuriy Dvorzhetskiy (Дворжецкий Юрий)
 
 Sergey Petrelevich (Сергей Петрелевич)
+
 Konstantin Tarasov (Константин Тарасов)
+
 Alexandr Orudzhev (Александр Оруджев)
+
 Vitaly Kutsenko (Виталий Куценко)
+
 Dmitriy Kogan (Дмитрий Коган)
 
 ### Студент
