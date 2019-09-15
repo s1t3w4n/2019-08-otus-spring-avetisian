@@ -4,5 +4,7 @@ public interface Question {
 
     void printQuestion();
 
-    int checkAnswer(String answer);
+    int getMark(String answer);
+
+    boolean checkAnswer(String answer);
 }

@@ -1,6 +1,7 @@
 package dao;
 
 import data.Question;
+import data.SimpleQuestion;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -13,29 +14,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ServiceDAO {
-    private final String FILE;
+public class QuestionsDaoImpl implements QuestionsDao {
     private final Reader reader;
 
     private final static String[] HEADERS = {"body", "type", "correct", "wrong"};
 
-    public ServiceDAO(String file) throws FileNotFoundException {
-        FILE = file;
-        reader = new FileReader(FILE);
+    public QuestionsDaoImpl(String filePath) throws FileNotFoundException {
+        reader = new FileReader(filePath);
     }
 
+    @Override
     public List<Question> loadQuestions() throws IOException {
-        Iterable<CSVRecord> records = CSVFormat.DEFAULT
+        CSVParser records = CSVFormat.DEFAULT
                 .withHeader(HEADERS)
                 .withFirstRecordAsHeader()
                 .parse(reader);
-        if (((CSVParser) records).getHeaderNames().containsAll(Arrays.asList(HEADERS))) {
+        List<Question> questions = new ArrayList<>();
+        if (records.getHeaderNames().containsAll(Arrays.asList(HEADERS))) {
             for (CSVRecord record : records) {
-                switch (record.get("type")) {
+                switch (record.get(HEADERS[1])) {
                     case "simple":
+                        questions.add(new SimpleQuestion(record.get(HEADERS[0]),
+                                record.get(HEADERS[2]),
+                                Arrays.asList(record.get(HEADERS[3]).split("\\$"))));
+                        break;
                 }
             }
-            return new ArrayList<Question>();
+            return questions;
         } else {
             throw new IOException("Wrong file structure...");
         }

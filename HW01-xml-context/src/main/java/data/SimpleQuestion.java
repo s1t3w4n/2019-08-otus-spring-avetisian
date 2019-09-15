@@ -15,32 +15,49 @@ public class SimpleQuestion implements Question {
 
     @Override
     public void printQuestion() {
+        System.out.println("=============================");
         System.out.println("Please answer the question:");
         System.out.println(body);
         System.out.println("Choose one option: ");
+
         sequence = new HashMap<>();
-        List<Integer> numbers = new ArrayList<>();
+
+        List<String> temp = new ArrayList<>(answers.keySet());
+
         for (int i = 1; i <= answers.size(); i++) {
-            numbers.add(i);
+            int index = (int) (Math.random() * temp.size());
+            sequence.put(i, temp.get(index));
+            temp.remove(index);
+            System.out.println((i) + ": " + sequence.get(i));
         }
-
-        for (String s : answers.keySet()) {
-            int i = (int)(Math.random()*(answers.size()-numbers.size()));
-            sequence.put(numbers.get(i),s);
-            numbers.remove(i);
-        }
-        System.out.print("Print number of option:");
-
+        System.out.print("Print number of correct option:");
     }
 
     @Override
-    public int checkAnswer(String answer) {
+    public int getMark(String answer) {
         int mark = answers.get(sequence.get(Integer.parseInt(answer)));
         if (mark < 0) {
             return 0;
         } else {
             return mark;
         }
+    }
+
+    @Override
+    public boolean checkAnswer(String answer) {
+        try {
+            int number = Integer.parseInt(answer);
+            System.out.println("Answer format is correct");
+            if (sequence.keySet().contains(number)) {
+                return true;
+            } else {
+                System.out.println("There is no such number in options");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("You have to print only a number of correct option");
+        }
+        return false;
     }
 
     private Map<String, Integer> fillAnswers(String correctOption, List<String> wrongOptions) {
