@@ -6,7 +6,7 @@
         <constructor-arg name="filePath" value="src/main/resources/questions.csv"/>
     </bean>
 
-    <bean id="consoleService" class="console.ConsoleServiceImpl">
+    <bean id="testingService" class="testing.TestingServiceImpl">
         <constructor-arg name="questionsDao" ref="questionsDao"/>
     </bean>
 

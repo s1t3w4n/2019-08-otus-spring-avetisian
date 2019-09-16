@@ -1,5 +1,7 @@
 package dao;
 
+import data.MultipleQuestion;
+import data.OpenQuestion;
 import data.Question;
 import data.SimpleQuestion;
 import org.apache.commons.csv.CSVFormat;
@@ -36,7 +38,16 @@ public class QuestionsDaoImpl implements QuestionsDao {
                     case "simple":
                         questions.add(new SimpleQuestion(record.get(HEADERS[0]),
                                 record.get(HEADERS[2]),
-                                Arrays.asList(record.get(HEADERS[3]).split("\\$"))));
+                                splitAnswers(record.get(HEADERS[3]))));
+                        break;
+                    case "multiple":
+                        questions.add(new MultipleQuestion(record.get(HEADERS[0]),
+                                splitAnswers(record.get(HEADERS[2])),
+                                splitAnswers(record.get(HEADERS[3]))));
+                        break;
+                    case "open":
+                        questions.add(new OpenQuestion(record.get(HEADERS[0]),
+                                splitAnswers(record.get(HEADERS[2]))));
                         break;
                 }
             }
@@ -44,5 +55,9 @@ public class QuestionsDaoImpl implements QuestionsDao {
         } else {
             throw new IOException("Wrong file structure...");
         }
+    }
+
+    private List<String> splitAnswers(String answers) {
+        return Arrays.asList(answers.split("\\$"));
     }
 }

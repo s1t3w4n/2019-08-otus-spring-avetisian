@@ -1,8 +1,9 @@
-package console;
+package testing;
 
-public interface ConsoleService {
+public interface TestingService {
 
     String askName();
     String askSurname();
     int askQuestions();
+    void start();
 }

@@ -7,4 +7,6 @@ public interface Question {
     int getMark(String answer);
 
     boolean checkAnswer(String answer);
+
+
 }

@@ -1,4 +1,4 @@
-import console.ConsoleService;
+import testing.TestingService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MainHW01 {
@@ -7,11 +7,8 @@ public class MainHW01 {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
 
-        ConsoleService console = context.getBean(ConsoleService.class);
+        TestingService testingService = context.getBean(TestingService.class);
 
-        String name = console.askName();
-        String surname = console.askSurname();
-        int result = console.askQuestions();
-        System.out.println("Dear " + surname + " " + name + ". " + "Your result is: " + result + "%");
+        testingService.start();
     }
 }

@@ -1,4 +1,4 @@
-package console;
+package testing;
 
 import dao.QuestionsDao;
 import data.Question;
@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleServiceImpl implements ConsoleService {
+public class TestingServiceImpl implements TestingService {
 
     private final Scanner scanner;
     private final QuestionsDao questionsDao;
 
-    public ConsoleServiceImpl(QuestionsDao questionsDao) {
+    public TestingServiceImpl(QuestionsDao questionsDao) {
         scanner = new Scanner(System.in);
         this.questionsDao = questionsDao;
     }
@@ -52,6 +52,16 @@ public class ConsoleServiceImpl implements ConsoleService {
             return sumOfMarks / quantityOfQuestions;
         } else {
             return 0;
+        }
+    }
+
+    @SuppressWarnings("InfiniteLoopStatement")
+    public void start() {
+        while (true) {
+            String name = askName();
+            String surname = askSurname();
+            int result = askQuestions();
+            System.out.println("Dear " + surname + " " + name + ". " + "Your result is: " + result + "%");
         }
     }
 }
