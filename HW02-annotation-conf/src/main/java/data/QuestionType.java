@@ -2,7 +2,7 @@ package data;
 
 public enum QuestionType {
     SIMPLE ("simple"),
-    MULTIPLY ("multiply"),
+    MULTIPLE ("multiple"),
     OPEN ("open");
 
     private final String type;

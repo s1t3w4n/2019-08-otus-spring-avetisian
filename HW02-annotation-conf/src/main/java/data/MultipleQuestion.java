@@ -5,20 +5,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleQuestion implements Question {
+public class MultipleQuestion implements Question {
 
     private final String body;
-    private final Map<String, Boolean> options;
+    private final Map<String,Boolean> options;
+    private final int correctOptionsQuantity;
 
-    private static final int RIGHT_OPTIONS_QUANTITY = 1;
-
-    public SimpleQuestion(String body, String rightOption, List<String> wrongOptions) {
+    public MultipleQuestion(String body, List<String> correctOptions, List<String> wrongOptions) {
         this.body = body;
         options = new HashMap<>();
-        options.put(rightOption, true);
+        for (String correctOption : correctOptions) {
+            options.put(correctOption, true);
+        }
+
+        correctOptionsQuantity = options.size();
+
         for (String wrongOption : wrongOptions) {
-            if (!wrongOption.equals(rightOption)) {
-                options.put(wrongOption, false);
+            if (!options.keySet().contains(wrongOption)) {
+                options.put(wrongOption,false);
             }
         }
     }
@@ -40,7 +44,6 @@ public class SimpleQuestion implements Question {
 
     @Override
     public int getQuantityOfRightOptions() {
-        return RIGHT_OPTIONS_QUANTITY;
+        return correctOptionsQuantity;
     }
-
 }

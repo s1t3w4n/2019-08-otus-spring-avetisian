@@ -1,18 +1,17 @@
 package dao;
 
-import data.Question;
-import data.QuestionType;
-import data.SimpleQuestion;
+import data.*;
 import org.apache.commons.csv.CSVRecord;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static dao.CSVHeaders.*;
 
 class CSVQuestionFactory {
 
-    public static Question getQuestion(CSVRecord record) {
+    static Question getQuestion(CSVRecord record) {
 
         QuestionType questionType = QuestionType.valueOf(record.get(type));
 
@@ -21,7 +20,7 @@ class CSVQuestionFactory {
                 return new SimpleQuestion(record.get(body),
                         record.get(correct),
                         splitAnswers(record.get(wrong)));
-            case MULTIPLY:
+            case MULTIPLE:
                 return new MultipleQuestion(record.get(body),
                         splitAnswers(record.get(correct)),
                         splitAnswers(record.get(wrong)));
@@ -34,7 +33,9 @@ class CSVQuestionFactory {
     }
 
     private static List<String> splitAnswers(String answers) {
-        return Arrays.asList(answers.split("\\$"));
+        List<String> list = Arrays.asList(answers.split("\\$"));
+        list.removeAll(new HashSet<String>(){{add("");}});
+        return list;
     }
 
 }
