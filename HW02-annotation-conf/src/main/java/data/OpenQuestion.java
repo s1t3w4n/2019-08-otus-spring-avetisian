@@ -1,6 +1,5 @@
 package data;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,22 +37,14 @@ public class OpenQuestion implements Question {
                 }
                 if (isAnyEnding(option)) {
                     String tempAnswer = answer.substring(0, option.length() - 1) + "*";
-                    if (isAnyChar(option)) {
-                        boolean matched = matchOptionWithAnyChars(tempAnswer, option);
-                        if (matched) {
-                            return true;
-                        }
-                    } else {
-                        if (tempAnswer.equals(option)) {
-                            return true;
-                        }
-                    }
-                }
-                if (isAnyChar(option) && option.length() == answer.length()) {
-                    boolean matched = matchOptionWithAnyChars(answer, option);
-                    if (matched) {
+                    if (tempAnswer.equals(option)) {
+                        return true;
+                    } else if (isAnyChar(option) && matchOptionWithAnyChars(tempAnswer, option)) {
                         return true;
                     }
+                }
+                if (isAnyChar(option) && option.length() == answer.length() && matchOptionWithAnyChars(answer, option)) {
+                    return true;
                 }
             }
         }
@@ -70,8 +61,7 @@ public class OpenQuestion implements Question {
     }
 
     private boolean isAnyChar(String option) {
-        List chars = Arrays.asList(option.toCharArray());
-        return chars.contains('*');
+        return option.contains("*");
     }
 
     private boolean matchOptionWithAnyChars(String answer, String option) {
