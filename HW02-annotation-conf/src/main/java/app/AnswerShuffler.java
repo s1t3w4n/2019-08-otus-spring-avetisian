@@ -7,5 +7,5 @@ public interface AnswerShuffler {
 
     Map<Integer, String> getSequence();
 
-    String getAnswer(int i);
+    String getAnswer(int key);
 }

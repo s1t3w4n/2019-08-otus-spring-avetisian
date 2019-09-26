@@ -11,6 +11,8 @@ public class MultipleQuestion implements Question {
     private final Map<String,Boolean> options;
     private final int correctOptionsQuantity;
 
+    private static final QuestionType type = QuestionType.MULTIPLE;
+
     public MultipleQuestion(String body, List<String> correctOptions, List<String> wrongOptions) {
         this.body = body;
         options = new HashMap<>();
@@ -45,5 +47,10 @@ public class MultipleQuestion implements Question {
     @Override
     public int getQuantityOfRightOptions() {
         return correctOptionsQuantity;
+    }
+
+    @Override
+    public QuestionType getType() {
+        return type;
     }
 }

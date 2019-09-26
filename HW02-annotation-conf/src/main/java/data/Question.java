@@ -8,4 +8,5 @@ public interface Question {
     Set<String> getOptions();
     boolean checkAnswer(String answer);
     int getQuantityOfRightOptions();
+    QuestionType getType();
 }

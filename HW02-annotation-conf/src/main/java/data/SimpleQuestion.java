@@ -11,6 +11,7 @@ public class SimpleQuestion implements Question {
     private final Map<String, Boolean> options;
 
     private static final int RIGHT_OPTIONS_QUANTITY = 1;
+    private static final QuestionType type = QuestionType.SIMPLE;
 
     public SimpleQuestion(String body, String rightOption, List<String> wrongOptions) {
         this.body = body;
@@ -41,6 +42,11 @@ public class SimpleQuestion implements Question {
     @Override
     public int getQuantityOfRightOptions() {
         return RIGHT_OPTIONS_QUANTITY;
+    }
+
+    @Override
+    public QuestionType getType() {
+        return type;
     }
 
 }

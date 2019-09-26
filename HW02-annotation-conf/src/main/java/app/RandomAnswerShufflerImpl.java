@@ -1,9 +1,6 @@
 package app;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class RandomAnswerShufflerImpl implements AnswerShuffler {
     private final Map<Integer, String> answersMap;
@@ -14,22 +11,31 @@ public class RandomAnswerShufflerImpl implements AnswerShuffler {
 
     @Override
     public RandomAnswerShufflerImpl shuffleAnswers() {
-        return null;
+        return new RandomAnswerShufflerImpl(new HashSet<>(answersMap.values()));
     }
 
     @Override
     public Map<Integer, String> getSequence() {
-        return null;
+        return answersMap;
     }
 
     @Override
-    public String getAnswer(int i) {
-        return null;
+    public String getAnswer(int key) {
+        return answersMap.get(key);
     }
 
-    private Map<Integer,String> setNumbers(Set<String> answers) {
+    private Map<Integer, String> setNumbers(Set<String> answers) {
         Map<Integer, String> map = new HashMap<>();
         Random random = new Random();
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 1; i <= answers.size(); i++) {
+            numbers.add(i);
+        }
+        for (String answer : answers) {
+            int key = random.nextInt(numbers.size());
+            map.put(key, answer);
+            numbers.remove(key);
+        }
         return map;
     }
 }

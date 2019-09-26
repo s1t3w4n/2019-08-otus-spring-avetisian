@@ -10,6 +10,7 @@ public class OpenQuestion implements Question {
     private final Set<String> options;
 
     private static final int RIGHT_OPTIONS_QUANTITY = 1;
+    private static final QuestionType type = QuestionType.OPEN;
 
     public OpenQuestion(String body, List<String> correctOptions) {
         this.body = body;
@@ -54,6 +55,11 @@ public class OpenQuestion implements Question {
     @Override
     public int getQuantityOfRightOptions() {
         return RIGHT_OPTIONS_QUANTITY;
+    }
+
+    @Override
+    public QuestionType getType() {
+        return type;
     }
 
     private boolean isAnyEnding(String option) {
