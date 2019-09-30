@@ -2,6 +2,7 @@ package console;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 @Service
@@ -19,6 +20,8 @@ public class ConsoleImpl implements Console {
 
     @Override
     public void print(String information) {
-        System.out.print(information);
+        if (Objects.nonNull(information)) {
+            System.out.print(information);
+        }
     }
 }

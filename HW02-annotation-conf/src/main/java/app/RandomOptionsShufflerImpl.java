@@ -1,17 +1,26 @@
 package app;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.*;
 
-public class RandomAnswerShufflerImpl implements AnswerShuffler {
+@Service
+public class RandomOptionsShufflerImpl implements OptionsShuffler {
     private final Map<Integer, String> answersMap;
 
-    private RandomAnswerShufflerImpl(Set<String> answers) {
+    @Autowired
+    public RandomOptionsShufflerImpl() {
+        answersMap = Collections.emptyMap();
+    }
+
+    private RandomOptionsShufflerImpl(Set<String> answers) {
         answersMap = setNumbers(answers);
     }
 
     @Override
-    public RandomAnswerShufflerImpl shuffleAnswers() {
-        return new RandomAnswerShufflerImpl(new HashSet<>(answersMap.values()));
+    public RandomOptionsShufflerImpl shuffleAnswers(Set<String> answers) {
+        return new RandomOptionsShufflerImpl(answers);
     }
 
     @Override

@@ -4,6 +4,9 @@ import data.Question;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileNotFoundException;
@@ -19,21 +22,27 @@ import java.util.Objects;
 public class CSVQuestionsDaoImpl implements QuestionsDao {
     private final Reader reader;
 
-    public CSVQuestionsDaoImpl(String filePath) throws FileNotFoundException {
+    @Autowired
+    public CSVQuestionsDaoImpl(@Value("${db.url}") String filePath) throws FileNotFoundException {
         reader = new FileReader(filePath);
     }
 
     @Override
-    public List<Question> loadQuestions() throws IOException {
+    public List<Question> loadQuestions() {
 
-        CSVParser records = CSVFormat.DEFAULT
-                .withHeader(CSVHeaders.class)
-                .withFirstRecordAsHeader()
-                .parse(reader);
+        CSVParser records = null;
+        try {
+            records = CSVFormat.DEFAULT
+                    .withHeader(CSVHeaders.class)
+                    .withFirstRecordAsHeader()
+                    .parse(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         List<Question> questions = new ArrayList<>();
 
-        if (records.getHeaderNames().containsAll(Arrays.asList(CSVHeaders.values()))) {
+        if (Objects.requireNonNull(records).getHeaderNames().containsAll(Arrays.asList(CSVHeaders.values()))) {
             for (CSVRecord record : records) {
                 Question question = CSVQuestionFactory.getQuestion(record);
                 if (Objects.nonNull(question)) {
@@ -42,7 +51,7 @@ public class CSVQuestionsDaoImpl implements QuestionsDao {
             }
             return questions;
         } else {
-            throw new IOException("Wrong file structure...");
+            return null;
         }
     }
 }
