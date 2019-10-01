@@ -1,18 +1,15 @@
 package app;
 
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class StandartMarkCalcImpl implements MarkCalc {
+public class StandardMarkCalcImpl implements MarkCalc {
 
     private static final int MAX_RESULT = 100;
 
     private List<Integer> questionMarks;
 
-    public StandartMarkCalcImpl() {
+    public StandardMarkCalcImpl() {
         questionMarks = new ArrayList<>();
     }
 

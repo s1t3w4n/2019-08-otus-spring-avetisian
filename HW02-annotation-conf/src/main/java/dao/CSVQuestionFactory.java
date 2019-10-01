@@ -13,7 +13,7 @@ class CSVQuestionFactory {
 
     static Question getQuestion(CSVRecord record) {
 
-        QuestionType questionType = QuestionType.valueOf(record.get(type));
+        QuestionType questionType = QuestionType.valueOf(record.get(type).toUpperCase());
 
         switch (questionType) {
             case SIMPLE:

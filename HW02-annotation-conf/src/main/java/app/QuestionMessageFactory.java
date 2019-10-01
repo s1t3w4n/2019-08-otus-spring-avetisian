@@ -3,11 +3,11 @@ package app;
 
 import data.Question;
 import exceptions.AnswerException;
+import exceptions.EmptyAnswerException;
 import exceptions.WrongFormatAnswerException;
 import exceptions.WrongNumberAnswerException;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 class QuestionMessageFactory {
 
@@ -39,22 +39,41 @@ class QuestionMessageFactory {
     }
 
     static boolean checkAnswer(String answer, Question question, OptionsShuffler optionsShuffler) throws AnswerException {
+        if (Objects.isNull(answer) || answer.isEmpty()) {
+            throw new EmptyAnswerException("You must print something\n");
+        }
         switch (question.getType()) {
             case SIMPLE:
                 try {
                     int number = Integer.parseInt(answer);
-                    if (Objects.nonNull(optionsShuffler.getAnswer(number))) {
+                    String option = optionsShuffler.getAnswer(number);
+                    if (Objects.nonNull(option)) {
                         return true;
                     } else {
-                        throw new WrongNumberAnswerException("You have to choose one of the offered options");
+                        throw new WrongNumberAnswerException("You have to choose one of the offered options\n");
                     }
                 } catch (NumberFormatException e) {
-                    throw new WrongFormatAnswerException("You have to print only number of correct option");
+                    throw new WrongFormatAnswerException("You have to print only number of correct option\n");
                 }
             case MULTIPLE:
-                return false;
+                Set<String> answerOptions = new HashSet<>(Arrays.asList(answer.split(";")));
+                Set<Integer> numbers = new HashSet<>();
+                for (String option : answerOptions) {
+                    try {
+                        int number = Integer.parseInt(option);
+                        numbers.add(number);
+                    } catch (NumberFormatException e) {
+                        throw new WrongFormatAnswerException("You have to print only a numbers of correct options\n");
+                    }
+                }
+                for (Integer number : numbers) {
+                    if (Objects.isNull(optionsShuffler.getAnswer(number))) {
+                        throw new WrongNumberAnswerException("There is no such numbers in options\n");
+                    }
+                }
+                return true;
             case OPEN:
-                return false;
+                return true;
             default:
                 return false;
         }
