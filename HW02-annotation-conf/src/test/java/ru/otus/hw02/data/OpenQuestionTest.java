@@ -79,7 +79,7 @@ class OpenQuestionTest {
         assertTrue(openQuestion.checkAnswer("cheese"));
     }
 
-    @DisplayName("Answer returning correct type")
+    @DisplayName("Question returning correct type")
     @Test
     void shouldReturnCorrectType() {
         assertEquals(QuestionType.OPEN, openQuestion.getType());

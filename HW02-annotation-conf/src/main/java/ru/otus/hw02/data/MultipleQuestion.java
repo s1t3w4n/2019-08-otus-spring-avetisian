@@ -41,7 +41,7 @@ public class MultipleQuestion implements Question {
 
     @Override
     public boolean checkAnswer(String answer) {
-        return options.get(answer);
+        return options.getOrDefault(answer, false);
     }
 
     @Override
