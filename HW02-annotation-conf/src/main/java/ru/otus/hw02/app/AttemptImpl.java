@@ -1,7 +1,6 @@
 package ru.otus.hw02.app;
 
 
-import org.springframework.context.MessageSource;
 import ru.otus.hw02.console.Console;
 import ru.otus.hw02.dao.QuestionsDao;
 import ru.otus.hw02.data.Question;
@@ -9,7 +8,6 @@ import ru.otus.hw02.exceptions.AnswerException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 public class AttemptImpl implements Attempt {
     private final String name;
@@ -17,14 +15,14 @@ public class AttemptImpl implements Attempt {
     private final List<Question> questions;
     private final MarkCalc markCalc;
     private final Console console;
-    private final MessageSource messageSource;
+    private final int offset;
 
     public AttemptImpl(Console console,
                        QuestionsDao dao,
                        MarkCalc markCalc,
-                       MessageSource ms) throws IOException {
+                       int offset) throws IOException {
         this.console = console;
-        this.messageSource = ms;
+        this.offset = offset;
         name = setName();
         surname = setSurname();
         this.questions = dao.loadQuestions();
@@ -34,7 +32,7 @@ public class AttemptImpl implements Attempt {
     private String setName() {
         String text;
         do {
-            console.print(messageSource.getMessage("print.name", null, Locale.getDefault()));
+            console.print("print.name", (Object) null);
             text = console.read();
         } while (text.isEmpty());
         return text;
@@ -43,7 +41,7 @@ public class AttemptImpl implements Attempt {
     private String setSurname() {
         String text;
         do {
-            console.print(messageSource.getMessage("print.surname", null, Locale.ENGLISH));
+            console.print("print.surname", (Object) null);
             text = console.read();
         } while (text.isEmpty());
         return text;
@@ -51,32 +49,36 @@ public class AttemptImpl implements Attempt {
 
     @Override
     public void start() {
-        console.print("Dear " + surname + " " + name + " \n");
-        console.print("Please answer to " + questions.size() + " questions: \n");
+        console.print("print.greeting", name, surname);
+        console.print("print.patq", questions.size());
         for (Question question : questions) {
-            console.print(QuestionMessageFactory.getTask(question) + "\n");
+            console.print(QuestionMessageFactory.getTask(question), (Object) null);
             console.print(question.getQuestionText() + "\n");
             String answer;
-            boolean correct = false;
+            boolean correctAnswer = false;
             do {
                 OptionsShuffler optionsShuffler = new RandomOptionsShufflerImpl(question.getOptions());
                 console.print(QuestionMessageFactory.getOptions(question, optionsShuffler));
-                console.print("Your answer is: ");
+                console.print("print.yai", (Object) null);
                 answer = console.read();
                 try {
-                    correct = QuestionMessageFactory.checkAnswer(answer, question, optionsShuffler);
-                    markCalc.addMark(question.getQuantityOfRightOptions(), true);
+                    correctAnswer = markCalc.checkAnswer(answer, question, optionsShuffler);
                 } catch (AnswerException e) {
-                    console.print(e.getMessage());
+                    console.print(e.getMessage(), (Object) null);
                 }
 
-            } while (!correct);
+            } while (!correctAnswer);
         }
-        console.print("Result of the attempt is: " + showResult());
+        console.print("print.rota", showResult());
+        console.print(checkOffset(offset, showResult()), surname, name, questions.size());
     }
 
     @Override
     public int showResult() {
         return markCalc.getResult();
+    }
+
+    private String checkOffset(int range, int result) {
+        return result > range ? "print.offset.true" : "print.offset.false";
     }
 }

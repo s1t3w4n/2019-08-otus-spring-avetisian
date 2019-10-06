@@ -1,5 +1,6 @@
 package ru.otus.hw02;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -11,8 +12,8 @@ import ru.otus.hw02.console.Console;
 import ru.otus.hw02.dao.QuestionsDao;
 
 import java.io.IOException;
-//import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+@PropertySource("classpath:application.properties")
 @ComponentScan
 @Configuration
 public class MainHW02 {
@@ -22,11 +23,6 @@ public class MainHW02 {
         attempt.start();
     }
 
-    /*@Bean
-    PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }*/
-
 
     @Bean
     public MarkCalc getMarkCalc() {
@@ -35,23 +31,18 @@ public class MainHW02 {
 
 
     @Bean
-    public Attempt getAttempt(Console console, QuestionsDao dao, MarkCalc calc, MessageSource ms) throws IOException {
-        return new AttemptImpl(console, dao, calc, ms);
+    public Attempt getAttempt(Console console, QuestionsDao dao, MarkCalc calc, @Value("${offset}")int offset) throws IOException {
+        return new AttemptImpl(console, dao, calc, offset);
     }
 
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename("/il8n/bundle");
-        ms.setDefaultEncoding("UTF-8");
+        ms.setDefaultEncoding("windows-1251");
+
         return ms;
     }
-
-//    @Bean
-//    private QuestionsDao getDao(@Value("${db.url}") String value) throws FileNotFoundException {
-//            return new CSVQuestionsDaoImpl(value);
-//    }
-
 }
 
 

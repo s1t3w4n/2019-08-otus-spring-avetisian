@@ -33,7 +33,7 @@ public class OpenQuestion implements Question {
             return true;
         } else {
             for (String option : options) {
-                if (option.length() > answer.length()) {
+                if (option.length() - 1 > answer.length()) {
                     continue;
                 }
                 if (isAnyEnding(option)) {

@@ -22,6 +22,7 @@ class OpenQuestionTest {
         answers.add("answer*");
         answers.add("*nsw*r4");
         answers.add("*nsw*r*");
+        answers.add("cheese*");
     }
 
     private static Question openQuestion = new OpenQuestion(body, answers);
@@ -70,6 +71,12 @@ class OpenQuestionTest {
     @Test
     void shortAnswer() {
         assertFalse(openQuestion.checkAnswer("ans"));
+    }
+
+    @DisplayName("Returning true if we have one optional variable and answering without optional ending")
+    @Test
+    void oneOptionalVariableAnswer() {
+        assertTrue(openQuestion.checkAnswer("cheese"));
     }
 
     @DisplayName("Answer returning correct type")

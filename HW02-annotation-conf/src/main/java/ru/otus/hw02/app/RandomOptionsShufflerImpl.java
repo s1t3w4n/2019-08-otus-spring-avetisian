@@ -6,7 +6,7 @@ public class RandomOptionsShufflerImpl implements OptionsShuffler {
     private final Map<Integer, String> answersMap;
 
 
-    public RandomOptionsShufflerImpl(Set<String> answers) {
+    RandomOptionsShufflerImpl(Set<String> answers) {
         answersMap = setNumbers(answers);
     }
 

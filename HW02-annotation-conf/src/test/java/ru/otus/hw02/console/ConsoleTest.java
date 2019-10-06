@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Testing Console.class")
 public class ConsoleTest {
 
-    @DisplayName("Checking that class Console is correctly created")
+   /* @DisplayName("Checking that class Console is correctly created")
     @Test
     void shouldCorrectCreated() {
         Console console = new ConsoleImpl();
@@ -17,10 +17,10 @@ public class ConsoleTest {
 
     @DisplayName("Testing correct printing")
     @Test
-    void shouldCorrectPrint() {
+    void shouldCorrectPrint() {*/
 //        Scanner scanner = new Scanner(System.in);
 //        scanner.nextLine();
 //        System.
 
-    }
+    //}
 }
