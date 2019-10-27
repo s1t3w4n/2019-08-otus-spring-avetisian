@@ -4,7 +4,6 @@ import ru.otus.hw02.data.Question;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ import java.util.Objects;
 public class CSVQuestionsDaoImpl implements QuestionsDao {
     private Reader reader;
 
-    @Autowired
     public CSVQuestionsDaoImpl(@Value("${db.url}") String filePath) {
         try {
             reader = new FileReader(filePath);
