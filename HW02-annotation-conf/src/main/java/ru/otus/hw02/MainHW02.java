@@ -23,12 +23,10 @@ public class MainHW02 {
         attempt.start();
     }
 
-
     @Bean
     public MarkCalc getMarkCalc() {
         return new StandardMarkCalcImpl();
     }
-
 
     @Bean
     public Attempt getAttempt(Console console, QuestionsDao dao, MarkCalc calc, @Value("${offset}")int offset) throws IOException {

@@ -18,7 +18,6 @@ public class StandardMarkCalcImpl implements MarkCalc {
         questionMarks = new ArrayList<>();
     }
 
-    //@Override
     private void addMark(int rightOptionsQuantity, boolean... answerResults) {
         double answerWeight = Math.ceil(MAX_RESULT / rightOptionsQuantity);
         int mark = 0;
