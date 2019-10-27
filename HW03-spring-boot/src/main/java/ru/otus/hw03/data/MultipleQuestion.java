@@ -29,7 +29,7 @@ public class MultipleQuestion implements Question {
         }
     }
 
-    /*@Override
+    @Override
     public String getQuestionText() {
         return body;
     }
@@ -52,5 +52,5 @@ public class MultipleQuestion implements Question {
     @Override
     public QuestionType getType() {
         return type;
-    }*/
+    }
 }

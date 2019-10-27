@@ -9,7 +9,6 @@ import java.util.List;
 
 import static ru.otus.hw03.dao.CSVHeaders.*;
 
-
 class CSVQuestionFactory {
 
     static Question getQuestion(CSVRecord record) {

@@ -17,7 +17,7 @@ public class OpenQuestion implements Question {
         options = new HashSet<>(correctOptions);
     }
 
-    /*@Override
+    @Override
     public String getQuestionText() {
         return body;
     }
@@ -60,7 +60,7 @@ public class OpenQuestion implements Question {
     @Override
     public QuestionType getType() {
         return type;
-    }*/
+    }
 
     private boolean isAnyEnding(String option) {
         return option.endsWith("*");

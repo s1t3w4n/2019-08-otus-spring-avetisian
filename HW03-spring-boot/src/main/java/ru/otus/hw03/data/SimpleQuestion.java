@@ -24,7 +24,7 @@ public class SimpleQuestion implements Question {
         }
     }
 
-   /* @Override
+    @Override
     public String getQuestionText() {
         return body;
     }
@@ -48,5 +48,5 @@ public class SimpleQuestion implements Question {
     public QuestionType getType() {
         return type;
     }
-*/
+
 }
