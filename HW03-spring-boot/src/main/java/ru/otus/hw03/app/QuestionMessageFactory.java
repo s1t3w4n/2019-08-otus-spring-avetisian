@@ -7,7 +7,6 @@ import java.util.Map;
 
 class QuestionMessageFactory {
 
-
     static String getTask(Question question) {
         switch (question.getType()) {
             case SIMPLE:
@@ -33,7 +32,6 @@ class QuestionMessageFactory {
                 return null;
         }
     }
-
 
     private static String buildOptionsMessage(OptionsShuffler shuffler) {
         StringBuilder builder = new StringBuilder();
