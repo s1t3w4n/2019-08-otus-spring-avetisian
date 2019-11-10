@@ -1,0 +1,3 @@
+db:
+  url: src/main/resources/questions.csv
+offset: 50
