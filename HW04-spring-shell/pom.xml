@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.otus.hw04</groupId>
-    <artifactId>shell</artifactId>
+    <artifactId>HW04-spring-shell</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>shell</name>
+    <name>HW04-spring-shell</name>
     <description>Home work 04 on OTUS Spring Framework course</description>
 
     <properties>
@@ -19,6 +19,19 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.shell</groupId>
+            <artifactId>spring-shell-starter</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
