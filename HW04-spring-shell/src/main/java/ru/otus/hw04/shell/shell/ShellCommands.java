@@ -11,10 +11,10 @@ import java.util.Locale;
 @ShellComponent
 public class ShellCommands implements PromptProvider {
 
-    private final Locale locale;
+    //private final Locale locale;
 
     public ShellCommands(LocaleService ls) {
-        this.locale = getLocale(ls);
+        /*this.locale =*/ getLocale(ls);
     }
 
     @ShellMethod(value = "Printer")
@@ -27,8 +27,10 @@ public class ShellCommands implements PromptProvider {
         return new AttributedString("choose-locale:>");
     }
 
-    private Locale getLocale(LocaleService ls) {
-
+    private void getLocale(LocaleService ls) {
+        for (String s : ls.getLanguageList()) {
+            System.out.println(s);
+        }
     }
 
 }

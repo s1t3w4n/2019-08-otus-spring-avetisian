@@ -13,19 +13,23 @@ public class LocaleService {
         rb = getRb(baseName);
     }
 
-
     private Set<ResourceBundle> getRb(String baseName) {
         HashSet<ResourceBundle> bundles = new HashSet<>();
-
         for (Locale locale : Locale.getAvailableLocales()) {
             try {
                 bundles.add(ResourceBundle.getBundle(baseName, locale));
             } catch (MissingResourceException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return bundles;
     }
 
-
+    public List<String> getLanguageList() {
+        List<String> languages = new ArrayList<>();
+        for (ResourceBundle resourceBundle : rb) {
+            languages.add(resourceBundle.getLocale().getDisplayName());
+        }
+        return languages;
+    }
 }
