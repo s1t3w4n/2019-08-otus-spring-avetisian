@@ -7,29 +7,45 @@ import java.util.*;
 
 @Service
 public class LocaleService {
-    private final Set<ResourceBundle> rb;
+    private final Map<Integer, ResourceBundle> rb;
 
     public LocaleService(@Value("${bundles}") String baseName) {
         rb = getRb(baseName);
     }
 
-    private Set<ResourceBundle> getRb(String baseName) {
-        HashSet<ResourceBundle> bundles = new HashSet<>();
-        for (Locale locale : Locale.getAvailableLocales()) {
-            try {
-                bundles.add(ResourceBundle.getBundle(baseName, locale));
-            } catch (MissingResourceException e) {
-                //e.printStackTrace();
-            }
-        }
-        return bundles;
-    }
-
-    public List<String> getLanguageList() {
-        List<String> languages = new ArrayList<>();
-        for (ResourceBundle resourceBundle : rb) {
-            languages.add(resourceBundle.getLocale().getDisplayName());
+    public Map<Integer, String> getLanguageList() {
+        Map<Integer, String> languages = new HashMap<>();
+        for (Map.Entry<Integer, ResourceBundle> entry : rb.entrySet()) {
+            languages.put(entry.getKey(),
+                    entry.getValue().getLocale().getDisplayLanguage(
+                            new Locale("en")));
         }
         return languages;
+    }
+
+    public Locale getLocale(Integer number) {
+        return rb.get(number).getLocale();
+    }
+
+    private Map<Integer, ResourceBundle> getRb(String baseName) {
+        HashSet<ResourceBundle> bundles = new HashSet<>();
+        for (Locale locale : Locale.getAvailableLocales()) {
+            ResourceBundle bundle = null;
+            try {
+                bundle = ResourceBundle.getBundle(baseName, locale);
+            } catch (MissingResourceException ignored) {
+            } finally {
+                if (Objects.nonNull(bundle)) {
+                    bundles.add(bundle);
+                }
+            }
+        }
+        int count = 0;
+        Map<Integer, ResourceBundle> map = new HashMap<>();
+        for (ResourceBundle bundle : bundles) {
+            count++;
+            map.put(count, bundle);
+        }
+        return map;
     }
 }
