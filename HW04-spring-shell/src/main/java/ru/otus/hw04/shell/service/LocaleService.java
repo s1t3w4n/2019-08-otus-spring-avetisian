@@ -7,6 +7,9 @@ import java.util.*;
 
 @Service
 public class LocaleService {
+
+    private Locale currentLocale = new Locale("en");
+
     private final Map<Integer, ResourceBundle> rb;
 
     public LocaleService(@Value("${bundles}") String baseName) {
@@ -18,12 +21,12 @@ public class LocaleService {
         for (Map.Entry<Integer, ResourceBundle> entry : rb.entrySet()) {
             languages.put(entry.getKey(),
                     entry.getValue().getLocale().getDisplayLanguage(
-                            new Locale("en")));
+                            currentLocale));
         }
         return languages;
     }
 
-    public Locale getLocale(Integer number) {
+    public Locale getAvailableLocales(Integer number) {
         return rb.get(number).getLocale();
     }
 
@@ -47,5 +50,13 @@ public class LocaleService {
             map.put(count, bundle);
         }
         return map;
+    }
+
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
+
+    public void setCurrentLocale(Locale currentLocale) {
+        this.currentLocale = currentLocale;
     }
 }
