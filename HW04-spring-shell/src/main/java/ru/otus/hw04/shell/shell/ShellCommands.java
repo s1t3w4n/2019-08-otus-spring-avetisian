@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw04.shell.service.LocaleService;
+import ru.otus.hw04.shell.service.MSService;
 
 import java.util.Locale;
 import java.util.Map;
@@ -19,11 +20,12 @@ public class ShellCommands implements PromptProvider {
 
     private boolean attributeLocale = true;
 
-    private final MessageSource messageSource;
+    private final MSService mss;
 
-    public ShellCommands(LocaleService ls, MessageSource messageSource) {
+
+    public ShellCommands(LocaleService ls, MSService mss) {
         this.ls = ls;
-        this.messageSource = messageSource;
+        this.mss = mss;
     }
 
     @ShellMethod(value = "Set Locale", key = ("l"))
@@ -31,9 +33,7 @@ public class ShellCommands implements PromptProvider {
         Locale locale = ls.getAvailableLocales(l);
         ls.setCurrentLocale(locale);
         attributeLocale = false;
-        return messageSource.getMessage("locale.chosen",
-                new Object[]{locale.getDisplayName(locale)},
-                locale);
+        return mss.getMessage("locale.chosen", locale, locale.getDisplayName(locale));
     }
 
     @ShellMethod(value = "List of available languages", key = ("ll"))
@@ -43,21 +43,15 @@ public class ShellCommands implements PromptProvider {
             sb.append(entry.getKey()).append(": ").append(entry.getValue());
             sb.append("\n");
         }
-        return messageSource.getMessage("locale.available",
-                new Object[]{sb.toString()},
-                ls.getCurrentLocale());
+        return mss.getMessage("locale.available", ls.getCurrentLocale(), sb.toString());
     }
 
     @Override
     public AttributedString getPrompt() {
         if (attributeLocale) {
-            return new AttributedString(messageSource.getMessage("locale.choose",
-                    null,
-                    ls.getCurrentLocale()));
+            return new AttributedString(mss.getMessage("locale.choose", ls.getCurrentLocale()));
         } else {
-            return new AttributedString(messageSource.getMessage("locale.answer",
-                    null,
-                    ls.getCurrentLocale()));
+            return new AttributedString(mss.getMessage("locale.answer", ls.getCurrentLocale()));
         }
     }
 
