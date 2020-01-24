@@ -3,7 +3,7 @@ logging:
     root: ERROR
 
 db:
-  url: src/main/resources/questions.csv
+  url: D:\IdeaProjects\2019-08-otus-spring-avetisian\HW04-spring-shell\src\main\resources\questions.csv
 
 offset: 50
 

@@ -1,14 +1,15 @@
 package ru.otus.hw04.shell.shell;
 
 import org.jline.utils.AttributedString;
-import org.springframework.context.MessageSource;
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw04.shell.service.LocaleService;
 import ru.otus.hw04.shell.service.MSService;
+import ru.otus.hw04.shell.service.QuizService;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -22,10 +23,13 @@ public class ShellCommands implements PromptProvider {
 
     private final MSService mss;
 
+    private final QuizService qs;
 
-    public ShellCommands(LocaleService ls, MSService mss) {
+
+    public ShellCommands(LocaleService ls, MSService mss, QuizService qs) {
         this.ls = ls;
         this.mss = mss;
+        this.qs = qs;
     }
 
     @ShellMethod(value = "Set Locale", key = ("l"))
@@ -44,6 +48,18 @@ public class ShellCommands implements PromptProvider {
             sb.append("\n");
         }
         return mss.getMessage("locale.available", ls.getCurrentLocale(), sb.toString());
+    }
+
+    @ShellMethod(value = "Quiz", key = ("q"))
+    public String quiz() {
+        String start;
+        try {
+            start = qs.start();
+            return start;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "isn't working";
     }
 
     @Override
