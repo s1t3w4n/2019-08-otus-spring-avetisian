@@ -28,6 +28,7 @@ public class SimpleQuestion implements Question {
         }
     }
 
+    @Override
     public String printQuestion(QuestionPrintAdapter qpa) {
         String variable0 = "\n" + body + "\n";
         shuffle();
@@ -41,7 +42,18 @@ public class SimpleQuestion implements Question {
         return qpa.print("question.simple.text",
                 variable0,
                 sb.toString(),
-                (Math.random()*options.size()) + 1);
+                (Math.random() * options.size()) + 1);
+    }
+
+    @Override
+    public int rateTheAnswer(String answer) {
+        int mark = -1;
+        try {
+            mark = Integer.parseInt(answer);
+            mark = options.get(shuffler.get(mark)) ? 100 : 0;
+        } catch (NumberFormatException ignored) {
+        }
+        return mark;
     }
 
     private void shuffle() {
@@ -55,6 +67,5 @@ public class SimpleQuestion implements Question {
             temp.remove(index);
         }
     }
-
 
 }
