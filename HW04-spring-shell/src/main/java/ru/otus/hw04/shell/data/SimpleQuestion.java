@@ -42,7 +42,8 @@ public class SimpleQuestion implements Question {
         return qpa.print("question.simple.text",
                 variable0,
                 sb.toString(),
-                (Math.random() * options.size()) + 1);
+                "\n",
+                (int) (Math.random() * options.size()) + 1);
     }
 
     @Override

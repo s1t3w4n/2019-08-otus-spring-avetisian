@@ -1,10 +1,12 @@
 package ru.otus.hw04.shell.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@PropertySource("classpath:application.yml")
 @Service
 public class LocaleService {
 

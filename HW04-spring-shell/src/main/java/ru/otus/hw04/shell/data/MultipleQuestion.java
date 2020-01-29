@@ -48,6 +48,7 @@ public class MultipleQuestion implements Question {
         return qpa.print("question.multiple.text",
                 variable0,
                 sb.toString(),
+                "\n",
                 example);
     }
 
