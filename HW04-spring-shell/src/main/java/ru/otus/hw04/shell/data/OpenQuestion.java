@@ -27,7 +27,7 @@ public class OpenQuestion implements Question {
     @Override
     public String printQuestion(QuestionPrintAdapter qpa) {
         String variable0 = "\n" + body + "\n";
-        return qpa.print("question.open.text", variable0);
+        return qpa.print("question.open.text", variable0, "\n");
     }
 
     @Override
