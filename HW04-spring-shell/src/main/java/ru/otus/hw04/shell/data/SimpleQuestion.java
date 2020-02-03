@@ -13,8 +13,6 @@ public class SimpleQuestion implements Question {
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
 
-    private static final QuestionType type = QuestionType.SIMPLE;
-
     public SimpleQuestion(String body, String rightOption, List<String> wrongOptions) {
         this.body = body;
         options = new HashMap<>();

@@ -26,19 +26,46 @@ class OpenQuestionTest {
 
     private static Question openQuestion = new OpenQuestion(body, answers);
 
+    @DisplayName("Answer is correct without variable options")
+    @Test
+    void correctSimpleAnswer() {
+        assertEquals(100, openQuestion.rateTheAnswer("answer1"));
+    }
 
+    @DisplayName("Answer is wrong without variable options")
+    @Test
+    void wrongSimpleAnswer() {
+        assertEquals(0, openQuestion.rateTheAnswer("wrong answer"));
+    }
 
+    @DisplayName("Answer is correct with a variable ending")
+    @Test
+    void variableEndingAnswer() {
+        assertEquals(100, openQuestion.rateTheAnswer("answer_any_ending"));
+    }
 
-    @DisplayName("Checking that answer is correct with variable chars")
+    @DisplayName("Answer is correct with either variable a ending and chars")
+    @Test
+    void variableEndingAndCharsAnswer() {
+        assertEquals(100, openQuestion.rateTheAnswer("4nsw3r_any_ending"));
+    }
+
+    @DisplayName("Answer is correct with variable chars")
     @Test
     void variableCharsAnswer() {
-        assertEquals(100, openQuestion.rateTheAnswer("4nsw3r6"));
+        assertEquals(100, openQuestion.rateTheAnswer("4nsw3r4"));
     }
 
+    @DisplayName("Answer is wrong with short length")
     @Test
-    void variableCharsAnswer2() {
+    void shortAnswer() {
+        assertEquals(0, openQuestion.rateTheAnswer("ans"));
+    }
+
+    @DisplayName("Returning true if we have one optional variable and answering without optional ending")
+    @Test
+    void oneOptionalVariableAnswer() {
         assertEquals(100, openQuestion.rateTheAnswer("cheese"));
     }
-
 
 }

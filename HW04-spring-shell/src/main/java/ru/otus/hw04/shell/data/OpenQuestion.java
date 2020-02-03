@@ -15,8 +15,6 @@ public class OpenQuestion implements Question {
     private final Pattern symbol;
     private final Pattern ending;
 
-    private static final QuestionType type = QuestionType.OPEN;
-
     public OpenQuestion(String body, List<String> correctOptions) {
         this.body = body;
         options = new HashSet<>(correctOptions);
@@ -38,7 +36,7 @@ public class OpenQuestion implements Question {
         }
 
         for (String option : options) {
-
+            option = "^" + option;
             Matcher endMatcher = ending.matcher(option);
             if (endMatcher.find()) {
                 option = endMatcher.replaceAll("");

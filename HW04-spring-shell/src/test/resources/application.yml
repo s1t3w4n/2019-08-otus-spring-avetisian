@@ -1,0 +1,10 @@
+logging:
+  level:
+    root: ERROR
+
+db:
+  url: HW04-spring-shell\src\main\resources\questions.csv
+
+offset: 50
+
+bundles: il8n/bundle

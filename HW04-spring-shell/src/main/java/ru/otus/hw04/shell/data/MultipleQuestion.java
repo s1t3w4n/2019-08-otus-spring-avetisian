@@ -10,8 +10,6 @@ public class MultipleQuestion implements Question {
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
 
-    private static final QuestionType type = QuestionType.MULTIPLE;
-
     public MultipleQuestion(String body, List<String> correctOptions, List<String> wrongOptions) {
         this.body = body;
         options = new HashMap<>();
