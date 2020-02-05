@@ -4,14 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.shell.jline.InteractiveShellApplicationRunner;
+import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
 import ru.otus.hw04.shell.service.LocaleService;
 import ru.otus.hw04.shell.service.MSService;
@@ -24,13 +24,16 @@ import java.util.regex.Pattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Testing SimpleQuestion.class")
-@SpringBootTest
+@SpringBootTest(properties = {
+        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
+        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
+})
 class SimpleQuestionTest {
     private static String body = "Some text question";
     private static String correctAnswer = "correct";
     private static List<String> wrongAnswers = new ArrayList<>();
 
-   /* @PropertySource("classpath:application.yml")
+    @EnableAutoConfiguration
     @Configuration
     static class TemporaryConfiguration {
         @Bean
@@ -56,7 +59,7 @@ class SimpleQuestionTest {
         LocaleService ls(@Value("${bundles}") String baseName) {
             return new LocaleService(baseName);
         }
-    }*/
+    }
 
     @Autowired
     private QuestionPrintAdapter questionPrintAdapter;
