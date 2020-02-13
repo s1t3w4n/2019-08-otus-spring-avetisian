@@ -8,7 +8,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw04.shell.service.LocaleService;
-import ru.otus.hw04.shell.service.MSService;
+import ru.otus.hw04.shell.service.MessageSourceService;
 import ru.otus.hw04.shell.service.QuizService;
 
 import java.util.Locale;
@@ -25,12 +25,12 @@ public class ShellCommands implements PromptProvider {
     private boolean attributeLocale = false;
     private boolean showLanguages = false;
 
-    private final MSService mss;
+    private final MessageSourceService mss;
 
     private final QuizService qs;
 
 
-    public ShellCommands(LocaleService ls, MSService mss, QuizService qs) {
+    public ShellCommands(LocaleService ls, MessageSourceService mss, QuizService qs) {
         this.ls = ls;
         this.mss = mss;
         this.qs = qs;

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
 import ru.otus.hw04.shell.dao.QuestionsDao;
 import ru.otus.hw04.shell.data.Question;
+import ru.otus.hw04.shell.exceptions.QuestionLoadingFailedException;
 
-import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class QuizService {
     private String name;
     private String surname;
 
-    public QuizService(QuestionPrintAdapter qpa, QuestionsDao qd, @Value("${offset}") int offset) throws IOException {
+    public QuizService(QuestionPrintAdapter qpa, QuestionsDao qd, @Value("${offset}") int offset) throws QuestionLoadingFailedException {
         this.offset = offset;
         this.qpa = qpa;
         questions = new ArrayDeque<>(qd.loadQuestions());

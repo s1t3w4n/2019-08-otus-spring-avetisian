@@ -4,41 +4,39 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import ru.otus.hw04.shell.app.CSVQuestionFactory;
 import ru.otus.hw04.shell.data.Question;
+import ru.otus.hw04.shell.exceptions.QuestionLoadingFailedException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@PropertySource("classpath:application.yml")
 @Service
 public class CSVQuestionsDaoImpl implements QuestionsDao {
     private Reader reader;
     private final CSVQuestionFactory factory;
 
     public CSVQuestionsDaoImpl(@Value("${db.url}") String filePath, CSVQuestionFactory factory) {
-        try {
-            reader = new FileReader(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        ClassLoader classLoader = getClass().getClassLoader();
+        reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(filePath)));
         this.factory = factory;
     }
 
     @Override
-    public List<Question> loadQuestions() throws IOException {
+    public List<Question> loadQuestions() throws QuestionLoadingFailedException {
 
-        CSVParser records = CSVFormat.DEFAULT
-                .withHeader(CSVHeaders.class)
-                .withFirstRecordAsHeader()
-                .parse(reader);
+        CSVParser records;
+        try {
+            records = CSVFormat.DEFAULT
+                    .withHeader(CSVHeaders.class)
+                    .withFirstRecordAsHeader()
+                    .parse(reader);
+        } catch (IOException e) {
+            throw new QuestionLoadingFailedException("exception.load");
+        }
 
         List<Question> questions = new ArrayList<>();
 

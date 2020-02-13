@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 @Service
-public class MSService {
+public class MessageSourceService {
 
     private final MessageSource ms;
 
-    public MSService(MessageSource ms) {
+    public MessageSourceService(MessageSource ms) {
         this.ms = ms;
     }
 

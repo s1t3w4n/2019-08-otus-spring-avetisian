@@ -14,7 +14,7 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
 import ru.otus.hw04.shell.service.LocaleService;
-import ru.otus.hw04.shell.service.MSService;
+import ru.otus.hw04.shell.service.MessageSourceService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +37,13 @@ class SimpleQuestionTest {
     @Configuration
     static class TemporaryConfiguration {
         @Bean
-        QuestionPrintAdapter questionPrintAdapter(MSService mss, LocaleService ls) {
+        QuestionPrintAdapter questionPrintAdapter(MessageSourceService mss, LocaleService ls) {
             return new QuestionPrintAdapter(mss, ls);
         }
 
         @Bean
-        MSService mss(MessageSource ms) {
-            return new MSService(ms);
+        MessageSourceService mss(MessageSource ms) {
+            return new MessageSourceService(ms);
         }
 
         @Bean

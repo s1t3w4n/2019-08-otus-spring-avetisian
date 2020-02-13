@@ -3,7 +3,7 @@ logging:
     root: ERROR
 
 db:
-  url: HW04-spring-shell\src\main\resources\questions.csv
+  url: questions.csv
 
 offset: 50
 
