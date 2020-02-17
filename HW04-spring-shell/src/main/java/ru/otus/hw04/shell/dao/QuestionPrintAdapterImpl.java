@@ -2,8 +2,8 @@ package ru.otus.hw04.shell.dao;
 
 import org.springframework.stereotype.Service;
 import ru.otus.hw04.shell.app.QuestionPrintAdapter;
-import ru.otus.hw04.shell.service.LocaleService;
-import ru.otus.hw04.shell.service.MessageSourceService;
+import ru.otus.hw04.shell.app.LocaleService;
+import ru.otus.hw04.shell.app.MessageSourceService;
 
 @Service
 public class QuestionPrintAdapterImpl implements QuestionPrintAdapter {

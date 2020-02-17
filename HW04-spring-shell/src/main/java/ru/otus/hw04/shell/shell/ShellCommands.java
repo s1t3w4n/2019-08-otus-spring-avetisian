@@ -7,9 +7,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.hw04.shell.service.LocaleService;
-import ru.otus.hw04.shell.service.MessageSourceService;
-import ru.otus.hw04.shell.service.QuizService;
+import ru.otus.hw04.shell.app.LocaleService;
+import ru.otus.hw04.shell.app.MessageSourceService;
+import ru.otus.hw04.shell.app.QuizService;
 
 import java.util.Locale;
 import java.util.Map;
@@ -27,13 +27,15 @@ public class ShellCommands implements PromptProvider {
 
     private final MessageSourceService mss;
 
-    private final QuizService qs;
+    private final QuizService quizService;
 
 
-    public ShellCommands(LocaleService ls, MessageSourceService mss, QuizService qs) {
-        this.ls = ls;
-        this.mss = mss;
-        this.qs = qs;
+    public ShellCommands(LocaleService localeService,
+                         MessageSourceService messageSourceService,
+                         QuizService quizService) {
+        this.ls = localeService;
+        this.mss = messageSourceService;
+        this.quizService = quizService;
     }
 
     @ShellMethod(value = "Set Locale", key = ("l"))
@@ -59,7 +61,7 @@ public class ShellCommands implements PromptProvider {
     @ShellMethod(value = "Quiz", key = {"a", "answer"})
     @ShellMethodAvailability(value = "isQuizAvailable")
     public String answer(@ShellOption(defaultValue = NULL) String answer) {
-        return qs.continueQuiz(answer);
+        return quizService.continueQuiz(answer);
     }
 
     @Override

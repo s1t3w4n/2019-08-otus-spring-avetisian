@@ -3,18 +3,19 @@ package ru.otus.hw04.shell.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import ru.otus.hw04.shell.app.LocaleService;
 
 import java.util.*;
 
 @PropertySource("classpath:application.yml")
 @Service
-public class LocaleService {
+public class LocaleServiceImpl implements LocaleService {
 
     private Locale currentLocale = new Locale("en");
 
     private final Map<Integer, ResourceBundle> rb;
 
-    public LocaleService(@Value("${bundles}") String baseName) {
+    public LocaleServiceImpl(@Value("${bundles}") String baseName) {
         rb = getRb(baseName);
     }
 

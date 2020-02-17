@@ -3,6 +3,7 @@ package ru.otus.hw04.shell.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.hw04.shell.app.QuestionPrintAdapter;
+import ru.otus.hw04.shell.app.QuizService;
 import ru.otus.hw04.shell.dao.QuestionsDao;
 import ru.otus.hw04.shell.data.Question;
 import ru.otus.hw04.shell.exceptions.QuestionLoadingFailedException;
@@ -13,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
-public class QuizService {
+public class QuizServiceImpl implements QuizService {
 
     private final QuestionPrintAdapter qpa;
     private final ArrayDeque<Question> questions;
@@ -23,13 +24,14 @@ public class QuizService {
     private String name;
     private String surname;
 
-    public QuizService(QuestionPrintAdapter qpa, QuestionsDao qd, @Value("${offset}") int offset) throws QuestionLoadingFailedException {
+    public QuizServiceImpl(QuestionPrintAdapter qpa, QuestionsDao qd, @Value("${offset}") int offset) throws QuestionLoadingFailedException {
         this.offset = offset;
         this.qpa = qpa;
         questions = new ArrayDeque<>(qd.loadQuestions());
         marks = new HashMap<>();
     }
 
+    @Override
     public String continueQuiz(String data) {
         if (Objects.isNull(name)) {
             if (Objects.isNull(data)) {
