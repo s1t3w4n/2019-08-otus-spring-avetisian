@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface QuestionCreator {
 
-    Question createQuestion(String body, String correct, String wrong);
+    Question createQuestion(String body,
+                            String correct,
+                            String wrong);
 
     QuestionType getType();
 

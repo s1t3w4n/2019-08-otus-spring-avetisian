@@ -1,6 +1,6 @@
 package ru.otus.hw04.shell.data;
 
-import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
+import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -8,24 +8,25 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class OpenQuestion implements Question {
+public class OpenQuestion extends Question {
 
-    private final String body;
     private final Set<String> options;
     private final Pattern symbol;
     private final Pattern ending;
 
-    public OpenQuestion(String body, List<String> correctOptions) {
-        this.body = body;
+    public OpenQuestion(QuestionPrintAdapter questionPrintAdapter,
+                        String body,
+                        List<String> correctOptions) {
+        super(questionPrintAdapter, body);
         options = new HashSet<>(correctOptions);
         symbol = Pattern.compile("\\*");
         ending = Pattern.compile("\\*$");
     }
 
     @Override
-    public String printQuestion(QuestionPrintAdapter qpa) {
+    public String printQuestion() {
         String variable0 = "\n" + body + "\n";
-        return qpa.print("question.open.text", variable0, "\n");
+        return questionPrintAdapter.print("question.open.text", variable0, "\n");
     }
 
     @Override

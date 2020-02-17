@@ -8,17 +8,17 @@ import java.util.Locale;
 @Service
 public class MessageSourceService {
 
-    private final MessageSource ms;
+    private final MessageSource messageSource;
 
-    public MessageSourceService(MessageSource ms) {
-        this.ms = ms;
+    public MessageSourceService(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     public String getMessage(String bundle, Locale locale) {
-        return ms.getMessage(bundle, null, locale);
+        return messageSource.getMessage(bundle, null, locale);
     }
 
     public String getMessage(String bundle, Locale locale, Object... variables) {
-        return ms.getMessage(bundle, variables, locale);
+        return messageSource.getMessage(bundle, variables, locale);
     }
 }

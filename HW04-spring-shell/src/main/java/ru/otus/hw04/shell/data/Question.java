@@ -1,10 +1,18 @@
 package ru.otus.hw04.shell.data;
 
-import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
+import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 
-public interface Question {
+public abstract class Question {
 
-    String printQuestion(QuestionPrintAdapter qpa);
+    final QuestionPrintAdapter questionPrintAdapter;
+    final String body;
 
-    int rateTheAnswer(String answer);
+    protected Question(QuestionPrintAdapter questionPrintAdapter, String body) {
+        this.questionPrintAdapter = questionPrintAdapter;
+        this.body = body;
+    }
+
+    public abstract String printQuestion();
+
+    public abstract int rateTheAnswer(String answer);
 }

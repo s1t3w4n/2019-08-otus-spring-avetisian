@@ -2,7 +2,7 @@ package ru.otus.hw04.shell.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
+import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 import ru.otus.hw04.shell.dao.QuestionsDao;
 import ru.otus.hw04.shell.data.Question;
 import ru.otus.hw04.shell.exceptions.QuestionLoadingFailedException;
@@ -81,7 +81,7 @@ public class QuizService {
     }
 
     private String getCurrentQuestion() {
-        return questions.getFirst().printQuestion(qpa);
+        return questions.getFirst().printQuestion();
     }
 
     private String addLn(String string) {

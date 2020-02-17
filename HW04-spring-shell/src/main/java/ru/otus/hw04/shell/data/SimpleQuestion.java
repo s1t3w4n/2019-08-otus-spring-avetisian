@@ -1,20 +1,19 @@
 package ru.otus.hw04.shell.data;
 
-import ru.otus.hw04.shell.dao.QuestionPrintAdapter;
+import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class SimpleQuestion implements Question {
+public class SimpleQuestion extends Question {
 
-    private final String body;
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
 
-    public SimpleQuestion(String body, String rightOption, List<String> wrongOptions) {
-        this.body = body;
+    public SimpleQuestion(QuestionPrintAdapter questionPrintAdapter,
+                          String body,
+                          String rightOption,
+                          List<String> wrongOptions) {
+        super(questionPrintAdapter,body);
         options = new HashMap<>();
         shuffler = new HashMap<>();
 
@@ -26,8 +25,9 @@ public class SimpleQuestion implements Question {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
-    public String printQuestion(QuestionPrintAdapter qpa) {
+    public String printQuestion() {
         String variable0 = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");
@@ -37,7 +37,7 @@ public class SimpleQuestion implements Question {
             sb.append(entry.getValue());
             sb.append("\n");
         }
-        return qpa.print("question.simple.text",
+        return questionPrintAdapter.print("question.simple.text",
                 variable0,
                 sb.toString(),
                 "\n",
@@ -56,14 +56,11 @@ public class SimpleQuestion implements Question {
     }
 
     private void shuffle() {
-        List<Integer> temp = new ArrayList<>();
+        List<String> temp = new ArrayList<>(options.keySet());
+        Collections.shuffle(temp);
+
         for (int i = 1; i <= options.size(); i++) {
-            temp.add(i);
-        }
-        for (String option : options.keySet()) {
-            int index = (int) (Math.random() * temp.size());
-            shuffler.put(temp.get(index), option);
-            temp.remove(index);
+            shuffler.put(i, temp.get(i - 1));
         }
     }
 

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing OpenQuestion.class")
 class OpenQuestionTest {
-    private static String body = "Some text question";
+    /*private static String body = "Some text question";
     private static List<String> answers = new ArrayList<>();
 
     static {
@@ -67,5 +67,5 @@ class OpenQuestionTest {
     void oneOptionalVariableAnswer() {
         assertEquals(100, openQuestion.rateTheAnswer("cheese"));
     }
-
+*/
 }

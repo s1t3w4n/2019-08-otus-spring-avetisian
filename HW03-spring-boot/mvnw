@@ -78,8 +78,8 @@ if [ -z "$M2_HOME" ] ; then
 
   # need this for relative symlinks
   while [ -h "$PRG" ] ; do
-    ls=`ls -ld "$PRG"`
-    link=`expr "$ls" : '.*-> \(.*\)$'`
+    localeService=`localeService -ld "$PRG"`
+    link=`expr "$localeService" : '.*-> \(.*\)$'`
     if expr "$link" : '/.*' > /dev/null; then
       PRG="$link"
     else
