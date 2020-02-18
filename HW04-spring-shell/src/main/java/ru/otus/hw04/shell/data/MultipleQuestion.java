@@ -1,6 +1,7 @@
 package ru.otus.hw04.shell.data;
 
 import ru.otus.hw04.shell.app.QuestionPrintAdapter;
+import ru.otus.hw04.shell.helpers.PercentHelper;
 
 import java.util.*;
 
@@ -55,43 +56,19 @@ public class MultipleQuestion extends Question {
     @Override
     public int rateTheAnswer(String answer) {
         int mark = -1;
-        int rightOptions = 0;
-        Set<Integer> answers = new HashSet<>();
+        Set<Integer> answers;
 
         try {
-            for (String s : answer.split(";")) {
-                answers.add(Integer.parseInt(s));
-            }
-            for (Integer number : answers) {
-                if (!shuffler.containsKey(number)) {
-                    throw new NumberFormatException();
-                }
-            }
+            answers = splitAnswer(answer);
         } catch (NumberFormatException e) {
             return mark;
         }
 
-        for (Map.Entry<String, Boolean> option : options.entrySet()) {
-            if (option.getValue()) {
-                rightOptions++;
-            }
-        }
+        int rightOptions = sumRightOptions();
 
-        int rightAnsweredOptionsCount = 0;
+        int rightAnsweredOptionsCount = countRightAnsweredOptions(answers);
 
-        for (Integer integer : answers) {
-            if (options.get(shuffler.get(integer))) {
-                rightAnsweredOptionsCount++;
-            } else {
-                return 0;
-            }
-        }
-
-        if (rightAnsweredOptionsCount == rightOptions) {
-            return 100;
-        } else {
-            return ((int) Math.ceil(100f / rightOptions) * rightAnsweredOptionsCount);
-        }
+        return PercentHelper.calculateMultipleQuestionResult(rightAnsweredOptionsCount,rightOptions);
     }
 
     private void shuffle() {
@@ -101,5 +78,38 @@ public class MultipleQuestion extends Question {
         for (int i = 1; i <= temp.size(); i++) {
             shuffler.put(i, temp.get(i - 1));
         }
+    }
+
+    private Set<Integer> splitAnswer(String answer) throws NumberFormatException {
+        Set<Integer> answers = new HashSet<>();
+        for (String s : answer.split(";")) {
+            answers.add(Integer.parseInt(s));
+        }
+        for (Integer number : answers) {
+            if (!shuffler.containsKey(number)) {
+                throw new NumberFormatException();
+            }
+        }
+        return answers;
+    }
+
+    private int sumRightOptions() {
+        int rightOptions = 0;
+        for (Map.Entry<String, Boolean> option : options.entrySet()) {
+            if (option.getValue()) {
+                rightOptions++;
+            }
+        }
+        return rightOptions;
+    }
+
+    private int countRightAnsweredOptions(Set<Integer> answers) {
+        int rightAnsweredOptionsCount = 0;
+        for (Integer integer : answers) {
+            if (options.get(shuffler.get(integer))) {
+                rightAnsweredOptionsCount++;
+            }
+        }
+        return rightAnsweredOptionsCount;
     }
 }

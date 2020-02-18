@@ -1,6 +1,7 @@
 package ru.otus.hw04.shell.data;
 
 import ru.otus.hw04.shell.app.QuestionPrintAdapter;
+import ru.otus.hw04.shell.helpers.PercentHelper;
 
 import java.util.*;
 
@@ -49,7 +50,7 @@ public class SimpleQuestion extends Question {
         int mark = -1;
         try {
             mark = Integer.parseInt(answer);
-            mark = options.get(shuffler.get(mark)) ? 100 : 0;
+            mark = options.get(shuffler.get(mark)) ? PercentHelper.getMaxPercent() : 0;
         } catch (NumberFormatException ignored) {
         }
         return mark;

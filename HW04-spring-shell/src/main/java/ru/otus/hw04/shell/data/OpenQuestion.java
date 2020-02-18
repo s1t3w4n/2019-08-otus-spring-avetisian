@@ -1,6 +1,7 @@
 package ru.otus.hw04.shell.data;
 
 import ru.otus.hw04.shell.app.QuestionPrintAdapter;
+import ru.otus.hw04.shell.helpers.PercentHelper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +51,7 @@ public class OpenQuestion extends Question {
             Matcher matcher = pattern.matcher(answer);
 
             if (matcher.find(0)) {
-                return 100;
+                return PercentHelper.getMaxPercent();
             }
         }
 
