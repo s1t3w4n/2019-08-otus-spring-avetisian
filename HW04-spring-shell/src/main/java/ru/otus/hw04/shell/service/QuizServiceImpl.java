@@ -2,6 +2,7 @@ package ru.otus.hw04.shell.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.otus.hw04.shell.app.IntroduceService;
 import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 import ru.otus.hw04.shell.app.QuizService;
 import ru.otus.hw04.shell.dao.QuestionsDao;
@@ -16,36 +17,31 @@ import java.util.Objects;
 @Service
 public class QuizServiceImpl implements QuizService {
 
-    private final QuestionPrintAdapter qpa;
+    private final QuestionPrintAdapter questionPrintAdapter;
+    private final IntroduceService introduceService;
     private final ArrayDeque<Question> questions;
     private final Map<Question, Integer> marks;
     private final int offset;
 
-    private String name;
-    private String surname;
 
-    public QuizServiceImpl(QuestionPrintAdapter qpa, QuestionsDao qd, @Value("${offset}") int offset) throws QuestionLoadingFailedException {
+    public QuizServiceImpl(QuestionPrintAdapter questionPrintAdapter,
+                           QuestionsDao questionsDao,
+                           IntroduceService introduceService,
+                           @Value("${offset}") int offset) throws QuestionLoadingFailedException {
         this.offset = offset;
-        this.qpa = qpa;
-        questions = new ArrayDeque<>(qd.loadQuestions());
+        this.questionPrintAdapter = questionPrintAdapter;
+        this.introduceService = introduceService;
+        questions = new ArrayDeque<>(questionsDao.loadQuestions());
         marks = new HashMap<>();
     }
 
     @Override
     public String continueQuiz(String data) {
-        if (Objects.isNull(name)) {
-            if (Objects.isNull(data)) {
-                return addLn(qpa.print("print.name"));
+        if (!introduceService.isIntroduced()) {
+            String message = addLn(questionPrintAdapter.print(introduceService.introduce(data)));
+            if (!introduceService.isIntroduced()) {
+                return message;
             }
-            name = data;
-            data = null;
-        }
-        if (Objects.isNull(surname)) {
-            if (Objects.isNull(data)) {
-                return addLn(qpa.print("print.surname"));
-            }
-            surname = data;
-            data = null;
         }
         if (questions.isEmpty()) {
             return getResult();
@@ -53,7 +49,7 @@ public class QuizServiceImpl implements QuizService {
         if (Objects.nonNull(data)) {
             int mark = questions.getFirst().rateTheAnswer(data);
             if (mark < 0) {
-                return addLn(qpa.print("answer.incorrect")) +
+                return addLn(questionPrintAdapter.print("answer.incorrect")) +
                         getCurrentQuestion();
             } else {
                 marks.put(questions.getFirst(), mark);
@@ -61,7 +57,7 @@ public class QuizServiceImpl implements QuizService {
                 if (questions.isEmpty()) {
                     return getResult();
                 }
-                return addLn(qpa.print("answer.correct")) +
+                return addLn(questionPrintAdapter.print("answer.correct")) +
                         getCurrentQuestion();
             }
         }
@@ -76,10 +72,12 @@ public class QuizServiceImpl implements QuizService {
         }
         result = result / marks.size();
 
-        return addLn(qpa.print("print.result", result))
-                + qpa.print(
+        return addLn(questionPrintAdapter.print("print.result", result))
+                + questionPrintAdapter.print(
                 result > offset ? "print.offset.true" : "print.offset.false",
-                name, surname, marks.size());
+                introduceService.askName(),
+                introduceService.askSurname(),
+                marks.size());
     }
 
     private String getCurrentQuestion() {
