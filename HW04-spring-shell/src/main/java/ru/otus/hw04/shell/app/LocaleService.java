@@ -1,10 +1,11 @@
 package ru.otus.hw04.shell.app;
 
+import ru.otus.hw04.shell.helpers.LocalesHolder;
+
 import java.util.Locale;
-import java.util.Map;
 
 public interface LocaleService {
-    Map<Integer, String> getLanguageList();
+    LocalesHolder getLanguageList();
 
     Locale getAvailableLocales(Integer number);
 

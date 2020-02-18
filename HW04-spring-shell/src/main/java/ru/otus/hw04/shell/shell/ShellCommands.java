@@ -20,7 +20,7 @@ import static org.springframework.shell.standard.ShellOption.NULL;
 @ShellComponent
 public class ShellCommands implements PromptProvider {
 
-    private final LocaleService ls;
+    private final LocaleService languageList;
 
     private boolean attributeLocale = false;
     private boolean showLanguages = false;
@@ -33,7 +33,7 @@ public class ShellCommands implements PromptProvider {
     public ShellCommands(LocaleService localeService,
                          MessageSourceService messageSourceService,
                          QuizService quizService) {
-        this.ls = localeService;
+        this.languageList = localeService;
         this.mss = messageSourceService;
         this.quizService = quizService;
     }
@@ -41,21 +41,17 @@ public class ShellCommands implements PromptProvider {
     @ShellMethod(value = "Set Locale", key = ("l"))
     @ShellMethodAvailability(value = "isLanguageAvailable")
     public String language(@ShellOption(defaultValue = "1") Integer l) {
-        Locale locale = ls.getAvailableLocales(l);
-        ls.setCurrentLocale(locale);
+        Locale locale = languageList.getAvailableLocales(l);
+        languageList.setCurrentLocale(locale);
         attributeLocale = true;
         return mss.getMessage("locale.chosen", locale, locale.getDisplayName(locale));
     }
 
     @ShellMethod(value = "List of available languages", key = ("ll"))
     public String languageList() {
-        StringBuilder sb = new StringBuilder("\n");
-        for (Map.Entry<Integer, String> entry : ls.getLanguageList().entrySet()) {
-            sb.append(entry.getKey()).append(": ").append(entry.getValue());
-            sb.append("\n");
-        }
+        String message = languageList.getLanguageList().getLaguageMessage();
         showLanguages = true;
-        return mss.getMessage("locale.available", ls.getCurrentLocale(), sb.toString());
+        return mss.getMessage("locale.available", languageList.getCurrentLocale(), message);
     }
 
     @ShellMethod(value = "Quiz", key = {"a", "answer"})
@@ -67,19 +63,19 @@ public class ShellCommands implements PromptProvider {
     @Override
     public AttributedString getPrompt() {
         if (!attributeLocale) {
-            return new AttributedString(mss.getMessage("locale.choose", ls.getCurrentLocale()));
+            return new AttributedString(mss.getMessage("locale.choose", languageList.getCurrentLocale()));
         } else {
-            return new AttributedString(mss.getMessage("locale.answer", ls.getCurrentLocale()));
+            return new AttributedString(mss.getMessage("locale.answer", languageList.getCurrentLocale()));
         }
     }
 
     private Availability isLanguageAvailable() {
         return showLanguages ? Availability.available() :
-                Availability.unavailable(mss.getMessage("language.show", ls.getCurrentLocale()));
+                Availability.unavailable(mss.getMessage("language.show", languageList.getCurrentLocale()));
     }
 
     private Availability isQuizAvailable() {
         return attributeLocale ? Availability.available() :
-                Availability.unavailable(mss.getMessage("language.choose", ls.getCurrentLocale()));
+                Availability.unavailable(mss.getMessage("language.choose", languageList.getCurrentLocale()));
     }
 }

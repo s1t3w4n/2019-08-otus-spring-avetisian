@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import ru.otus.hw04.shell.app.LocaleService;
+import ru.otus.hw04.shell.helpers.LocalesHolder;
 
 import java.util.*;
 
@@ -13,27 +14,41 @@ public class LocaleServiceImpl implements LocaleService {
 
     private Locale currentLocale = new Locale("en");
 
-    private final Map<Integer, ResourceBundle> rb;
+    private final Map<Integer, ResourceBundle> resourceBundles;
 
     public LocaleServiceImpl(@Value("${bundles}") String baseName) {
-        rb = getRb(baseName);
+        resourceBundles = getResourceBundles(baseName);
     }
 
-    public Map<Integer, String> getLanguageList() {
+    public LocalesHolder getLanguageList() {
         Map<Integer, String> languages = new HashMap<>();
-        for (Map.Entry<Integer, ResourceBundle> entry : rb.entrySet()) {
+        for (Map.Entry<Integer, ResourceBundle> entry : resourceBundles.entrySet()) {
             languages.put(entry.getKey(),
                     entry.getValue().getLocale().getDisplayLanguage(
                             currentLocale));
         }
-        return languages;
+        return new LocalesHolder(languages);
     }
 
     public Locale getAvailableLocales(Integer number) {
-        return rb.get(number).getLocale();
+        return resourceBundles.get(number).getLocale();
     }
 
-    private Map<Integer, ResourceBundle> getRb(String baseName) {
+    private Map<Integer, ResourceBundle> getResourceBundles(String baseName) {
+        HashSet<ResourceBundle> bundles = getBundlesSet(baseName);
+
+        return fillBundlesMap(bundles);
+    }
+
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
+
+    public void setCurrentLocale(Locale currentLocale) {
+        this.currentLocale = currentLocale;
+    }
+
+    private HashSet<ResourceBundle> getBundlesSet(String baseName) {
         HashSet<ResourceBundle> bundles = new HashSet<>();
         for (Locale locale : Locale.getAvailableLocales()) {
             ResourceBundle bundle = null;
@@ -46,6 +61,10 @@ public class LocaleServiceImpl implements LocaleService {
                 }
             }
         }
+        return bundles;
+    }
+
+    private Map<Integer, ResourceBundle> fillBundlesMap(HashSet<ResourceBundle> bundles) {
         int count = 0;
         Map<Integer, ResourceBundle> map = new HashMap<>();
         for (ResourceBundle bundle : bundles) {
@@ -53,13 +72,5 @@ public class LocaleServiceImpl implements LocaleService {
             map.put(count, bundle);
         }
         return map;
-    }
-
-    public Locale getCurrentLocale() {
-        return currentLocale;
-    }
-
-    public void setCurrentLocale(Locale currentLocale) {
-        this.currentLocale = currentLocale;
     }
 }
