@@ -16,8 +16,8 @@ public class ComponentService {
     public MessageSource messageSource(@Value("${bundles}") String baseName) {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename(baseName);
-        //ms.setDefaultEncoding("UTF-8");
-        ms.setDefaultEncoding("windows-1251");
+        ms.setDefaultEncoding("UTF-8");
+        //ms.setDefaultEncoding("windows-1251");
 
         return ms;
     }
