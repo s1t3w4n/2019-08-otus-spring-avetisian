@@ -2,6 +2,22 @@ package ru.otus.hw04.shell.data;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.shell.jline.InteractiveShellApplicationRunner;
+import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import ru.otus.hw04.shell.app.LocaleService;
+import ru.otus.hw04.shell.app.MessageSourceService;
+import ru.otus.hw04.shell.app.QuestionPrintAdapter;
+import ru.otus.hw04.shell.dao.QuestionPrintAdapterImpl;
+import ru.otus.hw04.shell.service.LocaleServiceImpl;
+import ru.otus.hw04.shell.service.MessageSourceServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +25,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing OpenQuestion.class")
+@SpringBootTest(properties = {
+        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
+        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
+})
 class OpenQuestionTest {
-    /*private static String body = "Some text question";
+    private static String body = "Some text question";
     private static List<String> answers = new ArrayList<>();
+    @Autowired
+    private static QuestionPrintAdapter questionPrintAdapter;
 
     static {
         answers.add("answer1");
@@ -24,7 +46,35 @@ class OpenQuestionTest {
         answers.add("cheese*");
     }
 
-    private static Question openQuestion = new OpenQuestion(body, answers);
+    @EnableAutoConfiguration
+    @Configuration
+    static class TemporaryConfiguration {
+        @Bean
+        QuestionPrintAdapter questionPrintAdapter(MessageSourceService mss, LocaleService ls) {
+            return new QuestionPrintAdapterImpl(mss, ls);
+        }
+
+        @Bean
+        MessageSourceService mss(MessageSource ms) {
+            return new MessageSourceServiceImpl(ms);
+        }
+
+        @Bean
+        public MessageSource messageSource(@Value("${bundles}") String baseName) {
+            ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
+            ms.setBasename(baseName);
+            ms.setDefaultEncoding("windows-1251");
+
+            return ms;
+        }
+
+        @Bean
+        LocaleService ls(@Value("${bundles}") String baseName) {
+            return new LocaleServiceImpl(baseName);
+        }
+    }
+
+    private static Question openQuestion = new OpenQuestion(questionPrintAdapter, body, answers);
 
     @DisplayName("Answer is correct without variable options")
     @Test
@@ -67,5 +117,4 @@ class OpenQuestionTest {
     void oneOptionalVariableAnswer() {
         assertEquals(100, openQuestion.rateTheAnswer("cheese"));
     }
-*/
 }

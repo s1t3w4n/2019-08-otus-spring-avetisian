@@ -12,7 +12,6 @@ import ru.otus.hw04.shell.app.MessageSourceService;
 import ru.otus.hw04.shell.app.QuizService;
 
 import java.util.Locale;
-import java.util.Map;
 
 import static org.springframework.shell.standard.ShellOption.NULL;
 
