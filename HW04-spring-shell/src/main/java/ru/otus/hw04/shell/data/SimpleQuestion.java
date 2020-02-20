@@ -29,7 +29,7 @@ public class SimpleQuestion extends Question {
     @SuppressWarnings("Duplicates")
     @Override
     public String printQuestion() {
-        String variable0 = "\n" + body + "\n";
+        String zeroBundleVatiable = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");
         for (Map.Entry<Integer, String> entry : shuffler.entrySet()) {
@@ -39,7 +39,7 @@ public class SimpleQuestion extends Question {
             sb.append("\n");
         }
         return questionPrintAdapter.print("question.simple.text",
-                variable0,
+                zeroBundleVatiable,
                 sb.toString(),
                 "\n",
                 (int) (Math.random() * options.size()) + 1);

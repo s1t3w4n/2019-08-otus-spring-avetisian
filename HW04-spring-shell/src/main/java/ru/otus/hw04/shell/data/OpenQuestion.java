@@ -26,8 +26,8 @@ public class OpenQuestion extends Question {
 
     @Override
     public String printQuestion() {
-        String variable0 = "\n" + body + "\n";
-        return questionPrintAdapter.print("question.open.text", variable0, "\n");
+        String zeroBundleVariable = "\n" + body + "\n";
+        return questionPrintAdapter.print("question.open.text", zeroBundleVariable, "\n");
     }
 
     @Override

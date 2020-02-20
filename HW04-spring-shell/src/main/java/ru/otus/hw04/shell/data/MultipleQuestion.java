@@ -32,7 +32,7 @@ public class MultipleQuestion extends Question {
     @SuppressWarnings("Duplicates")
     @Override
     public String printQuestion() {
-        String variable0 = "\n" + body + "\n";
+        String zeroBundleVariable = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");
         for (Map.Entry<Integer, String> entry : shuffler.entrySet()) {
@@ -47,7 +47,7 @@ public class MultipleQuestion extends Question {
                 ";" +
                 numbers.getLast();
         return questionPrintAdapter.print("question.multiple.text",
-                variable0,
+                zeroBundleVariable,
                 sb.toString(),
                 "\n",
                 example);

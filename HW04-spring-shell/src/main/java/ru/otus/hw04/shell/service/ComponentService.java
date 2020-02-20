@@ -8,11 +8,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
+/*
 @PropertySource("classpath:application.yml")
 @ComponentScan
 @Component
+*/
 public class ComponentService {
-    @Bean
+    /*@Bean
     public MessageSource messageSource(@Value("${bundles}") String baseName) {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename(baseName);
@@ -20,5 +22,5 @@ public class ComponentService {
         //ms.setDefaultEncoding("windows-1251");
 
         return ms;
-    }
+    }*/
 }
