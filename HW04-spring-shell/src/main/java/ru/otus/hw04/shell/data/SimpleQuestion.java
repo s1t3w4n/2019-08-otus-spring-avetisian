@@ -10,11 +10,10 @@ public class SimpleQuestion extends Question {
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
 
-    public SimpleQuestion(QuestionPrintAdapter questionPrintAdapter,
-                          String body,
+    public SimpleQuestion(String body,
                           String rightOption,
                           List<String> wrongOptions) {
-        super(questionPrintAdapter,body);
+        super(body);
         options = new HashMap<>();
         shuffler = new HashMap<>();
 
@@ -28,7 +27,7 @@ public class SimpleQuestion extends Question {
 
     @SuppressWarnings("Duplicates")
     @Override
-    public String printQuestion() {
+    public String[] printQuestion() {
         String zeroBundleVatiable = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");
@@ -38,11 +37,13 @@ public class SimpleQuestion extends Question {
             sb.append(entry.getValue());
             sb.append("\n");
         }
-        return questionPrintAdapter.print("question.simple.text",
+        int exampleIndex = (int) (Math.random() * options.size()) + 1;
+        return new String[]{"question.simple.text",
                 zeroBundleVatiable,
                 sb.toString(),
                 "\n",
-                (int) (Math.random() * options.size()) + 1);
+                Integer.toString(exampleIndex)
+        };
     }
 
     @Override

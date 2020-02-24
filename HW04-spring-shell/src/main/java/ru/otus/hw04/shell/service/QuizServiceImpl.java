@@ -9,10 +9,7 @@ import ru.otus.hw04.shell.dao.QuestionsDao;
 import ru.otus.hw04.shell.data.Question;
 import ru.otus.hw04.shell.exceptions.QuestionLoadingFailedException;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -81,10 +78,18 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private String getCurrentQuestion() {
-        return questions.getFirst().printQuestion();
+        String[] questionParts = questions.getFirst().printQuestion();
+        return questionPrintAdapter.print(questionParts[0], (Object[]) takeQuestionValues(questionParts));
+
     }
 
     private String addLn(String string) {
         return string + "\n";
+    }
+
+    private String[] takeQuestionValues(String[] questionParts) {
+        String[] parts = new String[questionParts.length - 1];
+        if (questionParts.length - 1 >= 0) System.arraycopy(questionParts, 1, parts, 0, questionParts.length - 1);
+        return parts;
     }
 }

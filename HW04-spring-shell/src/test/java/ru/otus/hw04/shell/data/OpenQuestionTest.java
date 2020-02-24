@@ -46,7 +46,7 @@ class OpenQuestionTest {
         answers.add("cheese*");
     }
 
-    @EnableAutoConfiguration
+    /*@EnableAutoConfiguration
     @Configuration
     static class TemporaryConfiguration {
         @Bean
@@ -72,9 +72,9 @@ class OpenQuestionTest {
         LocaleService ls(@Value("${bundles}") String baseName) {
             return new LocaleServiceImpl(baseName);
         }
-    }
+    }*/
 
-    private static Question openQuestion = new OpenQuestion(questionPrintAdapter, body, answers);
+    private static Question openQuestion = new OpenQuestion(body, answers);
 
     @DisplayName("Answer is correct without variable options")
     @Test

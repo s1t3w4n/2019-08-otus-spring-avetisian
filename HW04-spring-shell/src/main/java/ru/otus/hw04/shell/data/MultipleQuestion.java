@@ -1,6 +1,5 @@
 package ru.otus.hw04.shell.data;
 
-import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 import ru.otus.hw04.shell.helpers.PercentHelper;
 
 import java.util.*;
@@ -10,11 +9,10 @@ public class MultipleQuestion extends Question {
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
 
-    public MultipleQuestion(QuestionPrintAdapter questionPrintAdapter,
-                            String body,
+    public MultipleQuestion(String body,
                             List<String> correctOptions,
                             List<String> wrongOptions) {
-        super(questionPrintAdapter, body);
+        super(body);
         options = new HashMap<>();
         shuffler = new HashMap<>();
 
@@ -31,7 +29,7 @@ public class MultipleQuestion extends Question {
 
     @SuppressWarnings("Duplicates")
     @Override
-    public String printQuestion() {
+    public String[] printQuestion() {
         String zeroBundleVariable = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");
@@ -46,11 +44,11 @@ public class MultipleQuestion extends Question {
         String example = String.valueOf(numbers.getFirst()) +
                 ";" +
                 numbers.getLast();
-        return questionPrintAdapter.print("question.multiple.text",
+        return new String[]{"question.multiple.text",
                 zeroBundleVariable,
                 sb.toString(),
                 "\n",
-                example);
+                example};
     }
 
     @Override
@@ -68,7 +66,7 @@ public class MultipleQuestion extends Question {
 
         int rightAnsweredOptionsCount = countRightAnsweredOptions(answers);
 
-        return PercentHelper.calculateMultipleQuestionResult(rightAnsweredOptionsCount,rightOptions);
+        return PercentHelper.calculateMultipleQuestionResult(rightAnsweredOptionsCount, rightOptions);
     }
 
     private void shuffle() {
