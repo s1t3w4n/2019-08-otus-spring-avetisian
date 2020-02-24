@@ -27,7 +27,7 @@ public class SimpleQuestion extends Question {
 
     @SuppressWarnings("Duplicates")
     @Override
-    public String[] printQuestion() {
+    public String[] getQuestionParts() {
         String zeroBundleVatiable = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");

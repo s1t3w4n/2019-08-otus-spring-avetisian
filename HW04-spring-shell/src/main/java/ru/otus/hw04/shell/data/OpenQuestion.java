@@ -23,7 +23,7 @@ public class OpenQuestion extends Question {
     }
 
     @Override
-    public String[] printQuestion() {
+    public String[] getQuestionParts() {
         String zeroBundleVariable = "\n" + body + "\n";
         return new String[]{"question.open.text",
                 zeroBundleVariable,

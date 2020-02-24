@@ -8,7 +8,7 @@ public abstract class Question {
         this.body = body;
     }
 
-    public abstract String[] printQuestion();
+    public abstract String[] getQuestionParts();
 
     public abstract int rateTheAnswer(String answer);
 }
