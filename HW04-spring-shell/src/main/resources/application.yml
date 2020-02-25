@@ -8,8 +8,3 @@ db:
 offset: 50
 
 bundles: il8n/bundle
-
-spring:
-  messages:
-    basename: il8n/bundle
-

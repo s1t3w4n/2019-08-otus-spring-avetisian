@@ -1,6 +1,5 @@
 package ru.otus.hw04.shell.data;
 
-import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 import ru.otus.hw04.shell.helpers.PercentHelper;
 
 import java.util.HashSet;
@@ -15,19 +14,20 @@ public class OpenQuestion extends Question {
     private final Pattern symbol;
     private final Pattern ending;
 
-    public OpenQuestion(QuestionPrintAdapter questionPrintAdapter,
-                        String body,
+    public OpenQuestion(String body,
                         List<String> correctOptions) {
-        super(questionPrintAdapter, body);
+        super(body);
         options = new HashSet<>(correctOptions);
         symbol = Pattern.compile("\\*");
         ending = Pattern.compile("\\*$");
     }
 
     @Override
-    public String printQuestion() {
+    public String[] getQuestionParts() {
         String zeroBundleVariable = "\n" + body + "\n";
-        return questionPrintAdapter.print("question.open.text", zeroBundleVariable, "\n");
+        return new String[]{"question.open.text",
+                zeroBundleVariable,
+                "\n"};
     }
 
     @Override
