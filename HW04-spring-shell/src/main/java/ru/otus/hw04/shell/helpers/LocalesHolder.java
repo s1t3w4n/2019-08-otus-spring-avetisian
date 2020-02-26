@@ -9,10 +9,11 @@ public class LocalesHolder {
         this.nameLocalesMap = nameLocalesMap;
     }
 
-    public String getLaguageMessage() {
+    public String getLanguageMessage() {
         StringBuilder sb = new StringBuilder("\n");
         for (Map.Entry<Integer, String> entry : nameLocalesMap.entrySet()) {
-            sb.append(entry.getKey()).append(": ").append(entry.getValue());
+            sb.append(entry.getKey()).append(": ").append(
+                    entry.getValue().isEmpty() ? "Default" : entry.getValue());
             sb.append("\n");
         }
         return sb.toString();

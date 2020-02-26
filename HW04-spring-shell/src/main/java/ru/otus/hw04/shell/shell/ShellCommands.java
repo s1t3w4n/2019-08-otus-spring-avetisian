@@ -48,7 +48,7 @@ public class ShellCommands implements PromptProvider {
 
     @ShellMethod(value = "List of available languages", key = ("ll"))
     public String languageList() {
-        String message = languageList.getLanguageList().getLaguageMessage();
+        String message = languageList.getLanguageList().getLanguageMessage();
         showLanguages = true;
         return mss.getMessage("locale.available", languageList.getCurrentLocale(), message);
     }
