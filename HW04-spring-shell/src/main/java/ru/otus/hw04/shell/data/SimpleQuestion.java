@@ -1,11 +1,12 @@
 package ru.otus.hw04.shell.data;
 
-import ru.otus.hw04.shell.app.QuestionPrintAdapter;
 import ru.otus.hw04.shell.helpers.PercentHelper;
 
 import java.util.*;
 
 public class SimpleQuestion extends Question {
+
+    private static final QuestionType TYPE = QuestionType.SIMPLE;
 
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
@@ -28,7 +29,7 @@ public class SimpleQuestion extends Question {
     @SuppressWarnings("Duplicates")
     @Override
     public String[] getQuestionParts() {
-        String zeroBundleVatiable = "\n" + body + "\n";
+        String zeroBundleVariable = "\n" + body + "\n";
         shuffle();
         StringBuilder sb = new StringBuilder("\n");
         for (Map.Entry<Integer, String> entry : shuffler.entrySet()) {
@@ -38,8 +39,7 @@ public class SimpleQuestion extends Question {
             sb.append("\n");
         }
         int exampleIndex = (int) (Math.random() * options.size()) + 1;
-        return new String[]{"question.simple.text",
-                zeroBundleVatiable,
+        return new String[]{zeroBundleVariable,
                 sb.toString(),
                 "\n",
                 Integer.toString(exampleIndex)
@@ -55,6 +55,11 @@ public class SimpleQuestion extends Question {
         } catch (NumberFormatException ignored) {
         }
         return mark;
+    }
+
+    @Override
+    public QuestionType getType() {
+        return TYPE;
     }
 
     private void shuffle() {

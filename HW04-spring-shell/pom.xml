@@ -12,7 +12,7 @@
     <artifactId>HW04-spring-shell</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>HW04-spring-shell</name>
-    <description>Home work 04 on OTUS Spring Framework course</description>
+    <description>Home work 04 in OTUS Spring Framework course</description>
 
     <properties>
         <java.version>1.8</java.version>

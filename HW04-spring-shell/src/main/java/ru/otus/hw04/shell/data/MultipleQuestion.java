@@ -6,6 +6,8 @@ import java.util.*;
 
 public class MultipleQuestion extends Question {
 
+    private static final QuestionType TYPE = QuestionType.MULTIPLE;
+
     private final Map<String, Boolean> options;
     private final Map<Integer, String> shuffler;
 
@@ -44,8 +46,7 @@ public class MultipleQuestion extends Question {
         String example = String.valueOf(numbers.getFirst()) +
                 ";" +
                 numbers.getLast();
-        return new String[]{"question.multiple.text",
-                zeroBundleVariable,
+        return new String[]{zeroBundleVariable,
                 sb.toString(),
                 "\n",
                 example};
@@ -67,6 +68,11 @@ public class MultipleQuestion extends Question {
         int rightAnsweredOptionsCount = countRightAnsweredOptions(answers);
 
         return PercentHelper.calculateMultipleQuestionResult(rightAnsweredOptionsCount, rightOptions);
+    }
+
+    @Override
+    public QuestionType getType() {
+        return TYPE;
     }
 
     private void shuffle() {

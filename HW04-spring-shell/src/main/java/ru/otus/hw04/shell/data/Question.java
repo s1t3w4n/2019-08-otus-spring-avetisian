@@ -11,4 +11,6 @@ public abstract class Question {
     public abstract String[] getQuestionParts();
 
     public abstract int rateTheAnswer(String answer);
+
+    public abstract QuestionType getType();
 }

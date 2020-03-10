@@ -1,16 +1,16 @@
-package ru.otus.hw04.shell.dao;
+package ru.otus.hw04.shell.printers;
 
 import org.springframework.stereotype.Service;
-import ru.otus.hw04.shell.app.QuestionPrintAdapter;
+import ru.otus.hw04.shell.app.PrintAdapter;
 import ru.otus.hw04.shell.app.LocaleService;
 import ru.otus.hw04.shell.app.MessageSourceService;
 
 @Service
-public class QuestionPrintAdapterImpl implements QuestionPrintAdapter {
+public class PrintAdapterImpl implements PrintAdapter {
     private final MessageSourceService messageSourceService;
     private final LocaleService localeService;
 
-    public QuestionPrintAdapterImpl(MessageSourceService messageSourceService, LocaleService localeService) {
+    public PrintAdapterImpl(MessageSourceService messageSourceService, LocaleService localeService) {
         this.messageSourceService = messageSourceService;
         this.localeService = localeService;
     }

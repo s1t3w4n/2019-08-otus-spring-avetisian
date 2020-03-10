@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 public class OpenQuestion extends Question {
 
+    private static final QuestionType TYPE = QuestionType.OPEN;
+
     private final Set<String> options;
     private final Pattern symbol;
     private final Pattern ending;
@@ -25,8 +27,7 @@ public class OpenQuestion extends Question {
     @Override
     public String[] getQuestionParts() {
         String zeroBundleVariable = "\n" + body + "\n";
-        return new String[]{"question.open.text",
-                zeroBundleVariable,
+        return new String[]{zeroBundleVariable,
                 "\n"};
     }
 
@@ -56,5 +57,10 @@ public class OpenQuestion extends Question {
         }
 
         return 0;
+    }
+
+    @Override
+    public QuestionType getType() {
+        return TYPE;
     }
 }
