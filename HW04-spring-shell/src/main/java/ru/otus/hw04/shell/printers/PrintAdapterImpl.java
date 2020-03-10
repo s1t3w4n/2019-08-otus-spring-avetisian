@@ -16,11 +16,6 @@ public class PrintAdapterImpl implements PrintAdapter {
     }
 
     @Override
-    public String print(String[] questionParts) {
-        return print(questionParts[0], (Object[]) takeQuestionValues(questionParts));
-    }
-
-    @Override
     public String print(String bundle, Object... variables) {
         return messageSourceService.getMessage(bundle, localeService.getCurrentLocale(), variables);
     }
