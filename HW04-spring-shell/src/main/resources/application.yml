@@ -1,0 +1,15 @@
+logging:
+  level:
+    root: ERROR
+
+db:
+  url: questions.csv
+
+offset: 50
+
+bundles: il8n/bundle
+
+spring:
+  messages:
+    basename: il8n/bundle
+    encoding: UTF-8

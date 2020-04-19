@@ -1,0 +1,6 @@
+body,type,correct,wrong
+3d planet in Solar system: ,simple,Earth,Mars$Jupiter$Venus$Sun
+2 + 2 = ?,simple,4,5$3$8$256
+Ninja turtles names: ,multiple,Leonardo$Donatello$Michelangelo$Raphael,Rembrandt$Monet$Vincent
+What animal is popular cartoon character Peppa: ,open,pig$hog$swine$sow,null
+What favorite food of character Roquefort from popular cartoon Chip and Dale: ,open,cheese*,null
