@@ -13,6 +13,13 @@ public class Book {
         this.genre = genre;
     }
 
+    public Book(String title, Author author, Genre genre) {
+        this.bookId = -1;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+    }
+
     public long getBookId() {
         return bookId;
     }

@@ -2,11 +2,17 @@ package ru.otus.hw05.domain;
 
 public class Author {
     private final long authorId;
-    private final String lastName;
     private final String firstName;
+    private final String lastName;
 
-    public Author(long authorId, String lastName, String firstName) {
+    public Author(long authorId, String firstName, String lastName) {
         this.authorId = authorId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+    }
+
+    public Author(String firstName, String lastName) {
+        this.authorId = -1;
         this.lastName = lastName;
         this.firstName = firstName;
     }

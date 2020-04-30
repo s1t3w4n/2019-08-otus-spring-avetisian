@@ -5,7 +5,13 @@ import ru.otus.hw05.domain.Book;
 import java.util.List;
 
 public interface BookDao {
-    //    boolean insert(Book book);
-    List<Book> getAll();
+    long insert(Book book);
+
     Book getById(long id);
+
+    void update(Book book);
+
+    void deleteById(long id);
+
+    List<Book> getAll();
 }

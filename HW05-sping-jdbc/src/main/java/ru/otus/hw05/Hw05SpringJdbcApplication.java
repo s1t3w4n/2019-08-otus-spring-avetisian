@@ -12,12 +12,7 @@ import java.sql.SQLException;
 public class Hw05SpringJdbcApplication {
 
     public static void main(String[] args) throws SQLException {
-        BookDao bean = SpringApplication.run(Hw05SpringJdbcApplication.class, args).getBean(BookDao.class);
-        System.out.println(bean.getById(2));
-        for (Book book : bean.getAll()) {
-            System.out.println(book);
-        }
-
+        SpringApplication.run(Hw05SpringJdbcApplication.class, args).getBean(BookDao.class);
         Console.main(args);
     }
 
