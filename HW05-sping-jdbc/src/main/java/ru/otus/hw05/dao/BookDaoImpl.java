@@ -1,5 +1,6 @@
 package ru.otus.hw05.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -21,7 +22,7 @@ public class BookDaoImpl implements BookDao {
     private static final String BASE_QUERY;
 
     static {
-        BASE_QUERY = "select books.book_id,authors.author_id, authors.first_name, authors.last_name,genre.genre_id, genre.genre,books.title from books inner join genre on books.genre_id = genre.genre_id inner join authors on books.author_id = authors.author_id ";
+        BASE_QUERY = "select books.book_id, authors.author_id, authors.first_name, authors.last_name, genre.genre_id, genre.genre,books.title from books inner join genre on books.genre_id = genre.genre_id inner join authors on books.author_id = authors.author_id ";
     }
 
     public BookDaoImpl(NamedParameterJdbcOperations jdbc) {
@@ -42,9 +43,14 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book getById(long id) {
-        final MapSqlParameterSource params = new MapSqlParameterSource("book_id", id);
-        return jdbc.queryForObject(BASE_QUERY +
-                "where book_id = :id;", params, new BookMapper());
+        final MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("book_id", id);
+        try {
+            return jdbc.queryForObject(BASE_QUERY +
+                    "where book_id = :book_id;", params, new BookMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -62,7 +68,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void deleteById(long id) {
         final MapSqlParameterSource params = new MapSqlParameterSource("book_id", id);
-        jdbc.update("delete from books where id = :book_id", params);
+        jdbc.update("delete from books where book_id = :book_id", params);
     }
 
     public List<Book> getAll() {

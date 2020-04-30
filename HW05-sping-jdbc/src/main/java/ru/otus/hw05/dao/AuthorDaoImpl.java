@@ -1,5 +1,6 @@
 package ru.otus.hw05.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -23,10 +24,11 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public long insert(Author author) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("firs_name", author.getFirstName());
+        params.addValue("first_name", author.getFirstName());
         params.addValue("last_name", author.getLastName());
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbc.update("insert into authors ('first_name', 'last_name')", params, keyHolder);
+        jdbc.update("insert into authors (first_name, last_name) values (:first_name, :last_name);",
+                params, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
@@ -34,16 +36,25 @@ public class AuthorDaoImpl implements AuthorDao {
     public Author getById(long id) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("author_id", id);
-        return jdbc.queryForObject("select * from authors where author_id = :id", params, new AuthorMapper());
+        try {
+            return jdbc.queryForObject("select * from authors where author_id = :author_id;",
+                    params, new AuthorMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Author getByName(String firstName, String lastName) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("firs_name", firstName);
+        params.addValue("first_name", firstName);
         params.addValue("last_name", lastName);
-        return jdbc.queryForObject("select * from authors where firs_name = :firs_name and last_name = :last_name",
-                params, new AuthorMapper());
+        try {
+            return jdbc.queryForObject("select * from authors where first_name = :first_name and last_name = :last_name;",
+                    params, new AuthorMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 
@@ -54,7 +65,7 @@ public class AuthorDaoImpl implements AuthorDao {
                     resultSet.getLong("author_id"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name")
-                    );
+            );
         }
     }
 }

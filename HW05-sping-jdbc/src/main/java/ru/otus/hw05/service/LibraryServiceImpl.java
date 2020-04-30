@@ -69,10 +69,10 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public String readAllBooks() {
-        StringBuilder builder = new StringBuilder("The library contains that books:\n");
+        StringBuilder builder = new StringBuilder("The library contains that books:");
         for (Book book : bookDao.getAll()) {
-            builder.append(book.toString());
             builder.append("\n");
+            builder.append(book.toString());
         }
         return builder.toString();
     }

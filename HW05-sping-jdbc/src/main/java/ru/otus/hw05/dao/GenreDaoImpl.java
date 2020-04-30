@@ -1,5 +1,6 @@
 package ru.otus.hw05.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -23,22 +24,31 @@ public class GenreDaoImpl implements GenreDao {
     @Override
     public long insert(Genre genre) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("genre", genre);
+        params.addValue("genre", genre.getGenre());
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbc.update("insert into genre ('genre')", params, keyHolder);
+        jdbc.update("insert into genre (genre) values (:genre);", params, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     @Override
     public Genre getById(long id) {
         final MapSqlParameterSource params = new MapSqlParameterSource("genre_id", id);
-        return jdbc.queryForObject("select * from genre where genre_id = :genre_id", params, new GenreMapper());
+        try {
+            return jdbc.queryForObject("select * from genre where genre_id = :genre_id;", params, new GenreMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Genre getByGenre(String genre) {
         final MapSqlParameterSource params = new MapSqlParameterSource("genre", genre);
-        return jdbc.queryForObject("select * from genre where genre = :genre", params, new GenreMapper());
+        try {
+            return jdbc.queryForObject("select * from genre where genre = :genre;", params, new GenreMapper());
+        } catch (
+                EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     private static class GenreMapper implements RowMapper<Genre> {
