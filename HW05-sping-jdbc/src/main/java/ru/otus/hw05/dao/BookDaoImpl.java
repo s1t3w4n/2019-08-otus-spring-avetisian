@@ -61,7 +61,7 @@ public class BookDaoImpl implements BookDao {
         params.addValue("genre_id", book.getGenre().getGenreId());
         params.addValue("title", book.getTitle());
         jdbc.update(
-                "update books set auhtor_id = :auhtor_id, genre_id = :genre_id, title = :title where book_id = :book_id",
+                "update books set author_id = :author_id, genre_id = :genre_id, title = :title where book_id = :book_id",
                 params);
     }
 
