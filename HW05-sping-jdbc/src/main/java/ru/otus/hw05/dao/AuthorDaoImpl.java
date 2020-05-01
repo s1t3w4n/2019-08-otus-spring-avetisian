@@ -45,7 +45,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public Author getByName(String firstName, String lastName) {
+    public Author getByFullName(String firstName, String lastName) {
         final MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("first_name", firstName);
         params.addValue("last_name", lastName);

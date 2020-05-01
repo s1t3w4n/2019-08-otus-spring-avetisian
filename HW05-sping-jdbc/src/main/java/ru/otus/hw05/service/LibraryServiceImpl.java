@@ -86,7 +86,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     private Author checkAuthor(String firstName, String lastName) {
-        Author bookAuthor = authorDao.getByName(firstName, lastName);
+        Author bookAuthor = authorDao.getByFullName(firstName, lastName);
         if (Objects.isNull(bookAuthor)) {
             bookAuthor = authorDao.getById(authorDao.insert(new Author(firstName, lastName)));
         }

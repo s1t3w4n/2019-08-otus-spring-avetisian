@@ -7,5 +7,5 @@ public interface AuthorDao {
 
     Author getById(long id);
 
-    Author getByName(String firstName, String lastName);
+    Author getByFullName(String firstName, String lastName);
 }

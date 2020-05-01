@@ -13,8 +13,8 @@ public class Author {
 
     public Author(String firstName, String lastName) {
         this.authorId = -1;
-        this.lastName = lastName;
         this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public long getAuthorId() {
