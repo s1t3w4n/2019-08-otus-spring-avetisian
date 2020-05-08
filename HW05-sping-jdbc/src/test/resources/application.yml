@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    data: data_test.sql
+    initialization-mode: always

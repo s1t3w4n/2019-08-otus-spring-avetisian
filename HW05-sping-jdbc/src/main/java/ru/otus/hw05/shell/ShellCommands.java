@@ -1,17 +1,18 @@
-package ru.otus.hw05.service;
+package ru.otus.hw05.shell;
 
 import org.jline.utils.AttributedString;
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.hw05.service.LibraryService;
 
 @ShellComponent
-public class ShellService implements PromptProvider {
+public class ShellCommands implements PromptProvider {
 
     private final LibraryService libraryService;
 
-    public ShellService(LibraryService libraryService) {
+    public ShellCommands(LibraryService libraryService) {
         this.libraryService = libraryService;
     }
 
