@@ -1,4 +1,4 @@
-package ru.orus.hw06.models;
+package ru.otus.hw06.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

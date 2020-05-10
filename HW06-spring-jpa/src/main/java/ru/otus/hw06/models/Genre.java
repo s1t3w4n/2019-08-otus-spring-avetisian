@@ -1,4 +1,4 @@
-package ru.orus.hw06.models;
+package ru.otus.hw06.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,16 +10,14 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "authors")
-public class Author {
+@Table(name = "genre")
+public class Genre {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "genre")
+    private String genre;
 }

@@ -1,4 +1,4 @@
-package ru.orus.hw06;
+package ru.otus.hw06;
 
 import org.h2.tools.Console;
 import org.springframework.boot.SpringApplication;

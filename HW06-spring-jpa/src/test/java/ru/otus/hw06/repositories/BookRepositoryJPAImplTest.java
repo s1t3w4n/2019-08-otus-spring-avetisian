@@ -1,20 +1,19 @@
-package ru.orus.hw06.repositories;
+package ru.otus.hw06.repositories;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import ru.orus.hw06.models.Author;
-import ru.orus.hw06.models.Book;
-import ru.orus.hw06.models.Genre;
+import ru.otus.hw06.models.Author;
+import ru.otus.hw06.models.Book;
+import ru.otus.hw06.models.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import lombok.val;
 
@@ -25,7 +24,7 @@ class BookRepositoryJPAImplTest {
 
     private static final String EXPECTED_INSERTED_TITLE = "Ruslan and Ludmila";
     private static final String DEFAULT_BOOK_TITTLE = "Captain`s daughter";
-    private static final long EXPECTED_INSERTED_ID = 2L;
+    private static final long EXPECTED_SAVED_ID = 4L;
     private static final Author DEFAULT_AUTHOR = new Author(1, "Alexander", "Pushkin");
     private static final Genre DEFAULT_GENRE = new Genre(1, "novel");
     private static final long DEFAULT_BOOK_ID = 1L;
@@ -65,4 +64,36 @@ class BookRepositoryJPAImplTest {
                 .extracting(Book::getId)
                 .containsExactly(1L, 2L, 3L);
     }
+
+    @DisplayName("Should delete Book in Data Base by id")
+    @Test
+    void shouldDeleteBookById() {
+        SoftAssertions softly = new SoftAssertions();
+        val deletableBook = entityManager.find(Book.class, DEFAULT_BOOK_ID);
+        softly.assertThat(deletableBook).isNotNull();
+        entityManager.detach(deletableBook);
+        repository.deleteById(DEFAULT_BOOK_ID);
+        val deletedBook = entityManager.find(Book.class, DEFAULT_BOOK_ID);
+        softly.assertThat(deletedBook).isNull();
+        softly.assertAll();
+    }
+
+    @DisplayName("Should save new Book in Data Base")
+    @Test
+    void shouldSaveAllBookInfo() {
+        Book expected = new Book(EXPECTED_SAVED_ID, EXPECTED_INSERTED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
+        repository.save(expected);
+        Book actual = entityManager.find(Book.class, EXPECTED_SAVED_ID);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @DisplayName("Should update Book in Data Base")
+    @Test
+    void shouldUpdateBookInDataBase() {
+        Book expected = new Book(DEFAULT_BOOK_ID, EXPECTED_INSERTED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
+        repository.save(expected);
+        Book actual = entityManager.find(Book.class, DEFAULT_BOOK_ID);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
 }
