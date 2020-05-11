@@ -7,6 +7,8 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw06.services.LibraryService;
 
+import java.util.Scanner;
+
 @ShellComponent
 public class ShellCommands implements PromptProvider {
 
@@ -14,6 +16,14 @@ public class ShellCommands implements PromptProvider {
 
     public ShellCommands(LibraryService libraryService) {
         this.libraryService = libraryService;
+    }
+
+    @ShellMethod(value = "Leave an opinion", key = ("o"))
+    public String leaveOpinion(@ShellOption long bookId) {
+        System.out.println("Print your comment to a book:");
+        System.out.println(libraryService.readById(bookId));
+        Scanner scanner = new Scanner(System.in);
+        return libraryService.leaveCommentToBook(bookId, scanner.nextLine());
     }
 
     @ShellMethod(value = "Create Book", key = ("c"))
