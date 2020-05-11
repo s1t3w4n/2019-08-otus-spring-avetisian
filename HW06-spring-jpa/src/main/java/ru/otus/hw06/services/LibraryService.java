@@ -10,4 +10,6 @@ public interface LibraryService {
     String deleteById(long id);
 
     String readAllBooks();
+
+    String leaveCommentToBook(long bookId, String text);
 }
