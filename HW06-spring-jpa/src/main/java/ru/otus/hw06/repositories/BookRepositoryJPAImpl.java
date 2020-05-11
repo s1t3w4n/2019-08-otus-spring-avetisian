@@ -38,11 +38,18 @@ public class BookRepositoryJPAImpl implements BookRepositoryJPA {
     }
 
     @Override
-    public void save(Book book) {
+    public Book save(Book book) {
+        if (book.getAuthor().getId() > 0) {
+            book.setAuthor(entityManager.merge(book.getAuthor()));
+        }
+        if (book.getGenre().getId() > 0) {
+            book.setGenre(entityManager.merge(book.getGenre()));
+        }
         if (book.getId() <= 0) {
             entityManager.persist(book);
+            return book;
         } else {
-            entityManager.merge(book);
+            return entityManager.merge(book);
         }
     }
 

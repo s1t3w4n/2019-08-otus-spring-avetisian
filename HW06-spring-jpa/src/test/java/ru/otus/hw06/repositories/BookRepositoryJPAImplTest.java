@@ -22,7 +22,7 @@ import lombok.val;
 @Import(BookRepositoryJPAImpl.class)
 class BookRepositoryJPAImplTest {
 
-    private static final String EXPECTED_INSERTED_TITLE = "Ruslan and Ludmila";
+    private static final String EXPECTED_SAVED_TITLE = "Ruslan and Ludmila";
     private static final String DEFAULT_BOOK_TITTLE = "Captain`s daughter";
     private static final long EXPECTED_SAVED_ID = 4L;
     private static final Author DEFAULT_AUTHOR = new Author(1, "Alexander", "Pushkin");
@@ -81,7 +81,10 @@ class BookRepositoryJPAImplTest {
     @DisplayName("Should save new Book in Data Base")
     @Test
     void shouldSaveAllBookInfo() {
-        Book expected = new Book(EXPECTED_SAVED_ID, EXPECTED_INSERTED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
+        Book expected = new Book(0,
+                EXPECTED_SAVED_TITLE,
+                entityManager.merge(DEFAULT_AUTHOR),
+                entityManager.merge(DEFAULT_GENRE));
         repository.save(expected);
         Book actual = entityManager.find(Book.class, EXPECTED_SAVED_ID);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -90,7 +93,7 @@ class BookRepositoryJPAImplTest {
     @DisplayName("Should update Book in Data Base")
     @Test
     void shouldUpdateBookInDataBase() {
-        Book expected = new Book(DEFAULT_BOOK_ID, EXPECTED_INSERTED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
+        Book expected = new Book(DEFAULT_BOOK_ID, EXPECTED_SAVED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
         repository.save(expected);
         Book actual = entityManager.find(Book.class, DEFAULT_BOOK_ID);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

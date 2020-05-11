@@ -12,5 +12,5 @@ public interface BookRepositoryJPA {
 
     void deleteById(long id);
 
-    void save(Book book);
+    Book save(Book book);
 }
