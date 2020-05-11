@@ -4,10 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw06.models.Book;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +23,9 @@ public class BookRepositoryJPAImpl implements BookRepositoryJPA {
 
     @Override
     public List<Book> getAll() {
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("books-entity-graph");
         TypedQuery<Book> query = entityManager.createQuery("select b from Book b", Book.class);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
     }
 
