@@ -20,7 +20,7 @@ class AuthorRepositoryJPAImplTest {
     private AuthorRepositoryJPA repository;
 
     @Autowired
-    TestEntityManager entityManager;
+    private TestEntityManager entityManager;
 
     private static final long EXPECTED_INSERTED_ID = 4L;
     private static final long DEFAULT_AUTHOR_ID = 1L;
