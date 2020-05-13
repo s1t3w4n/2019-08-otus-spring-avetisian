@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.otus.hw06.models.Book;
 import ru.otus.hw06.models.Comment;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -24,9 +25,11 @@ public class CommentRepositoryJPAImpl implements CommentRepositoryJPA {
 
     @Override
     public List<Comment> getAllBookComments(long bookId) {
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("comments-entity-graph");
         TypedQuery<Comment> query = entityManager
-                .createQuery("select c from Comment c where c.book.id = :bookId", Comment.class);
+                .createQuery("select c from Comment c join fetch c.book where c.book.id = :bookId", Comment.class);
         query.setParameter("bookId", bookId);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
     }
 }
