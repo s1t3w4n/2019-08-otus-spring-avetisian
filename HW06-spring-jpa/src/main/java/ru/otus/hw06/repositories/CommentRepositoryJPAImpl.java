@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import ru.otus.hw06.models.Book;
 import ru.otus.hw06.models.Comment;
 
-import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
