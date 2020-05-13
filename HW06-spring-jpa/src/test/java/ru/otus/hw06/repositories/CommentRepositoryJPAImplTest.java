@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Import;
 import ru.otus.hw06.models.Book;
 import ru.otus.hw06.models.Comment;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Repository based on JPA for working with Comments: ")
@@ -17,6 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CommentRepositoryJPAImplTest {
 
     private static final String SAVED_TEXT = "The best book in the world";
+    private static final long DEFAULT_BOOK_ID = 1L;
+    private static final long EXPECTED_COMMENT_ID = 3L;
+    private static final int EXPECTED_COMMENTS_SIZE = 2;
 
     @Autowired
     private CommentRepositoryJPA repository;
@@ -27,7 +32,14 @@ class CommentRepositoryJPAImplTest {
     @DisplayName("Should add a comment to Data Base")
     @Test
     void shouldAddCommentToDataBase() {
-        repository.addComment(SAVED_TEXT);
-        assertThat(entityManager.find(Comment.class, 1L).getText()).isEqualTo(SAVED_TEXT);
+        repository.addComment(SAVED_TEXT, entityManager.find(Book.class, DEFAULT_BOOK_ID));
+        assertThat(entityManager.find(Comment.class, EXPECTED_COMMENT_ID).getText()).isEqualTo(SAVED_TEXT);
     }
-}
+
+    @DisplayName("Should return all the book's comments")
+    @Test
+    void  shouldReturnAllBooksComments() {
+        List<Comment> booksComment = repository.getAllBookComments(DEFAULT_BOOK_ID);
+        assertThat(booksComment).isNotNull().hasSize(EXPECTED_COMMENTS_SIZE);
+    }
+ }

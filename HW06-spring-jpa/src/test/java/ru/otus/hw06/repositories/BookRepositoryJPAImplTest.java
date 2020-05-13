@@ -11,7 +11,6 @@ import ru.otus.hw06.models.Author;
 import ru.otus.hw06.models.Book;
 import ru.otus.hw06.models.Genre;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +39,7 @@ class BookRepositoryJPAImplTest {
     @DisplayName("should get expected book by id")
     @Test
     void shouldGetExpectedBookById() {
-        Book expected = new Book(DEFAULT_BOOK_ID, DEFAULT_BOOK_TITTLE, DEFAULT_AUTHOR, DEFAULT_GENRE, Collections.emptyList());
+        Book expected = new Book(DEFAULT_BOOK_ID, DEFAULT_BOOK_TITTLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
         Book actual = repository.findById(DEFAULT_BOOK_ID).orElse(null);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -85,8 +84,7 @@ class BookRepositoryJPAImplTest {
         Book expected = new Book(0,
                 EXPECTED_SAVED_TITLE,
                 entityManager.merge(DEFAULT_AUTHOR),
-                entityManager.merge(DEFAULT_GENRE),
-                Collections.emptyList());
+                entityManager.merge(DEFAULT_GENRE));
         repository.save(expected);
         Book actual = entityManager.find(Book.class, EXPECTED_SAVED_ID);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -95,7 +93,7 @@ class BookRepositoryJPAImplTest {
     @DisplayName("Should update Book in Data Base")
     @Test
     void shouldUpdateBookInDataBase() {
-        Book expected = new Book(DEFAULT_BOOK_ID, EXPECTED_SAVED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE, Collections.emptyList());
+        Book expected = new Book(DEFAULT_BOOK_ID, EXPECTED_SAVED_TITLE, DEFAULT_AUTHOR, DEFAULT_GENRE);
         repository.save(expected);
         Book actual = entityManager.find(Book.class, DEFAULT_BOOK_ID);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

@@ -1,14 +1,12 @@
 package ru.otus.hw06.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw06.models.Book;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
 public class BookRepositoryJPAImpl implements BookRepositoryJPA {
 

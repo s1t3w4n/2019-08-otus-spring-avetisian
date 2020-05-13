@@ -5,10 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NamedEntityGraph(name = "books-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre"), @NamedAttributeNode("comments")})
+        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,7 +31,4 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_id")
-    private List<Comment> comments;
 }

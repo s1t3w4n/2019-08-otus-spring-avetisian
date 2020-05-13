@@ -7,3 +7,5 @@ insert into authors (id, last_name, first_name) values (3, 'Conan Doyle', 'Arthu
 insert into books (id, author_id, genre_id, title) values (1, 1, 1, 'Captain`s daughter');
 insert into books (id, author_id, genre_id, title) values (2, 2, 2, 'Lord of the rings');
 insert into books (id, author_id, genre_id, title) values (3, 3, 3, 'Sherlock Holmes');
+insert into comments (id, text, book_id) values (1, 'The best book in the world!!!', 1);
+insert into comments (id, text, book_id) values (2, 'Greatest I have ever seen', 1);

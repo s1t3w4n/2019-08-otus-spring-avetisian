@@ -20,4 +20,8 @@ public class Comment {
 
     @Column(name = "text")
     private String text;
+
+    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "book_id")
+    private Book book;
 }

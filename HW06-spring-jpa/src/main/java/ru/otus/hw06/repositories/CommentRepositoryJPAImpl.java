@@ -1,14 +1,15 @@
 package ru.otus.hw06.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw06.models.Book;
 import ru.otus.hw06.models.Comment;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
-@Transactional
 @Repository
 public class CommentRepositoryJPAImpl implements CommentRepositoryJPA {
 
@@ -16,9 +17,17 @@ public class CommentRepositoryJPAImpl implements CommentRepositoryJPA {
     private EntityManager entityManager;
 
     @Override
-    public Comment addComment(String text) {
-        Comment comment = new Comment(0, text);
+    public Comment addComment(String text, Book book) {
+        Comment comment = new Comment(0, text, book);
         entityManager.persist(comment);
         return comment;
+    }
+
+    @Override
+    public List<Comment> getAllBookComments(long bookId) {
+        TypedQuery<Comment> query = entityManager
+                .createQuery("select c from Comment c where c.book.id = :bookId", Comment.class);
+        query.setParameter("bookId", bookId);
+        return query.getResultList();
     }
 }

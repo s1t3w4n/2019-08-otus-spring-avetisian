@@ -1,7 +1,6 @@
 package ru.otus.hw06.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw06.models.Author;
 
 import javax.persistence.EntityManager;
@@ -10,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
-@Transactional
 @Repository
 public class AuthorRepositoryJPAImpl implements AuthorRepositoryJPA {
 
