@@ -23,7 +23,7 @@ class GenreRepositoryJPAImplTest {
     private GenreRepositoryJPA repository;
 
     @Autowired
-    TestEntityManager entityManager;
+    private TestEntityManager entityManager;
 
     @DisplayName("Should save Genre in Data Base")
     @Test

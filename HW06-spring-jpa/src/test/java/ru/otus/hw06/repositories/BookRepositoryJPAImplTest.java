@@ -34,7 +34,7 @@ class BookRepositoryJPAImplTest {
     private BookRepositoryJPA repository;
 
     @Autowired
-    TestEntityManager entityManager;
+    private TestEntityManager entityManager;
 
     @DisplayName("should get expected book by id")
     @Test
