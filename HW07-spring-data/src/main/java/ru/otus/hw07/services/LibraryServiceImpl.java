@@ -91,25 +91,35 @@ public class LibraryServiceImpl implements LibraryService {
         return builder.toString();
     }
 
+    @Transactional
     @Override
     public String leaveCommentToBook(long bookId, String text) {
-        Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if (optionalBook.isPresent()) {
-            commentRepository.save(new Comment(NO_ID, text, bookRepository.findById(bookId).get()));
+        if (bookRepository.existsById(bookId)) {
+            commentRepository.save(new Comment(NO_ID, text, bookRepository.findById(bookId).orElse(null)));
             final StringBuilder comments = new StringBuilder("Your commentary has added to:\n");
-            comments.append(bookRepository.save(optionalBook.get()).toString());
             final List<Comment> allBookComments = commentRepository.findByBookId(bookId);
-            for (int i = 0; i < allBookComments.size(); i++) {
-                comments.append("\n")
-                        .append(i + 1)
-                        .append(": ")
-                        .append(allBookComments.get(i).getText());
+            if (allBookComments.size() > 0) {
+                comments.append(allBookComments.get(0).getBook().toString());
+                for (int i = 0; i < allBookComments.size(); i++) {
+                    comments.append("\n")
+                            .append(i + 1)
+                            .append(": ")
+                            .append(allBookComments.get(i).getText());
+                }
+            } else {
+                comments.append("\nNo comments for that book");
             }
             return comments.toString();
         } else {
             return NO_SUCH_ID;
         }
     }
+
+    @Override
+    public String getNoSuchIdMessage() {
+        return NO_SUCH_ID;
+    }
+
 
     private Author checkForAuthor(String firstName, String lastName) {
         return authorRepository
