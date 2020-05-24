@@ -17,7 +17,6 @@ import java.util.Optional;
 @Service
 public class LibraryServiceImpl implements LibraryService {
 
-    private static final String NO_SUCH_ID = "There is no element with such id";
     private static final long NO_ID = 0;
 
     private final BookRepository bookRepository;
@@ -114,12 +113,6 @@ public class LibraryServiceImpl implements LibraryService {
             return NO_SUCH_ID;
         }
     }
-
-    @Override
-    public String getNoSuchIdMessage() {
-        return NO_SUCH_ID;
-    }
-
 
     private Author checkForAuthor(String firstName, String lastName) {
         return authorRepository

@@ -1,6 +1,9 @@
 package ru.otus.hw07.services;
 
 public interface LibraryService {
+
+    String NO_SUCH_ID = "There is no element with such id";
+
     String createBook(String tittle, String firstName, String lastName, String genre);
 
     String readById(long id);
@@ -13,5 +16,7 @@ public interface LibraryService {
 
     String leaveCommentToBook(long bookId, String text);
 
-    String getNoSuchIdMessage();
+    static String getNoSuchIdMessage() {
+        return NO_SUCH_ID;
+    }
 }
