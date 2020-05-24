@@ -20,7 +20,7 @@ public class ShellCommands implements PromptProvider {
     @ShellMethod(value = "Leave an opinion", key = ("o"))
     public String leaveOpinion(@ShellOption long bookId) {
         String book = libraryService.readById(bookId);
-        if (!book.equals(libraryService.getNoSuchIdMessage())) {
+        if (!book.equals(LibraryService.getNoSuchIdMessage())) {
             System.out.println("Print your comment to a book:");
             System.out.println(book);
             Scanner scanner = new Scanner(System.in);
