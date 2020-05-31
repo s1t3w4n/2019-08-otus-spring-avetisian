@@ -1,13 +1,17 @@
 package ru.otus.hw08.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Document("genre")
+@AllArgsConstructor
+@Document(collection = Genre.COLLECTION_NAME)
 public class Genre {
-    @MongoId
-    private long id;
+    public static final String COLLECTION_NAME = "genre";
+    public static final String GENRE_GENRE = "genre";
+
+    @Field(Genre.GENRE_GENRE)
     private String genre;
 }

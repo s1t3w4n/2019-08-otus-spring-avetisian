@@ -1,1 +1,8 @@
+spring:
+  data:
+    mongodb:
+      database: library
 
+logging:
+  level:
+    ROOT: ERROR
