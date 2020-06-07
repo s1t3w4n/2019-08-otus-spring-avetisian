@@ -2,12 +2,12 @@ package ru.otus.hw08;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ru.otus.hw08.repositories.BookRepository;
 
 @SpringBootApplication
-@EnableMongoRepositories
+@EnableConfigurationProperties
 public class Hw08SpringMongoDbApplication {
 
     public static void main(String[] args) {

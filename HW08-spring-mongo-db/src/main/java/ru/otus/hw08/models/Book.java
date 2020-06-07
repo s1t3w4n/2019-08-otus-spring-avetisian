@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @AllArgsConstructor
-@Document(collation = Book.COLLECTION_NAME)
+@Document(collection = Book.COLLECTION_NAME)
 public class Book {
     public static final String COLLECTION_NAME = "books";
     public static final String BOOK_TITLE = "title";
