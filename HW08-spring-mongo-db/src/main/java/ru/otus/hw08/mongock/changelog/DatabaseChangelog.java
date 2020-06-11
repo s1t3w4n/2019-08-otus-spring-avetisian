@@ -19,6 +19,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class DatabaseChangelog {
 
     private Book pushkinCD;
+    private Book tolkienLoR;
 
     @ChangeSet(order = "000", id = "dropDB", author = "me", runAlways = true)
     public void dropDB(MongoDatabase database) {
@@ -37,10 +38,11 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "002", id = "initTolkien", author = "me", runAlways = true)
     public void initTolkien(MongoTemplate template) {
-        template.save(new Book(generateSequence(template),
+        tolkienLoR = new Book(generateSequence(template),
                 "Lord of the rings",
                 new Author(ObjectId.get().toString(), "John", "Tolkien"),
-                new Genre(ObjectId.get().toString(), "fantasy")));
+                new Genre(ObjectId.get().toString(), "fantasy"));
+        template.save(tolkienLoR);
     }
 
     @ChangeSet(order = "003", id = "initConanDoyle", author = "me", runAlways = true)
@@ -59,11 +61,15 @@ public class DatabaseChangelog {
         template.save(new Comment(ObjectId.get().toString(),
                 "Greatest I have ever read",
                 pushkinCD));
+        template.save(new Comment(ObjectId.get().toString(),
+                "Boring...",
+                tolkienLoR));
+
     }
 
     private long generateSequence(MongoOperations mongoOperations) {
         DatabaseSequence counter = mongoOperations.findAndModify(query(where("_id").is(Book.SEQUENCE_NAME)),
-                new Update().inc("seq",1), options().returnNew(true).upsert(true),
+                new Update().inc("seq", 1), options().returnNew(true).upsert(true),
                 DatabaseSequence.class);
         return !Objects.isNull(counter) ? counter.getSeq() : 1;
     }
