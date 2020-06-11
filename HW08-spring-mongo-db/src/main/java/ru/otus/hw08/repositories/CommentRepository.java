@@ -6,15 +6,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw08.models.Comment;
 
-import java.util.List;
-
 @Repository
-public interface CommentRepository extends CrudRepository<Comment, String> {
-
-    @Query("{'book.$id' : :#{#id}}")
-    List<Comment> findAllByBook_Id(@Param("id") long id);
+public interface CommentRepository extends CrudRepository<Comment, String>, CommentRepositoryCustom {
 
     @Query(value = "{'book.$id' : :#{#id}}", delete = true)
-    void deleteAllByBook_Id(@Param("id")long id);
+    void deleteAllByBook_Id(@Param("id") long id);
 
 }
