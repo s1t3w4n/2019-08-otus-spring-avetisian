@@ -62,7 +62,7 @@ public class ShellCommands implements PromptProvider {
         return libraryService.readAllBooks();
     }
 
-    @ShellMethod(value = "Look the library", key = ("lc"))
+    @ShellMethod(value = "Look comments", key = ("lc"))
     public String lookComments() {
         return libraryService.readAllComments();
     }
