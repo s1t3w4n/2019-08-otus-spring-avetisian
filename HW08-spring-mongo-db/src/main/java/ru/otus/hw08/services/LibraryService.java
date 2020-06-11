@@ -16,6 +16,8 @@ public interface LibraryService {
 
     String leaveCommentToBook(long bookId, String text);
 
+    String readAllComments();
+
     static String getNoSuchIdMessage() {
         return NO_SUCH_ID;
     }

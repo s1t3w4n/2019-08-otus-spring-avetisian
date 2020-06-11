@@ -14,6 +14,7 @@ public interface CommentRepository extends CrudRepository<Comment, String> {
     @Query("{'book.$id' : :#{#id}}")
     List<Comment> findAllByBook_Id(@Param("id") long id);
 
-    void deleteAllByBook_Id(long id);
+    @Query(value = "{'book.$id' : :#{#id}}", delete = true)
+    void deleteAllByBook_Id(@Param("id")long id);
 
 }

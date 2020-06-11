@@ -111,6 +111,17 @@ public class LibraryServiceImpl implements LibraryService {
         }
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public String readAllComments() {
+        StringBuilder stringBuilder = new StringBuilder("Books comments:");
+        for (Comment comment : commentRepository.findAll()) {
+            stringBuilder.append("\n");
+            stringBuilder.append(comment);
+        }
+        return stringBuilder.toString();
+    }
+
     private Author checkForAuthor(String firstName, String lastName) {
         return authorRepository
                 .getByFirstNameAndLastName(firstName, lastName)
