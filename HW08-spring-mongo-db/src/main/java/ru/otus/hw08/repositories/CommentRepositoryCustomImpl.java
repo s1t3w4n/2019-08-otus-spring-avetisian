@@ -22,6 +22,6 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     public List<Comment> findAllByBook_Id(long id) {
         Aggregation aggregation = newAggregation(Comment.class,
                 match(Criteria.where("book.$id").is(id)));
-        return mongoTemplate.aggregate(aggregation, Comment.class,Comment.class).getMappedResults();
+        return mongoTemplate.aggregate(aggregation, Comment.class, Comment.class).getMappedResults();
     }
 }

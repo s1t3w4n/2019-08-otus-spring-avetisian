@@ -9,12 +9,8 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @AllArgsConstructor
-@Document(collection = Book.COLLECTION_NAME)
+@Document(collection = "books")
 public class Book {
-    public static final String COLLECTION_NAME = "books";
-    public static final String BOOK_TITLE = "title";
-    public static final String BOOK_AUTHOR = "author";
-    public static final String BOOK_GENRE = "genre";
 
     @Transient
     public static final String SEQUENCE_NAME = "books_sequence";
@@ -22,12 +18,12 @@ public class Book {
     @MongoId
     private long id;
 
-    @Field(Book.BOOK_TITLE)
+    @Field("title")
     private String title;
 
-    @Field(Book.BOOK_AUTHOR)
+    @Field("author")
     private Author author;
 
-    @Field(Book.BOOK_GENRE)
+    @Field("genre")
     private Genre genre;
 }

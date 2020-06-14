@@ -8,18 +8,15 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @AllArgsConstructor
-@Document(collection = Author.COLLECTION_NAME)
+@Document(collection = "authors")
 public class Author {
-    public static final String COLLECTION_NAME = "authors";
-    public static final String AUTHOR_FIRST_NAME = "firstName";
-    public static final String AUTHOR_LAST_NAME = "lastName";
 
     @MongoId
     private String id;
 
-    @Field(Author.AUTHOR_FIRST_NAME)
+    @Field("firstName")
     private String firstName;
 
-    @Field(Author.AUTHOR_LAST_NAME)
+    @Field("lastName")
     private String lastName;
 }
