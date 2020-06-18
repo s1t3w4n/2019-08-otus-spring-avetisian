@@ -1,0 +1,40 @@
+package ru.otus.hw09;
+
+import lombok.val;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import ru.otus.hw09.models.Author;
+import ru.otus.hw09.repositories.AuthorRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DisplayName("Repository based on Spring Data for working with Authors: ")
+@DataJpaTest
+class AuthorRepositoryTest {
+
+    private static final long DEFAULT_AUTHOR_ID = 1L;
+    private static final String DEFAULT_AUTHOR_FIRST_NAME = "Alexander";
+    private static final String DEFAULT_AUTHOR_LAST_NAME = "Pushkin";
+
+    @Autowired
+    private AuthorRepository authorRepository;
+
+    @DisplayName("Should return Author with current full name")
+    @Test
+    void shouldReturnAuthorByFullName() {
+        val optionalAuthor = authorRepository.getByFirstNameAndLastName(DEFAULT_AUTHOR_FIRST_NAME, DEFAULT_AUTHOR_LAST_NAME);
+        val expectedAuthor = new Author(DEFAULT_AUTHOR_ID, DEFAULT_AUTHOR_FIRST_NAME, DEFAULT_AUTHOR_LAST_NAME);
+        assertThat(optionalAuthor).isPresent().get()
+                .isEqualToComparingFieldByField(expectedAuthor);
+    }
+
+
+    @DisplayName("Should Not return Author with current full name")
+    @Test
+    void shouldNotReturnAuthorByFullName() {
+        val optionalAuthor = authorRepository.getByFirstNameAndLastName("asdasd", "zxczxcxzc");
+        assertThat(!optionalAuthor.isPresent());
+    }
+}
