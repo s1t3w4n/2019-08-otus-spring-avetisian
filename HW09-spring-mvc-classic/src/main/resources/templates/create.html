@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header">Here is a menu of main functional</div>
+<form id="edit-form" th:action="@{/create}" th:method="post" action="create.html">
+    <h1>Fill Book Info:</h1>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" name="title" type="text" th:value="fill"
+               value="Thinking in Java (4th Edition)"/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" name="firstName" type="text" th:value="fill" value="Bruce"/>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" name="lastName" type="text" th:value="fill" value="Eckel"/>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" name="genre" type="text" th:value="fill" value="programming"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+</body>
+</html>
