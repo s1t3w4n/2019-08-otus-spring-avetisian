@@ -1,6 +1,7 @@
 package ru.otus.hw09.service;
 
 import ru.otus.hw09.models.Book;
+import ru.otus.hw09.models.Comment;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,8 @@ public interface LibraryService {
     String deleteById(long id);
 
     List<Book> readAllBooks();
+
+    List<Comment> getBookComments(long bookId);
 
     String leaveCommentToBook(long bookId, String text);
 

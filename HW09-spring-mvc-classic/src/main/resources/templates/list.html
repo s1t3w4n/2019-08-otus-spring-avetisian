@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<div th:insert="fragments.html :: header"> Here is a menu of main functional </div>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
 <h1>Library:</h1>
 
 <table class="books">
@@ -25,6 +25,8 @@
         <th>Title</th>
         <th>Author</th>
         <th>Genre</th>
+        <th>Update</th>
+        <th>Read</th>
     </tr>
     </thead>
     <tbody>
@@ -34,7 +36,10 @@
         <td th:text="${book.author.firstName+' '+book.author.lastName}">Bruce Eckel</td>
         <td th:text="${book.genre.genre}">programming</td>
         <td>
-            <a th:href="@{/edit(id=${book.id})}" href="edit.html">Edit</a>
+            <a th:href="@{/update(id=${book.id})}" href="update.html">Update</a>
+        </td>
+        <td>
+            <a th:href="@{/read(id=${book.id})}" href="read.html">Read</a>
         </td>
     </tr>
     </tbody>

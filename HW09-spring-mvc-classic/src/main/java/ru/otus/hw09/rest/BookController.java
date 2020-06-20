@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.hw09.exceptions.NotFoundException;
 import ru.otus.hw09.models.Book;
+import ru.otus.hw09.models.Comment;
 import ru.otus.hw09.service.LibraryService;
 
 import java.util.List;
@@ -22,20 +23,20 @@ public class BookController {
 
     @GetMapping("/")
     public String listPage(Model model) {
-        List<Book> books = service.readAllBooks();
+        final List<Book> books = service.readAllBooks();
         model.addAttribute("books", books);
         return "list";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/update")
     public String editPage(@RequestParam("id") long id, Model model) {
-        Book book = service.readById(id).orElseThrow(NotFoundException::new);
+        final Book book = service.readById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("book", book);
-        return "edit";
+        return "update";
     }
 
-    @PostMapping("/edit")
-    public String saveBook(
+    @PostMapping("/update")
+    public String updateBook(
             @RequestParam("id") long id,
             @RequestParam("title") String title,
             @RequestParam("firstName") String firstName,
@@ -43,9 +44,9 @@ public class BookController {
             @RequestParam("genre") String genre,
             Model model
     ) {
-        Book saved = service.updateBook(id, title, firstName, lastName, genre);
+        final Book saved = service.updateBook(id, title, firstName, lastName, genre);
         model.addAttribute(saved);
-        return "edit";
+        return "update";
     }
 
     @GetMapping("/create")
@@ -61,5 +62,19 @@ public class BookController {
             @RequestParam("genre") String genre) {
         service.createBook(title, firstName, lastName, genre);
         return "create";
+    }
+
+    @GetMapping("/read")
+    public String readPage() {
+        return "read";
+    }
+
+    @GetMapping(value = "/read", params = {"id"})
+    public String readPage(long id, Model model) {
+        final Book read = service.readById(id).orElseThrow(NotFoundException::new);
+        final List<Comment> comments = service.getBookComments(id);
+        model.addAttribute(comments);
+        model.addAttribute(read);
+        return "read";
     }
 }

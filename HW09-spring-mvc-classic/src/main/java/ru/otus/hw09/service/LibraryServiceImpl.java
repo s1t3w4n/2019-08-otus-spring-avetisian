@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw09.models.Author;
 import ru.otus.hw09.models.Book;
+import ru.otus.hw09.models.Comment;
 import ru.otus.hw09.models.Genre;
 import ru.otus.hw09.repositories.AuthorRepository;
 import ru.otus.hw09.repositories.BookRepository;
@@ -64,6 +65,12 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<Book> readAllBooks() {
         return bookRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Comment> getBookComments(long bookId) {
+        return commentRepository.findByBookId(bookId);
     }
 
     @Override

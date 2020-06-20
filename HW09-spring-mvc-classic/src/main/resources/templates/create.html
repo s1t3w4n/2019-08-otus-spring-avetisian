@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create book</title>
@@ -12,23 +12,26 @@
 
     <div class="row">
         <label for="title-input">Book Title:</label>
-        <input id="title-input" name="title" type="text" th:value="fill"
-               value="Thinking in Java (4th Edition)"/>
+        <input onClick="this.select();" id="title-input" name="title" type="text" th:value="fill"
+               value="Thinking in Java (4th Edition)" required/>
     </div>
 
     <div class="row">
         <label for="first-name-input">Author First Name:</label>
-        <input id="first-name-input" name="firstName" type="text" th:value="fill" value="Bruce"/>
+        <input onClick="this.select();" id="first-name-input" name="firstName" type="text" th:value="fill" value="Bruce"
+               required/>
     </div>
 
     <div class="row">
         <label for="last-name-input">Author Second Name:</label>
-        <input id="last-name-input" name="lastName" type="text" th:value="fill" value="Eckel"/>
+        <input onClick="this.select();" id="last-name-input" name="lastName" type="text" th:value="fill" value="Eckel"
+               required/>
     </div>
 
     <div class="row">
         <label for="genre-input">Book Genre:</label>
-        <input id="genre-input" name="genre" type="text" th:value="fill" value="programming"/>
+        <input onClick="this.select();" id="genre-input" name="genre" type="text" th:value="fill" value="programming"
+               required/>
     </div>
 
     <div class="row">
