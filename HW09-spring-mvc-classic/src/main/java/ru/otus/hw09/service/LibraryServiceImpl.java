@@ -55,10 +55,10 @@ public class LibraryServiceImpl implements LibraryService {
         return bookRepository.save(
                 new Book(id, tittle, checkForAuthor(firstName, lastName), checkForGenre(genre)));
     }
-
+    @Transactional
     @Override
-    public String deleteById(long id) {
-        return null;
+    public void deleteById(long id) {
+        bookRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)

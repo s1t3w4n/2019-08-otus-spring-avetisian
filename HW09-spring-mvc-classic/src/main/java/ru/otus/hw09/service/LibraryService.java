@@ -13,7 +13,7 @@ public interface LibraryService {
 
     Book updateBook(long id, String tittle, String firstName, String lastName, String genre);
 
-    String deleteById(long id);
+    void deleteById(long id);
 
     List<Book> readAllBooks();
 
