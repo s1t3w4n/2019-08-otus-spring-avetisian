@@ -79,7 +79,7 @@ public class BookController {
     public String readPage(long id, Model model) {
         final Book read = service.readById(id).orElseThrow(NotFoundException::new);
         final List<Comment> comments = service.getBookComments(id);
-        model.addAttribute(comments);
+        model.addAttribute("comments", comments);
         model.addAttribute(read);
         return "read";
     }

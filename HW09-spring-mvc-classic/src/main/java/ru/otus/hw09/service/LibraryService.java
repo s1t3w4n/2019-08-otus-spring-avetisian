@@ -19,7 +19,7 @@ public interface LibraryService {
 
     List<Comment> getBookComments(long bookId);
 
-    String leaveCommentToBook(long bookId, String text);
+    void leaveCommentToBook(Book book, String text);
 
-    String readAllComments();
+    List<Comment> readAllComments();
 }

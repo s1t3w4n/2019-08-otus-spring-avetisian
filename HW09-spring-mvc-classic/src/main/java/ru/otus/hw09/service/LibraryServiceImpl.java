@@ -55,10 +55,15 @@ public class LibraryServiceImpl implements LibraryService {
         return bookRepository.save(
                 new Book(id, tittle, checkForAuthor(firstName, lastName), checkForGenre(genre)));
     }
+
     @Transactional
     @Override
     public void deleteById(long id) {
-        bookRepository.deleteById(id);
+        final Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            bookRepository.deleteById(id);
+            commentRepository.deleteCommentByBook(book.get());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -73,14 +78,16 @@ public class LibraryServiceImpl implements LibraryService {
         return commentRepository.findByBookId(bookId);
     }
 
+    @Transactional
     @Override
-    public String leaveCommentToBook(long bookId, String text) {
-        return null;
+    public void leaveCommentToBook(Book book, String text) {
+        commentRepository.save(new Comment(NO_ID, text, book));
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public String readAllComments() {
-        return null;
+    public List<Comment> readAllComments() {
+        return commentRepository.findAll();
     }
 
     private Author checkForAuthor(String firstName, String lastName) {

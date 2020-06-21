@@ -14,3 +14,8 @@ input:read-only {
 .row {
     margin-top: 10px;
 }
+
+.comments, .comments td {
+    border: 1px solid lightgray;
+    padding: 5px;
+}

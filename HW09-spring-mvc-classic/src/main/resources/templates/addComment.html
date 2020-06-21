@@ -2,16 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Read the book</title>
+    <title>Leave comment</title>
 </head>
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
 <div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
-<form id="edit-form" th:action="@{/read(id=${book?.id})}" th:method="get" action="read.html">
-    <h1>Book Info:</h1>
-    <h2>
-        <div th:insert="fragments.html :: update"> Conditional update link</div>
-    </h2>
+<form id="edit-form" th:action="@{/comments/add(id=${book?.id})}" th:method="post" action="commentsList.html">
+    <h1>Comment the book:</h1>
+
     <div class="row">
         <label for="id-input">ID:</label>
         <input id="id-input" name="id" type="text" th:value="${book?.id}" value="1" required/>
@@ -38,29 +36,14 @@
         <label for="genre-input">Book Genre:</label>
         <input id="genre-input" type="text" readonly="readonly" th:value="${book?.genre?.genre}" value=""/>
     </div>
-
     <div class="row">
-        <button type="submit">Show</button>
+        <label for="comment-input"> Your comment:</label>
+        <textarea id="comment-input" name="text" required value="Print your comment here"
+                  onClick="this.select();"></textarea>
+    </div>
+    <div class="row">
+        <button type="submit">Comment</button>
     </div>
 </form>
-<h2>
-    <div th:insert="fragments.html :: comment"> Conditional comment link</div>
-</h2>
-<table class="comments">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Text</th>
-        <th>Book</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="comment : ${comments}">
-        <td th:text="${comment.id}">1</td>
-        <td th:text="${comment.text}">The Best Book</td>
-        <td th:text="${comment.book.title}">Title</td>
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>
