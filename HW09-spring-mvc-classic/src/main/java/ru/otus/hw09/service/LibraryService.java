@@ -1,5 +1,6 @@
 package ru.otus.hw09.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw09.models.Book;
 import ru.otus.hw09.models.Comment;
 
@@ -16,6 +17,8 @@ public interface LibraryService {
     void deleteById(long id);
 
     List<Book> readAllBooks();
+
+    List<Long> getAllBooksIDs();
 
     List<Comment> getBookComments(long bookId);
 

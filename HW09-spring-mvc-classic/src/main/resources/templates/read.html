@@ -13,8 +13,15 @@
         <div th:insert="fragments.html :: update"> Conditional update link</div>
     </h2>
     <div class="row">
-        <label for="id-input">ID:</label>
-        <input id="id-input" name="id" type="text" th:value="${book?.id}" value="1" required/>
+        <label for="id-select">ID:</label>
+        <select id="id-select" name="id" required>
+            <option selected disabled>Choose book identifier</option>
+            <option th:each="identifier : ${identifiers}"
+                    th:value="${identifier}"
+                    th:text="${'Book with id: ' + identifier}"
+                    th:selected="${book?.id == identifier}">Identifier
+            </option>
+        </select>
     </div>
 
     <div class="row">

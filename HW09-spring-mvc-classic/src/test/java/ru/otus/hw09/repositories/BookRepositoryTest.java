@@ -1,11 +1,10 @@
-package ru.otus.hw09;
+package ru.otus.hw09.repositories;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.otus.hw09.models.Book;
-import ru.otus.hw09.repositories.BookRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

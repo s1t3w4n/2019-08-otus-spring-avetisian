@@ -2,11 +2,9 @@ package ru.otus.hw09.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.otus.hw09.exceptions.NotFoundException;
@@ -67,11 +65,13 @@ public class BookController {
             RedirectAttributes attributes) {
         final Book book = service.createBook(title, firstName, lastName, genre);
         attributes.addAttribute("id", book.getId());
-        return new RedirectView("read");
+        return new RedirectView("/read");
     }
 
     @GetMapping("/read")
-    public String readPage() {
+    public String readPage(Model model) {
+        final List<Long> allBooksIDs = service.getAllBooksIDs();
+        model.addAttribute("identifiers", allBooksIDs);
         return "read";
     }
 
@@ -79,16 +79,16 @@ public class BookController {
     public String readPage(long id, Model model) {
         final Book read = service.readById(id).orElseThrow(NotFoundException::new);
         final List<Comment> comments = service.getBookComments(id);
+        final List<Long> allBooksIDs = service.getAllBooksIDs();
+        model.addAttribute("identifiers", allBooksIDs);
         model.addAttribute("comments", comments);
         model.addAttribute(read);
         return "read";
     }
 
-    @GetMapping("/delete")
-    public ModelAndView deletePage(@RequestParam("id") long id, ModelMap model) {
+    @PostMapping("/delete")
+    public RedirectView deleteBook(@RequestParam("id") long id) {
         service.deleteById(id);
-        final List<Book> books = service.readAllBooks();
-        model.addAttribute("books", books);
-        return new ModelAndView("list", model);
+        return new RedirectView("/");
     }
 }
