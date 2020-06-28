@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @NamedEntityGraph(name = "comments-entity-graph")
 @Entity
 @Data

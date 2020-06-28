@@ -9,9 +9,7 @@
 <div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
 <form id="edit-form" th:action="@{/read(id=${book?.id})}" th:method="get" action="read.html">
     <h1>Book Info:</h1>
-    <h2>
-        <div th:insert="fragments.html :: update"> Conditional update link</div>
-    </h2>
+    <h2 th:insert="fragments.html :: update"> Conditional update link</h2>
     <div class="row">
         <label for="id-select">ID:</label>
         <select id="id-select" name="id" required>
@@ -51,9 +49,7 @@
     </div>
 </form>
 <h1>Comments of this book</h1>
-<h2>
-    <div th:insert="fragments.html :: comment"> Conditional comment link</div>
-</h2>
+<h2 th:insert="fragments.html :: comment"> Conditional comment link</h2>
 <table class="comments">
     <thead>
     <tr>

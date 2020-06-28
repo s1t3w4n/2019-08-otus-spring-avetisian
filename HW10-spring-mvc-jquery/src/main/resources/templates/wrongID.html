@@ -6,6 +6,7 @@
 </head>
 <body>
 <div th:insert="fragments.html :: header">Here is a menu of main functional</div>
-<div><h1 th:text="${message}">Exception text</h1></div>
+<div><!--suppress ThymeleafVariablesResolveInspection -->
+    <h1 th:text="${message}">Exception text</h1></div>
 </body>
 </html>

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @NamedEntityGraph(name = "books-entity-graph",
         attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 @Entity
