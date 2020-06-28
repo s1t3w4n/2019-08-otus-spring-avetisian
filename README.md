@@ -1,7 +1,7 @@
 ### 2019-08-otus-spring-avetisian
 home works in otus spring framework cource
 
-# Решение домаших заданий для курса "Spring Framework" в OTUS
+# Решение домаших заданий на курсе "Spring Framework" в OTUS
 
 Группа 2019-08
 
