@@ -26,9 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BookController.class)
 class BookControllerTest {
 
-    public static final Author author = new Author(1, "Alexander", "Pushkin");
-    public static final Genre genre = new Genre(1, "novel");
-    public static final Book book = new Book(1, "Captain`s daughter", author, genre);
+    public static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
+    public static final Genre GENRE = new Genre(1, "novel");
+    public static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
 
     @Autowired
     private MockMvc mvc;
@@ -40,52 +40,52 @@ class BookControllerTest {
     @Test
     void shouldRenderMainPageWithBooks() throws Exception {
         given(service.readAllBooks())
-                .willReturn(List.of(book));
+                .willReturn(List.of(BOOK));
         this.mvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(book.getTitle())))
-                .andExpect(content().string(containsString(book.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(book.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(book.getGenre().getGenre())));
+                .andExpect(content().string(containsString(BOOK.getTitle())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
+                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
     }
 
     @DisplayName("Should render update page with current book data by get method")
     @Test
     void shouldRenderUpdatePageWithBookData() throws Exception {
-        given(service.readById(book.getId()))
-                .willReturn(Optional.of(book));
-        this.mvc.perform(get("/update").param("id", Long.toString(book.getId())))
+        given(service.readById(BOOK.getId()))
+                .willReturn(Optional.of(BOOK));
+        this.mvc.perform(get("/update").param("id", Long.toString(BOOK.getId())))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(book.getTitle())))
-                .andExpect(content().string(containsString(book.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(book.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(book.getGenre().getGenre())));
+                .andExpect(content().string(containsString(BOOK.getTitle())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
+                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
     }
 
     @DisplayName("Should update book by post method")
     @Test
     void shouldUpdateBook() throws Exception {
-        given(service.updateBook(book.getId(),
-                book.getTitle(),
-                author.getFirstName(),
-                author.getLastName(),
-                genre.getGenre()))
-                .willReturn(book);
+        given(service.updateBook(BOOK.getId(),
+                BOOK.getTitle(),
+                AUTHOR.getFirstName(),
+                AUTHOR.getLastName(),
+                GENRE.getGenre()))
+                .willReturn(BOOK);
 
         final LinkedMultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>();
-        valueMap.put("id", Collections.singletonList(Long.toString(book.getId())));
-        valueMap.put("title", Collections.singletonList(book.getTitle()));
-        valueMap.put("firstName", Collections.singletonList(book.getAuthor().getFirstName()));
-        valueMap.put("lastName", Collections.singletonList(book.getAuthor().getLastName()));
-        valueMap.put("genre", Collections.singletonList(book.getGenre().getGenre()));
+        valueMap.put("id", Collections.singletonList(Long.toString(BOOK.getId())));
+        valueMap.put("title", Collections.singletonList(BOOK.getTitle()));
+        valueMap.put("firstName", Collections.singletonList(BOOK.getAuthor().getFirstName()));
+        valueMap.put("lastName", Collections.singletonList(BOOK.getAuthor().getLastName()));
+        valueMap.put("genre", Collections.singletonList(BOOK.getGenre().getGenre()));
 
         this.mvc.perform(post("/update")
                 .params(valueMap))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(book.getTitle())))
-                .andExpect(content().string(containsString(book.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(book.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(book.getGenre().getGenre())));
+                .andExpect(content().string(containsString(BOOK.getTitle())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
+                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
     }
 
     @DisplayName("Should render create page by get method")
@@ -98,17 +98,17 @@ class BookControllerTest {
     @DisplayName("Should create book by post method")
     @Test
     void shouldCreateBook() throws Exception {
-        given(service.createBook(book.getTitle(),
-                author.getFirstName(),
-                author.getLastName(),
-                genre.getGenre()))
-                .willReturn(book);
+        given(service.createBook(BOOK.getTitle(),
+                AUTHOR.getFirstName(),
+                AUTHOR.getLastName(),
+                GENRE.getGenre()))
+                .willReturn(BOOK);
 
         final LinkedMultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>();
-        valueMap.put("title", Collections.singletonList(book.getTitle()));
-        valueMap.put("firstName", Collections.singletonList(book.getAuthor().getFirstName()));
-        valueMap.put("lastName", Collections.singletonList(book.getAuthor().getLastName()));
-        valueMap.put("genre", Collections.singletonList(book.getGenre().getGenre()));
+        valueMap.put("title", Collections.singletonList(BOOK.getTitle()));
+        valueMap.put("firstName", Collections.singletonList(BOOK.getAuthor().getFirstName()));
+        valueMap.put("lastName", Collections.singletonList(BOOK.getAuthor().getLastName()));
+        valueMap.put("genre", Collections.singletonList(BOOK.getGenre().getGenre()));
 
         this.mvc.perform(post("/create")
                 .params(valueMap))
@@ -130,26 +130,26 @@ class BookControllerTest {
     @DisplayName("Should render read page by get method by current book id")
     @Test
     void shouldRenderReadPageByBookId() throws Exception {
-        given(service.readById(book.getId()))
-                .willReturn(Optional.of(book));
+        given(service.readById(BOOK.getId()))
+                .willReturn(Optional.of(BOOK));
         given(service.getAllBooksIDs())
                 .willReturn(List.of(1L, 2L, 3L));
-        given(service.getBookComments(book.getId()))
+        given(service.getBookComments(BOOK.getId()))
                 .willReturn(List.of(
-                        new Comment(1, "Nice", book),
-                        new Comment(2, "Bad", book),
-                        new Comment(3, "Good", book)));
+                        new Comment(1, "Nice", BOOK),
+                        new Comment(2, "Bad", BOOK),
+                        new Comment(3, "Good", BOOK)));
 
-        this.mvc.perform(get("/read").param("id", Long.toString(book.getId())))
+        this.mvc.perform(get("/read").param("id", Long.toString(BOOK.getId())))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Book with id: 1</option>")))
                 .andExpect(content().string(containsString("<option value=\"2\">Book with id: 2</option>")))
                 .andExpect(content().string(containsString("<option value=\"3\">Book with id: 3</option>")))
-                .andExpect(content().string(containsString(Long.toString(book.getId()))))
-                .andExpect(content().string(containsString(book.getTitle())))
-                .andExpect(content().string(containsString(book.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(book.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(book.getGenre().getGenre())))
+                .andExpect(content().string(containsString(Long.toString(BOOK.getId()))))
+                .andExpect(content().string(containsString(BOOK.getTitle())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
+                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
+                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())))
                 .andExpect(content().string(containsString("Nice")))
                 .andExpect(content().string(containsString("Bad")))
                 .andExpect(content().string(containsString("Good")));
@@ -158,7 +158,7 @@ class BookControllerTest {
     @DisplayName("Should correctly send delete post method by book id")
     @Test
     void shouldSendDeletePostMethod() throws Exception {
-        this.mvc.perform(post("/delete").param("id", String.valueOf(book.getId())))
+        this.mvc.perform(post("/delete").param("id", String.valueOf(BOOK.getId())))
                 .andExpect(status().is3xxRedirection());
     }
 }
