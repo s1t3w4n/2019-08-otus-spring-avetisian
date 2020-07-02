@@ -13,6 +13,7 @@
             padding: 5px;
         }
     </style>
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
@@ -32,26 +33,38 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${books}">
-        <td th:text="${book.id}">1</td>
-        <td th:text="${book.title}">Thinking in Java (4th Edition)</td>
-        <td th:text="${book.author.firstName+' '+book.author.lastName}">Bruce Eckel</td>
-        <td th:text="${book.genre.genre}">programming</td>
-        <td>
-            <a th:href="@{/update(id=${book.id})}" href="update.html">Update</a>
-        </td>
-        <td>
-            <a th:href="@{/read(id=${book.id})}" href="read.html">Read</a>
-        </td>
-        <td>
-            <form method="POST" th:action="@{/delete(id=${book.id})}">
-                <button type="submit">Delete</button>
-            </form>
-        <td>
-            <a th:href="@{/comments/add(id=${book.id})}" href="addComment.html">Comment</a>
-        </td>
-    </tr>
+<!--    appending here-->
     </tbody>
 </table>
+<script>
+    $(function () {
+        $.get('/api/books').done(function (books) {
+            books.forEach(function (book) {
+                $('tbody').append(`
+                    <tr>
+                        <td>${book.id}</td>
+                        <td>${book.title}</td>
+                        <td>${book.author.firstName + ' ' + book.author.lastName}</td>
+                        <td>${book.genre.genre}</td>
+                        <td>
+                            <a href=/update?id=${book.id}>Update</a>
+                        </td>
+                        <td>
+                            <a href=/read?id=${book.id}>Read</a>
+                        </td>
+                        <td>
+                            <form method="POST" action=/delete?id=${book.id}>
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href=/comments/add?id=${book.id}>Comment</a>
+                        </td>
+                    </tr>
+                `)
+            });
+        })
+    });
+</script>
 </body>
 </html>

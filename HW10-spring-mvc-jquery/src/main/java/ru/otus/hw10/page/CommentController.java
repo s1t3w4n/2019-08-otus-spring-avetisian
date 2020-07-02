@@ -1,4 +1,4 @@
-package ru.otus.hw10.rest;
+package ru.otus.hw10.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +23,7 @@ public class CommentController {
     }
 
     @GetMapping("/comments")
-    public String commentsListPage(Model model) {
-        final List<Comment> comments = service.readAllComments();
-        model.addAttribute("comments", comments);
+    public String commentsListPage() {
         return "commentsList";
     }
 

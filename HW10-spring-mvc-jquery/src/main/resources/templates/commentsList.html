@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>All comments</title>
+<!--    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>-->
 </head>
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
@@ -17,12 +18,23 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="comment : ${comments}">
-        <td th:text="${comment.id}">1</td>
-        <td th:text="${comment.text}">The Best Book</td>
-        <td th:text="${comment.book.title}">Title</td>
-    </tr>
+<!--    appending here-->
     </tbody>
+    <script>
+        $(function () {
+            $.get('/api/comments').done(function (comments) {
+                comments.forEach(function (comment) {
+                    $('tbody').append(`
+                    <tr>
+                        <td>${comment.id}</td>
+                        <td>${comment.text}</td>
+                        <td>${comment.title}</td>
+                    </tr>
+                `)
+                });
+            })
+        });
+    </script>
 </table>
 </body>
 </html>

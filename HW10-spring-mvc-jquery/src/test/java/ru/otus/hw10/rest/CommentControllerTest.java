@@ -10,6 +10,7 @@ import ru.otus.hw10.models.Author;
 import ru.otus.hw10.models.Book;
 import ru.otus.hw10.models.Comment;
 import ru.otus.hw10.models.Genre;
+import ru.otus.hw10.page.CommentController;
 import ru.otus.hw10.service.LibraryService;
 
 import java.util.List;

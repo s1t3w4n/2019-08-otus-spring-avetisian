@@ -1,4 +1,4 @@
-package ru.otus.hw10.rest;
+package ru.otus.hw10.page;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

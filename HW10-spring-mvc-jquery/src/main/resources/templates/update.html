@@ -6,7 +6,7 @@
 </head>
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
-<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<!--<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>-->
 <form id="edit-form" th:action="@{/update(id=${book.id})}" th:method="post" action="update.html">
     <h1>Book Info:</h1>
 
@@ -42,6 +42,6 @@
         <button type="submit">Save</button>
     </div>
 </form>
-<h2 th:insert="fragments.html :: comment"> Conditional comment link</h2>
+<!--<h2 th:insert="fragments.html :: comment"> Conditional comment link</h2>-->
 </body>
 </html>

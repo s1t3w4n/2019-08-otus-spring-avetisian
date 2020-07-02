@@ -1,4 +1,4 @@
-package ru.otus.hw10.rest;
+package ru.otus.hw10.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.otus.hw10.exceptions.NotFoundException;
 import ru.otus.hw10.models.Book;
-import ru.otus.hw10.models.Comment;
 import ru.otus.hw10.service.LibraryService;
-
-import java.util.List;
 
 @Controller
 public class BookController {
@@ -24,9 +21,7 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public String listPage(Model model) {
-        final List<Book> books = service.readAllBooks();
-        model.addAttribute("books", books);
+    public String listPage() {
         return "list";
     }
 
@@ -69,22 +64,20 @@ public class BookController {
     }
 
     @GetMapping("/read")
-    public String readPage(Model model) {
-        final List<Long> allBooksIDs = service.getAllBooksIDs();
-        model.addAttribute("identifiers", allBooksIDs);
+    public String readPage() {
         return "read";
     }
 
-    @GetMapping(value = "/read", params = {"id"})
-    public String readPage(long id, Model model) {
-        final Book read = service.readById(id).orElseThrow(NotFoundException::new);
-        final List<Comment> comments = service.getBookComments(id);
-        final List<Long> allBooksIDs = service.getAllBooksIDs();
-        model.addAttribute("identifiers", allBooksIDs);
-        model.addAttribute("comments", comments);
-        model.addAttribute(read);
-        return "read";
-    }
+//    @GetMapping(value = "/read", params = {"id"})
+//    public String readPage(long id, Model model) {
+//        final Book read = service.readById(id).orElseThrow(NotFoundException::new);
+//        final List<Comment> comments = service.getBookComments(id);
+//        final List<Long> allBooksIDs = service.getAllBooksIDs();
+//        model.addAttribute("identifiers", allBooksIDs);
+//        model.addAttribute("comments", comments);
+//        model.addAttribute(read);
+//        return "read";
+//    }
 
     @PostMapping("/delete")
     public RedirectView deleteBook(@RequestParam("id") long id) {

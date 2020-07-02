@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress JSUnresolvedVariable -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
@@ -7,41 +8,35 @@
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
 <div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
-<form id="edit-form" th:action="@{/read(id=${book?.id})}" th:method="get" action="read.html">
+<form id="edit-form">
     <h1>Book Info:</h1>
-    <h2 th:insert="fragments.html :: update"> Conditional update link</h2>
+    <div id="update"></div>
     <div class="row">
         <label for="id-select">ID:</label>
         <select id="id-select" name="id" required>
             <option selected disabled>Choose book identifier</option>
-            <option th:each="identifier : ${identifiers}"
-                    th:value="${identifier}"
-                    th:text="${'Book with id: ' + identifier}"
-                    th:selected="${book?.id == identifier}">Identifier
-            </option>
+            <!--            /api/identifiers-->
         </select>
     </div>
 
     <div class="row">
         <label for="title-input">Book Title:</label>
-        <input id="title-input" readonly="readonly" type="text" th:value="${book?.title}" value=""/>
+        <input id="title-input" readonly="readonly" type="text" value=""/>
     </div>
 
     <div class="row">
         <label for="first-name-input">Author First Name:</label>
-        <input id="first-name-input" readonly="readonly" type="text"
-               th:value="${book?.author?.firstName}" value=""/>
+        <input id="first-name-input" readonly="readonly" type="text" value=""/>
     </div>
 
     <div class="row">
         <label for="last-name-input">Author Second Name:</label>
-        <input id="last-name-input" type="text" readonly="readonly" th:value="${book?.author?.lastName}"
-               value=""/>
+        <input id="last-name-input" type="text" readonly="readonly" value=""/>
     </div>
 
     <div class="row">
         <label for="genre-input">Book Genre:</label>
-        <input id="genre-input" type="text" readonly="readonly" th:value="${book?.genre?.genre}" value=""/>
+        <input id="genre-input" type="text" readonly="readonly" value=""/>
     </div>
 
     <div class="row">
@@ -49,7 +44,7 @@
     </div>
 </form>
 <h1>Comments of this book</h1>
-<h2 th:insert="fragments.html :: comment"> Conditional comment link</h2>
+<div id="comment"></div>
 <table class="comments">
     <thead>
     <tr>
@@ -59,12 +54,64 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="comment : ${comments}">
-        <td th:text="${comment.id}">1</td>
-        <td th:text="${comment.text}">The Best Book</td>
-        <td th:text="${comment.book.title}">Title</td>
-    </tr>
+    <!--    api/comments/book-->
     </tbody>
 </table>
+<script>
+    const getUrlParameter = function getUrlParameter(sParam) {
+        let sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    $(function () {
+        $.get('/api/identifiers').done(function (identifiers) {
+            const id = getUrlParameter('id');
+            identifiers.forEach(function (identifier) {
+                $('#id-select').append('<option value="' + identifier + '">Book with id: ' + identifier + '</option>');
+            });
+            if (id != null) {
+                $('#id-select option[value=' + id + ']').prop('selected', true);
+            }
+        });
+    });
+    $(function () {
+        const id = getUrlParameter('id');
+        if (id != null) {
+            $.get('/api/comments/book', {id: id}).done(function (comments) {
+                comments.forEach(function (comment) {
+                    $('tbody').append(`
+                    <tr>
+                        <td>${comment.id}</td>
+                        <td>${comment.text}</td>
+                        <td>${comment.title}</td>
+                    </tr>
+                `)
+                });
+            })
+        }
+    });
+    $(function () {
+        const id = getUrlParameter('id');
+        if (id != null) {
+            $.get('/api/book', {id: id}).done(function (book) {
+                $('#title-input').val(book.title);
+                $('#first-name-input').val(book.author.firstName);
+                $('#last-name-input').val(book.author.lastName);
+                $('#genre-input').val(book.genre.genre);
+                $("#update").append('<h2><a href="/update?id=' + id + '">Update</a></h2>')
+                $("#comment").append('<h2><a href="/comments/add?id=' + id + '">Comment</a></h2>')
+            })
+        }
+    })
+</script>
 </body>
 </html>
