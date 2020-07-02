@@ -12,31 +12,48 @@
 
     <div class="row">
         <label for="title-input">Book Title:</label>
-        <input onClick="this.select();" id="title-input" name="title" type="text" th:value="fill"
-               value="Thinking in Java (4th Edition)" required/>
+        <input onClick="this.select();" id="title-input" name="title" type="text" value="" required/>
     </div>
 
     <div class="row">
         <label for="first-name-input">Author First Name:</label>
-        <input onClick="this.select();" id="first-name-input" name="firstName" type="text" th:value="fill" value="Bruce"
-               required/>
+        <input id="first-name-input" list="first-name-datalist" name="firstName" type="text" value="" required>
+        <datalist id="first-name-datalist">
+            <!--            api/names/first-->
+        </datalist>
     </div>
 
     <div class="row">
         <label for="last-name-input">Author Second Name:</label>
-        <input onClick="this.select();" id="last-name-input" name="lastName" type="text" th:value="fill" value="Eckel"
-               required/>
+        <input id="last-name-input" list="last-name-datalist" name="lastName" type="text" value="" required>
+        <datalist id="last-name-datalist">
+            <!--            api/names/last-->
+        </datalist>
     </div>
 
     <div class="row">
         <label for="genre-input">Book Genre:</label>
-        <input onClick="this.select();" id="genre-input" name="genre" type="text" th:value="fill" value="programming"
-               required/>
+        <input id="genre-input" list="genre-datalist" name="genre" type="text" value="" required>
+        <datalist id="genre-datalist">
+            <!--            api/genre-->
+        </datalist>
     </div>
 
     <div class="row">
         <button type="submit">Save</button>
     </div>
+    <script>
+        const getData = function (url, elementId) {
+            $.get(url).done(function (data) {
+                data.forEach(function (data) {
+                    $(elementId).append('<option value="' + data + '">' + data + '</option>');
+                });
+            });
+        }
+        $(getData('/api/names/first', '#first-name-datalist'));
+        $(getData('/api/names/last', '#last-name-datalist'));
+        $(getData('/api/genre', '#genre-datalist'));
+    </script>
 </form>
 </body>
 </html>

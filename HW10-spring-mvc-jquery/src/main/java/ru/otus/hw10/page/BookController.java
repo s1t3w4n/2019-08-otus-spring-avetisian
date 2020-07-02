@@ -68,17 +68,6 @@ public class BookController {
         return "read";
     }
 
-//    @GetMapping(value = "/read", params = {"id"})
-//    public String readPage(long id, Model model) {
-//        final Book read = service.readById(id).orElseThrow(NotFoundException::new);
-//        final List<Comment> comments = service.getBookComments(id);
-//        final List<Long> allBooksIDs = service.getAllBooksIDs();
-//        model.addAttribute("identifiers", allBooksIDs);
-//        model.addAttribute("comments", comments);
-//        model.addAttribute(read);
-//        return "read";
-//    }
-
     @PostMapping("/delete")
     public RedirectView deleteBook(@RequestParam("id") long id) {
         service.deleteById(id);

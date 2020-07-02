@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import ru.otus.hw10.models.Author;
 import ru.otus.hw10.models.Book;
-import ru.otus.hw10.models.Comment;
 import ru.otus.hw10.models.Genre;
 import ru.otus.hw10.page.BookController;
 import ru.otus.hw10.service.LibraryService;
@@ -84,11 +83,7 @@ class BookControllerTest {
 
         this.mvc.perform(post("/update")
                 .params(valueMap))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(BOOK.getTitle())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Should render create page by get method")
@@ -133,29 +128,8 @@ class BookControllerTest {
     @DisplayName("Should render read page by get method by current book id")
     @Test
     void shouldRenderReadPageByBookId() throws Exception {
-        given(service.readById(BOOK.getId()))
-                .willReturn(Optional.of(BOOK));
-        given(service.getAllBooksIDs())
-                .willReturn(List.of(1L, 2L, 3L));
-        given(service.getBookComments(BOOK.getId()))
-                .willReturn(List.of(
-                        new Comment(1, "Nice", BOOK),
-                        new Comment(2, "Bad", BOOK),
-                        new Comment(3, "Good", BOOK)));
-
         this.mvc.perform(get("/read").param("id", Long.toString(BOOK.getId())))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Book with id: 1</option>")))
-                .andExpect(content().string(containsString("<option value=\"2\">Book with id: 2</option>")))
-                .andExpect(content().string(containsString("<option value=\"3\">Book with id: 3</option>")))
-                .andExpect(content().string(containsString(Long.toString(BOOK.getId()))))
-                .andExpect(content().string(containsString(BOOK.getTitle())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())))
-                .andExpect(content().string(containsString("Nice")))
-                .andExpect(content().string(containsString("Bad")))
-                .andExpect(content().string(containsString("Good")));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Should correctly send delete post method by book id")

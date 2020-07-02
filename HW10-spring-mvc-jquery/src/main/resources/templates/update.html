@@ -66,27 +66,16 @@
             }
         }
     };
-    $(function () {
-        $.get('/api/names/first').done(function (names) {
-            names.forEach(function (name) {
-                $('#first-name-datalist').append('<option value="' + name + '">' + name + '</option>');
+    const getData = function (url, elementId) {
+        $.get(url).done(function (data) {
+            data.forEach(function (data) {
+                $(elementId).append('<option value="' + data + '">' + data + '</option>');
             });
         });
-    });
-    $(function () {
-        $.get('/api/names/last').done(function (names) {
-            names.forEach(function (name) {
-                $('#last-name-datalist').append('<option value="' + name + '">' + name + '</option>');
-            });
-        });
-    });
-    $(function () {
-        $.get('/api/genre').done(function (genre) {
-            genre.forEach(function (genre) {
-                $('#genre-datalist').append('<option value="' + genre + '">' + genre + '</option>');
-            });
-        });
-    });
+    }
+    $(getData('/api/names/first', '#first-name-datalist'));
+    $(getData('/api/names/last', '#last-name-datalist'));
+    $(getData('/api/genre', '#genre-datalist'));
     $(function () {
         const id = getUrlParameter('id');
         $.get('/api/book', {id: id}).done(function (book) {
