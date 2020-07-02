@@ -1,6 +1,5 @@
 package ru.otus.hw10.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw10.models.Book;
 import ru.otus.hw10.models.Comment;
 
