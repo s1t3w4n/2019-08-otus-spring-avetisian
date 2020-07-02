@@ -80,6 +80,24 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Transactional(readOnly = true)
     @Override
+    public List<String> getAllFirsNames() {
+        return authorRepository.getAllFirstNames();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<String> getAllLastNames() {
+        return authorRepository.getAllLastNames();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<String> getAllGenre() {
+        return genreRepository.getAllGenre();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public List<Comment> getBookComments(long bookId) {
         return commentRepository.findByBookId(bookId);
     }

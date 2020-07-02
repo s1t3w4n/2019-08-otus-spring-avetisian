@@ -32,4 +32,19 @@ public class BookRestController {
     public Book getBookById(@RequestParam long id) {
         return service.readById(id).orElseThrow(NotFoundException::new);
     }
+
+    @GetMapping("api/names/first")
+    public List<String> getAllFirstNames() {
+        return service.getAllFirsNames();
+    }
+
+    @GetMapping("api/names/last")
+    public List<String> getAllLastNames() {
+        return service.getAllLastNames();
+    }
+
+    @GetMapping("api/genre")
+    public List<String> getAllGenre() {
+        return service.getAllGenre();
+    }
 }
