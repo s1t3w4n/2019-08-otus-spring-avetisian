@@ -8,12 +8,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw10.models.Author;
 import ru.otus.hw10.models.Book;
-import ru.otus.hw10.models.Comment;
 import ru.otus.hw10.models.Genre;
 import ru.otus.hw10.page.CommentController;
 import ru.otus.hw10.service.LibraryService;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
@@ -42,16 +40,8 @@ class CommentControllerTest {
     @DisplayName("Should load page with all comments")
     @Test
     void shouldLoadPageWithAllComments() throws Exception {
-        given(service.readAllComments())
-                .willReturn(List.of(
-                        new Comment(1, "Nice", BOOK),
-                        new Comment(2, "Bad", BOOK),
-                        new Comment(3, "Good", BOOK)));
         this.mvc.perform(get("/comments"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Nice")))
-                .andExpect(content().string(containsString("Bad")))
-                .andExpect(content().string(containsString("Good")));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Should render add comment page for current book")
@@ -73,26 +63,10 @@ class CommentControllerTest {
     void leaveComment() throws Exception {
         given(service.readById(BOOK.getId()))
                 .willReturn(Optional.of(BOOK));
-        given(service.getBookComments(BOOK.getId()))
-                .willReturn(List.of(
-                        new Comment(1, "Nice", BOOK),
-                        new Comment(2, "Bad", BOOK),
-                        new Comment(3, "Good", BOOK),
-                        new Comment(4, NEW_COMMENT, BOOK)
-                ));
         this.mvc.perform(post("/comments/add")
                 .param("id", Long.toString(BOOK.getId()))
                 .param("text", NEW_COMMENT))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(Long.toString(BOOK.getId()))))
-                .andExpect(content().string(containsString(BOOK.getTitle())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())))
-                .andExpect(content().string(containsString("Nice")))
-                .andExpect(content().string(containsString("Bad")))
-                .andExpect(content().string(containsString("Good")))
-                .andExpect(content().string(containsString(NEW_COMMENT)));
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test

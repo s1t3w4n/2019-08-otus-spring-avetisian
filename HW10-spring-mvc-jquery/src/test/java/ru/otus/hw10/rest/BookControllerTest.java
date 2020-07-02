@@ -17,11 +17,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Controller based on classic Spring mvc for working wth Books: ")
@@ -44,11 +42,7 @@ class BookControllerTest {
         given(service.readAllBooks())
                 .willReturn(List.of(BOOK));
         this.mvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(BOOK.getTitle())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Should render update page with current book data by get method")
@@ -57,11 +51,7 @@ class BookControllerTest {
         given(service.readById(BOOK.getId()))
                 .willReturn(Optional.of(BOOK));
         this.mvc.perform(get("/update").param("id", Long.toString(BOOK.getId())))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(BOOK.getTitle())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getFirstName())))
-                .andExpect(content().string(containsString(BOOK.getAuthor().getLastName())))
-                .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Should update book by post method")
@@ -116,13 +106,8 @@ class BookControllerTest {
     @DisplayName("Should render empty read page by get method with books ids")
     @Test
     void shouldRenderReadPage() throws Exception {
-        given(service.getAllBooksIDs())
-                .willReturn(List.of(1L, 2L, 3L));
         this.mvc.perform(get("/read"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("<option value=\"1\">Book with id: 1</option>")))
-                .andExpect(content().string(containsString("<option value=\"2\">Book with id: 2</option>")))
-                .andExpect(content().string(containsString("<option value=\"3\">Book with id: 3</option>")));
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Should render read page by get method by current book id")
