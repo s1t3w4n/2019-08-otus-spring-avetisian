@@ -1,4 +1,4 @@
-package ru.otus.hw10.rest;
+package ru.otus.hw10.page;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import ru.otus.hw10.models.Author;
 import ru.otus.hw10.models.Book;
 import ru.otus.hw10.models.Genre;
-import ru.otus.hw10.page.BookController;
 import ru.otus.hw10.service.LibraryService;
 
 import java.util.Collections;
@@ -26,9 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BookController.class)
 class BookControllerTest {
 
-    public static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
-    public static final Genre GENRE = new Genre(1, "novel");
-    public static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
+    private static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
+    private static final Genre GENRE = new Genre(1, "novel");
+    private static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
 
     @Autowired
     private MockMvc mvc;

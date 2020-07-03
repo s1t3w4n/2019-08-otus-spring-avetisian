@@ -80,7 +80,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<String> getAllFirsNames() {
+    public List<String> getAllFirstNames() {
         return authorRepository.getAllFirstNames();
     }
 

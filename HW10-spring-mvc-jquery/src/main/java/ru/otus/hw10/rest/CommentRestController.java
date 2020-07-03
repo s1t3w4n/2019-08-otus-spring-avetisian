@@ -18,7 +18,7 @@ public class CommentRestController {
     }
 
     @GetMapping("api/comments")
-    public List<CommentDto> getAllBooks() {
+    public List<CommentDto> getAllComments() {
         return service.readAllComments().stream().map(CommentDto::toDto)
                 .collect(Collectors.toList());
     }

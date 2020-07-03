@@ -19,7 +19,7 @@ public interface LibraryService {
 
     List<Long> getAllBooksIDs();
 
-    List<String> getAllFirsNames();
+    List<String> getAllFirstNames();
 
     List<String> getAllLastNames();
 

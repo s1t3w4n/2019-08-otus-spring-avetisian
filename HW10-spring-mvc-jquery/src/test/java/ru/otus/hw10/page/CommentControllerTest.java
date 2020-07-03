@@ -1,4 +1,4 @@
-package ru.otus.hw10.rest;
+package ru.otus.hw10.page;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw10.models.Author;
 import ru.otus.hw10.models.Book;
 import ru.otus.hw10.models.Genre;
-import ru.otus.hw10.page.CommentController;
 import ru.otus.hw10.service.LibraryService;
 
 import java.util.Optional;
@@ -25,11 +24,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CommentController.class)
 class CommentControllerTest {
 
-    public static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
-    public static final Genre GENRE = new Genre(1, "novel");
-    public static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
-    public static final String NEW_COMMENT = "New Comment";
-    public static final String THERE_IS_NO_BOOK_WITH_SUCH_ID = "There is no book with such id";
+    private static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
+    private static final Genre GENRE = new Genre(1, "novel");
+    private static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
+    private static final String NEW_COMMENT = "New Comment";
+    private static final String THERE_IS_NO_BOOK_WITH_SUCH_ID = "There is no book with such id";
 
     @Autowired
     private MockMvc mvc;

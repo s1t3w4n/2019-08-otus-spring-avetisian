@@ -35,7 +35,7 @@ public class BookRestController {
 
     @GetMapping("api/names/first")
     public List<String> getAllFirstNames() {
-        return service.getAllFirsNames();
+        return service.getAllFirstNames();
     }
 
     @GetMapping("api/names/last")
