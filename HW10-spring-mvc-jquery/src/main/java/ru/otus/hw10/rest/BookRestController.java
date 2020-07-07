@@ -1,6 +1,7 @@
 package ru.otus.hw10.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw10.exceptions.NotFoundException;
@@ -23,28 +24,13 @@ public class BookRestController {
         return service.readAllBooks();
     }
 
-    @GetMapping("api/identifiers")
+    @GetMapping("api/books/identifiers")
     public List<Long> getAllIDs() {
         return service.getAllBooksIDs();
     }
 
-    @GetMapping("api/book")
-    public Book getBookById(@RequestParam long id) {
+    @GetMapping("api/books/{id}")
+    public Book getBookById(@PathVariable long id) {
         return service.readById(id).orElseThrow(NotFoundException::new);
-    }
-
-    @GetMapping("api/names/first")
-    public List<String> getAllFirstNames() {
-        return service.getAllFirstNames();
-    }
-
-    @GetMapping("api/names/last")
-    public List<String> getAllLastNames() {
-        return service.getAllLastNames();
-    }
-
-    @GetMapping("api/genre")
-    public List<String> getAllGenre() {
-        return service.getAllGenre();
     }
 }

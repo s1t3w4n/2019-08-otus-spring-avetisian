@@ -73,12 +73,12 @@
             });
         });
     }
-    $(getData('/api/names/first', '#first-name-datalist'));
-    $(getData('/api/names/last', '#last-name-datalist'));
+    $(getData('/api/authors/first-names', '#first-name-datalist'));
+    $(getData('/api/authors/last-names', '#last-name-datalist'));
     $(getData('/api/genre', '#genre-datalist'));
     $(function () {
         const id = getUrlParameter('id');
-        $.get('/api/book', {id: id}).done(function (book) {
+        $.get('/api/books/' + id).done(function (book) {
             $('#id-input').val(id);
             $('#title-input').val(book.title);
             $('#first-name-input').val(book.author.firstName);

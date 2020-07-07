@@ -73,7 +73,7 @@
         }
     };
     $(function () {
-        $.get('/api/identifiers').done(function (identifiers) {
+        $.get('/api/books/identifiers').done(function (identifiers) {
             const id = getUrlParameter('id');
             identifiers.forEach(function (identifier) {
                 $('#id-select').append('<option value="' + identifier + '">Book with id: ' + identifier + '</option>');
@@ -102,7 +102,7 @@
     $(function () {
         const id = getUrlParameter('id');
         if (id != null) {
-            $.get('/api/book', {id: id}).done(function (book) {
+            $.get('/api/books/' + id).done(function (book) {
                 $('#title-input').val(book.title);
                 $('#first-name-input').val(book.author.firstName);
                 $('#last-name-input').val(book.author.lastName);
