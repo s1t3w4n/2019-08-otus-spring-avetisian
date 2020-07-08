@@ -82,26 +82,6 @@ class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("Should create book by post method")
-    @Test
-    void shouldCreateBook() throws Exception {
-        given(service.createBook(BOOK.getTitle(),
-                AUTHOR.getFirstName(),
-                AUTHOR.getLastName(),
-                GENRE.getGenre()))
-                .willReturn(BOOK);
-
-        final LinkedMultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>();
-        valueMap.put("title", Collections.singletonList(BOOK.getTitle()));
-        valueMap.put("firstName", Collections.singletonList(BOOK.getAuthor().getFirstName()));
-        valueMap.put("lastName", Collections.singletonList(BOOK.getAuthor().getLastName()));
-        valueMap.put("genre", Collections.singletonList(BOOK.getGenre().getGenre()));
-
-        this.mvc.perform(post("/create")
-                .params(valueMap))
-                .andExpect(status().is3xxRedirection());
-    }
-
     @DisplayName("Should render empty read page by get method with books ids")
     @Test
     void shouldRenderReadPage() throws Exception {

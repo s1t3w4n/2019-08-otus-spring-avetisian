@@ -35,4 +35,14 @@ public class BookRestController {
     public void deleteBookById(@PathVariable long id) {
         service.deleteById(id);
     }
+
+    @PostMapping("/api/books/create")
+    public long createBook(
+            @RequestParam("title") String title,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("genre") String genre) {
+        final Book book = service.createBook(title, firstName, lastName, genre);
+        return book.getId();
+    }
 }

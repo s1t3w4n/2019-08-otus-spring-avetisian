@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
 import ru.otus.hw10.models.Author;
 import ru.otus.hw10.models.Book;
 import ru.otus.hw10.models.Genre;
 import ru.otus.hw10.service.LibraryService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +77,27 @@ class BookRestControllerTest {
     void shouldSendDeletePostMethod() throws Exception {
         this.mvc.perform(post("/api/books/delete/" + BOOK.getId()))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("Should create book by post method")
+    @Test
+    void shouldCreateBook() throws Exception {
+        given(service.createBook(BOOK.getTitle(),
+                AUTHOR.getFirstName(),
+                AUTHOR.getLastName(),
+                GENRE.getGenre()))
+                .willReturn(BOOK);
+
+        final LinkedMultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>();
+        valueMap.put("title", Collections.singletonList(BOOK.getTitle()));
+        valueMap.put("firstName", Collections.singletonList(BOOK.getAuthor().getFirstName()));
+        valueMap.put("lastName", Collections.singletonList(BOOK.getAuthor().getLastName()));
+        valueMap.put("genre", Collections.singletonList(BOOK.getGenre().getGenre()));
+
+        this.mvc.perform(post("/api/books/create")
+                .params(valueMap))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(Long.toString(BOOK.getId()))));
     }
 
 }

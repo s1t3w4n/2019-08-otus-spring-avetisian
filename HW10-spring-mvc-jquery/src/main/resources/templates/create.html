@@ -7,7 +7,7 @@
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
 <div th:insert="fragments.html :: header">Here is a menu of main functional</div>
-<form id="edit-form" th:action="@{/create}" th:method="post" action="create.html">
+<form id="edit-form">
     <h1>Fill Book Info:</h1>
 
     <div class="row">
@@ -53,6 +53,17 @@
         $(getData('/api/authors/first-names', '#first-name-datalist'));
         $(getData('/api/authors/last-names', '#last-name-datalist'));
         $(getData('/api/genre', '#genre-datalist'));
+        $('form').submit(function (event) {
+            event.preventDefault();
+            $.post('/api/books/create', {
+                'title': $('#title-input').val(),
+                'firstName': $('#first-name-input').val(),
+                'lastName': $('#last-name-input').val(),
+                'genre': $('#genre-input').val()
+            }).done(function (data) {
+                window.location.href = '/read?id=' + data;
+            })
+        })
     </script>
 </form>
 </body>
