@@ -18,6 +18,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,49 +54,27 @@ class BookRestControllerTest {
     void shouldReturnAllIDs() throws Exception {
         given(service.getAllBooksIDs())
                 .willReturn(List.of(1L, 2L, 3L));
-        this.mvc.perform(get("/api/identifiers"))
+        this.mvc.perform(get("/api/books/identifiers"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("[1,2,3]")));
     }
 
     @DisplayName("Should return book by id")
     @Test
-    void getAllFirstNames() throws Exception {
+    void shouldReturnBookByID() throws Exception {
         given(service.readById(BOOK.getId()))
                 .willReturn(Optional.of(BOOK));
         final Gson gson = new Gson();
-        this.mvc.perform(get("/api/book").param("id", Long.toString(BOOK.getId())))
+        this.mvc.perform(get("/api/books/" + BOOK.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(BOOK)));
     }
 
-    @DisplayName("Should return all author first names")
+    @DisplayName("Should correctly send delete post method by book id")
     @Test
-    void shouldReturnAllAuthorFirstNames() throws Exception {
-        given(service.getAllFirstNames())
-                .willReturn(List.of(AUTHOR.getFirstName()));
-        this.mvc.perform(get("/api/names/first"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("[\"" + AUTHOR.getFirstName() + "\"]")));
+    void shouldSendDeletePostMethod() throws Exception {
+        this.mvc.perform(post("/api/books/delete/" + BOOK.getId()))
+                .andExpect(status().isOk());
     }
 
-    @DisplayName("Should return all author last names")
-    @Test
-    void shouldReturnAllAuthorLastNames() throws Exception {
-        given(service.getAllLastNames())
-                .willReturn(List.of(AUTHOR.getLastName()));
-        this.mvc.perform(get("/api/names/last"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("[\"" + AUTHOR.getLastName() + "\"]")));
-    }
-
-    @DisplayName("Should return all genre")
-    @Test
-    void shouldReturnAllGenre() throws Exception {
-        given(service.getAllGenre())
-                .willReturn(List.of(GENRE.getGenre()));
-        this.mvc.perform(get("/api/genre"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("[\"" + GENRE.getGenre() + "\"]")));
-    }
 }

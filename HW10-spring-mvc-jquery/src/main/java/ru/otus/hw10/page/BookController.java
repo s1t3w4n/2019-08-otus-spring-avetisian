@@ -68,9 +68,4 @@ public class BookController {
         return "read";
     }
 
-    @PostMapping("/delete")
-    public RedirectView deleteBook(@RequestParam("id") long id) {
-        service.deleteById(id);
-        return new RedirectView("/");
-    }
 }

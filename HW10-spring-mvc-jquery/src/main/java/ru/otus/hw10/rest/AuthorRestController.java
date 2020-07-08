@@ -15,12 +15,12 @@ public class AuthorRestController {
         this.service = service;
     }
 
-    @GetMapping("api/authors/first-names")
+    @GetMapping("/api/authors/first-names")
     public List<String> getAllFirstNames() {
         return service.getAllFirstNames();
     }
 
-    @GetMapping("api/authors/last-names")
+    @GetMapping("/api/authors/last-names")
     public List<String> getAllLastNames() {
         return service.getAllLastNames();
     }

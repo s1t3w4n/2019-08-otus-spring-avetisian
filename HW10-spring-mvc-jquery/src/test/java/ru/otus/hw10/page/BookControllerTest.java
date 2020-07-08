@@ -115,11 +115,4 @@ class BookControllerTest {
         this.mvc.perform(get("/read").param("id", Long.toString(BOOK.getId())))
                 .andExpect(status().isOk());
     }
-
-    @DisplayName("Should correctly send delete post method by book id")
-    @Test
-    void shouldSendDeletePostMethod() throws Exception {
-        this.mvc.perform(post("/delete").param("id", String.valueOf(BOOK.getId())))
-                .andExpect(status().is3xxRedirection());
-    }
 }
