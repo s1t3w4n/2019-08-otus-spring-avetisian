@@ -1,9 +1,6 @@
 package ru.otus.hw10.rest;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.hw10.exceptions.NotFoundException;
 import ru.otus.hw10.models.Book;
 import ru.otus.hw10.service.LibraryService;
@@ -32,5 +29,10 @@ public class BookRestController {
     @GetMapping("api/books/{id}")
     public Book getBookById(@PathVariable long id) {
         return service.readById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @PostMapping("api/books/delete/{id}")
+    public void deleteBookById(@PathVariable long id) {
+        service.deleteById(id);
     }
 }

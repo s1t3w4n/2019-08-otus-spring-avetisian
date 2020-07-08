@@ -34,11 +34,12 @@
     </tr>
     </thead>
     <tbody>
-<!--    appending here-->
+    <!--    appending here-->
     </tbody>
 </table>
 <script>
-    let fillList = $(function () {
+    let fillList = function () {
+        $('tbody').empty();
         $.get('/api/books').done(function (books) {
             books.forEach(function (book) {
                 $('tbody').append(`
@@ -54,9 +55,7 @@
                             <a href=/read?id=${book.id}>Read</a>
                         </td>
                         <td>
-                            <form method="POST" action=/delete?id=${book.id}>
-                                <button type="submit">Delete</button>
-                            </form>
+                            <button class="delete" value="${book.id}" type="submit">Delete</button>
                         </td>
                         <td>
                             <a href=/comments/add?id=${book.id}>Comment</a>
@@ -64,8 +63,13 @@
                     </tr>
                 `)
             });
+            $(".delete").click(function () {
+                $.post("/api/books/delete/" + $(this).val()).done(fillList);
+            })
         })
-    });
+    };
+
+    $(fillList);
 </script>
 </body>
 </html>
