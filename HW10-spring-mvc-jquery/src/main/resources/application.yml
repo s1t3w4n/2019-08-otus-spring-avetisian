@@ -8,6 +8,6 @@ spring:
     hibernate:
       ddl-auto: none
 
-  #logging:
-  #  level:
-  #    ROOT: ERROR
+logging:
+  level:
+    ROOT: ERROR
