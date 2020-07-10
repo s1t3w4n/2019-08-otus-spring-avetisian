@@ -19,8 +19,7 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,7 +74,7 @@ class BookRestControllerTest {
     @DisplayName("Should correctly send delete post method by book id")
     @Test
     void shouldSendDeletePostMethod() throws Exception {
-        this.mvc.perform(post("/api/books/delete/" + BOOK.getId()))
+        this.mvc.perform(delete("/api/books/" + BOOK.getId()))
                 .andExpect(status().isOk());
     }
 

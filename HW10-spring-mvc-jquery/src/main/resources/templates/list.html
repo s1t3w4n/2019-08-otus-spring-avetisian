@@ -64,11 +64,13 @@
                 `)
             });
             $(".delete").click(function () {
-                $.post("/api/books/delete/" + $(this).val()).done(fillList);
+                $.ajax({
+                    url: "/api/books/" + $(this).val(),
+                    type: 'DELETE',
+                }).done(fillList);
             })
         })
     };
-
     $(fillList);
 </script>
 </body>

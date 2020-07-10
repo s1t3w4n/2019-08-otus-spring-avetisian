@@ -31,7 +31,7 @@ public class BookRestController {
         return service.readById(id).orElseThrow(NotFoundException::new);
     }
 
-    @PostMapping("api/books/delete/{id}")
+    @DeleteMapping("api/books/{id}")
     public void deleteBookById(@PathVariable long id) {
         service.deleteById(id);
     }
