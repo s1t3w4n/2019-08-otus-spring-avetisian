@@ -63,7 +63,7 @@ class CommentRestControllerTest {
                         NICE_COMMENT,
                         BAD_COMMENT,
                         GOOD_COMMENT));
-        this.mvc.perform(get("/api/comments/book").param("id", Long.toString(BOOK.getId())))
+        this.mvc.perform(get("/api/comments/book/" + BOOK.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(NICE)))
                 .andExpect(content().string(containsString(BAD)))
