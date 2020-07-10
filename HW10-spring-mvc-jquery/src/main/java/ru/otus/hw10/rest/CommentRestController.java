@@ -1,7 +1,7 @@
 package ru.otus.hw10.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw10.rest.dto.CommentDto;
 import ru.otus.hw10.service.LibraryService;
@@ -23,8 +23,8 @@ public class CommentRestController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("api/comments/book")
-    public List<CommentDto> getBookComments(@RequestParam long id) {
+    @GetMapping("api/comments/book/{id}")
+    public List<CommentDto> getBookComments(@PathVariable long id) {
         return service.getBookComments(id).stream().map(CommentDto::toDto)
                 .collect(Collectors.toList());
     }

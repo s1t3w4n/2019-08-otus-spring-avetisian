@@ -86,7 +86,7 @@
     $(function () {
         const id = getUrlParameter('id');
         if (id != null) {
-            $.get('/api/comments/book', {id: id}).done(function (comments) {
+            $.get('/api/comments/book/' + id).done(function (comments) {
                 comments.forEach(function (comment) {
                     $('tbody').append(`
                     <tr>
