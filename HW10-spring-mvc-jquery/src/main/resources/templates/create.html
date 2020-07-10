@@ -55,7 +55,7 @@
         $(getData('/api/genre', '#genre-datalist'));
         $('form').submit(function (event) {
             event.preventDefault();
-            $.post('/api/books/create', {
+            $.post('/api/books/', {
                 'title': $('#title-input').val(),
                 'firstName': $('#first-name-input').val(),
                 'lastName': $('#last-name-input').val(),

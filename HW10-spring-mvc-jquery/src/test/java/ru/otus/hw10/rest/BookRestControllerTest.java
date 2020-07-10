@@ -93,7 +93,7 @@ class BookRestControllerTest {
         valueMap.put("lastName", Collections.singletonList(BOOK.getAuthor().getLastName()));
         valueMap.put("genre", Collections.singletonList(BOOK.getGenre().getGenre()));
 
-        this.mvc.perform(post("/api/books/create")
+        this.mvc.perform(post("/api/books/")
                 .params(valueMap))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(Long.toString(BOOK.getId()))));

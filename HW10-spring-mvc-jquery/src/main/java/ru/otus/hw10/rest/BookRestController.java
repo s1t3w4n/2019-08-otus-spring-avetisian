@@ -36,7 +36,7 @@ public class BookRestController {
         service.deleteById(id);
     }
 
-    @PostMapping("/api/books/create")
+    @PostMapping("/api/books/")
     public long createBook(
             @RequestParam("title") String title,
             @RequestParam("firstName") String firstName,
