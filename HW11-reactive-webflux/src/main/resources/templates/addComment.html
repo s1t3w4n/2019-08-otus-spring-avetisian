@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Leave comment</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<form id="edit-form" th:action="@{/comments/add(id=${book?.id})}" th:method="post" action="commentsList.html">
+    <h1>Comment the book:</h1>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" type="text" readonly="readonly" th:value="${book?.id}" value="1" required/>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" readonly="readonly" type="text" th:value="${book?.title}" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" readonly="readonly" type="text"
+               th:value="${book?.author?.firstName}" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" type="text" readonly="readonly" th:value="${book?.author?.lastName}"
+               value=""/>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" type="text" readonly="readonly" th:value="${book?.genre?.genre}" value=""/>
+    </div>
+    <div class="row">
+        <label for="comment-input"> Your comment:</label>
+        <textarea id="comment-input" name="text" required
+                  onClick="this.select();"></textarea>
+    </div>
+    <div class="row">
+        <button type="submit">Comment</button>
+    </div>
+</form>
+</body>
+</html>

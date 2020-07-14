@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header">Here is a menu of main functional</div>
+<form id="edit-form">
+    <h1>Fill Book Info:</h1>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input onClick="this.select();" id="title-input" name="title" type="text" value="" required/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" list="first-name-datalist" name="firstName" type="text" value="" required>
+        <datalist id="first-name-datalist">
+            <!--            api/names/first-->
+        </datalist>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" list="last-name-datalist" name="lastName" type="text" value="" required>
+        <datalist id="last-name-datalist">
+            <!--            api/names/last-->
+        </datalist>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" list="genre-datalist" name="genre" type="text" value="" required>
+        <datalist id="genre-datalist">
+            <!--            api/genre-->
+        </datalist>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+    <script>
+        const getData = function (url, elementId) {
+            $.get(url).done(function (data) {
+                data.forEach(function (data) {
+                    $(elementId).append('<option value="' + data + '">' + data + '</option>');
+                });
+            });
+        }
+        $(getData('/api/authors/first-names', '#first-name-datalist'));
+        $(getData('/api/authors/last-names', '#last-name-datalist'));
+        $(getData('/api/genre', '#genre-datalist'));
+        $('form').submit(function (event) {
+            event.preventDefault();
+            $.post('/api/books/', {
+                'title': $('#title-input').val(),
+                'firstName': $('#first-name-input').val(),
+                'lastName': $('#last-name-input').val(),
+                'genre': $('#genre-input').val()
+            }).done(function (data) {
+                window.location.href = '/read?id=' + data;
+            })
+        })
+    </script>
+</form>
+</body>
+</html>

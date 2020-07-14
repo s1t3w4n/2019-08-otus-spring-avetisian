@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--suppress JSUnresolvedVariable -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<form id="edit-form" th:action="@{/update(id=${book.id})}" th:method="post" action="update.html">
+    <h1>Book Info:</h1>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" type="text" readonly="readonly" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" name="title" type="text" value="" required/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" list="first-name-datalist" name="firstName" type="text" value="">
+        <datalist id="first-name-datalist">
+            <!--            api/names/first-->
+        </datalist>
+    </div>
+
+
+    <div class="row">
+        <label for="last-name-input">Author Last Name:</label>
+        <input id="last-name-input" list="last-name-datalist" name="lastName" type="text" value="">
+        <datalist id="last-name-datalist">
+            <!--            api/names/last-->
+        </datalist>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book's Genre:</label>
+        <input id="genre-input" list="genre-datalist" name="genre" type="text" value="">
+        <datalist id="genre-datalist">
+            <!--            api/genre-->
+        </datalist>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+<div id="comment"></div>
+<script>
+    const getUrlParameter = function getUrlParameter(sParam) {
+        let sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    const getData = function (url, elementId) {
+        $.get(url).done(function (data) {
+            data.forEach(function (data) {
+                $(elementId).append('<option value="' + data + '">' + data + '</option>');
+            });
+        });
+    }
+    $(getData('/api/authors/first-names', '#first-name-datalist'));
+    $(getData('/api/authors/last-names', '#last-name-datalist'));
+    $(getData('/api/genre', '#genre-datalist'));
+    $(function () {
+        const id = getUrlParameter('id');
+        $.get('/api/books/' + id).done(function (book) {
+            $('#id-input').val(id);
+            $('#title-input').val(book.title);
+            $('#first-name-input').val(book.author.firstName);
+            $('#last-name-input').val(book.author.lastName);
+            $('#genre-input').val(book.genre.genre);
+            $("#comment").append('<h2><a href="/comments/add?id=' + id + '">Comment</a></h2>')
+        })
+    })
+</script>
+</body>
+</html>
