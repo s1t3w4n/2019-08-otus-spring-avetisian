@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Configuration
 public class ApplicationConfig {
 
-    private static final String CHANGELOGS_PACKAGE = "ru.otus.hw08.mongock.changelog";
+    private static final String CHANGELOGS_PACKAGE = "ru.otus.hw11.mongock.changelog";
 
     @Bean
     public SpringMongock springMongock(MongoTemplate mongoTemplate, Environment springEnvironment) {

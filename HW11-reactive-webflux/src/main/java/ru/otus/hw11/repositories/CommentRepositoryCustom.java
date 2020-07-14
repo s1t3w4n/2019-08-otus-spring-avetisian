@@ -1,9 +1,8 @@
 package ru.otus.hw11.repositories;
 
+import reactor.core.publisher.Flux;
 import ru.otus.hw11.models.Comment;
 
-import java.util.List;
-
 public interface CommentRepositoryCustom {
-    List<Comment> findAllByBook_Id(long id);
+//    Flux<Comment> findAllByBook_Id(long id);
 }
