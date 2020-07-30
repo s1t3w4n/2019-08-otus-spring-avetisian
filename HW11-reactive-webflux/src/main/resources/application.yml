@@ -2,8 +2,8 @@ spring:
   data:
     mongodb:
       port: 0
-      database: library_test
+      database: library
 
-logging:
-  level:
-    ROOT: ERROR
+#logging:
+#  level:
+#    ROOT: ERROR

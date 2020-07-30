@@ -5,6 +5,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw11.models.Book;
 import ru.otus.hw11.repositories.BookRepository;
+
+import java.util.List;
 //import ru.otus.hw10.exceptions.NotFoundException;
 //import ru.otus.hw10.models.Book;
 //import ru.otus.hw10.service.LibraryService;
@@ -30,19 +32,19 @@ public class BookRestController {
         return bookRepository.findAll();
     }
 
-//    @GetMapping("api/books/identifiers")
-//    public List<Long> getAllIDs() {
-//        return service.getAllBooksIDs();
-//    }
-//
+    @GetMapping("api/books/identifiers")
+    public Flux<Book> getAllIDs() {
+        return bookRepository.getAllIDs();
+    }
+
     @GetMapping("api/books/{id}")
     public Mono<Book> getBookById(@PathVariable long id) {
         return bookRepository.findById(id);
     }
 //
 //    @DeleteMapping("api/books/{id}")
-//    public void deleteBookById(@PathVariable long id) {
-//        service.deleteById(id);
+//    public Mono<Void> deleteBookById(@PathVariable long id) {
+//        return bookRepository.deleteById(id);
 //    }
 //
 //    @PostMapping("/api/books/")

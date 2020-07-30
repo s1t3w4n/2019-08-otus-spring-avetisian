@@ -76,7 +76,7 @@
         $.get('/api/books/identifiers').done(function (identifiers) {
             const id = getUrlParameter('id');
             identifiers.forEach(function (identifier) {
-                $('#id-select').append('<option value="' + identifier + '">Book with id: ' + identifier + '</option>');
+                $('#id-select').append('<option value="' + identifier.id + '">Book with id: ' + identifier.id + '</option>');
             });
             if (id != null) {
                 $('#id-select option[value=' + id + ']').prop('selected', true);
@@ -92,7 +92,7 @@
                     <tr>
                         <td>${comment.id}</td>
                         <td>${comment.text}</td>
-                        <td>${comment.title}</td>
+                        <td>${comment.book.title}</td>
                     </tr>
                 `)
                 });

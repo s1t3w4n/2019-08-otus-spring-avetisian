@@ -44,14 +44,13 @@ public class BookController {
 //        return "update";
 //    }
 //
-//    @GetMapping("/create")
-//    public String createPage() {
-//        return "create";
-//    }
-//
-//    @GetMapping("/read")
-//    public String readPage() {
-//        return "read";
-//    }
+    @GetMapping("/create")
+    public String createPage() {
+        return "create";
+    }
 
+    @GetMapping("/read")
+    public String readPage() {
+        return "read";
+    }
 }

@@ -11,13 +11,13 @@ import ru.otus.hw11.repositories.CommentRepository;
 @Component
 @RequiredArgsConstructor
 class MongoCommentCascadeDeleteEventsListener extends AbstractMongoEventListener<Book> {
-    private final CommentRepository commentRepository;
-
-    @Override
-    public void onAfterDelete(AfterDeleteEvent<Book> event) {
-        super.onAfterDelete(event);
-        val source = event.getSource();
-        val id = Long.parseLong(source.get("_id").toString());
-        commentRepository.deleteAllByBook_Id(id);
-    }
+//    private final CommentRepository commentRepository;
+//
+//    @Override
+//    public void onAfterDelete(AfterDeleteEvent<Book> event) {
+//        super.onAfterDelete(event);
+//        val source = event.getSource();
+//        val id = Long.parseLong(source.get("_id").toString());
+//        commentRepository.deleteAllByBook_Id(id);
+//    }
 }
