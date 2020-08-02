@@ -30,29 +30,40 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "001", id = "initPushkin", author = "me", runAlways = true)
     public void initPushkin(MongoTemplate template) {
+        final var author = new Author(ObjectId.get().toString(), "Alexander", "Pushkin");
+        template.save(author);
+        final var genre = new Genre(ObjectId.get().toString(), "novel");
+        template.save(genre);
         pushkinCD = new Book(generateSequence(template),
                 "Captain`s daughter",
-                new Author(ObjectId.get().toString(), "Alexander", "Pushkin"),
-                new Genre(ObjectId.get().toString(), "novel"));
+                author,
+                genre);
         template.save(pushkinCD);
-
     }
 
     @ChangeSet(order = "002", id = "initTolkien", author = "me", runAlways = true)
     public void initTolkien(MongoTemplate template) {
+        final var author = new Author(ObjectId.get().toString(), "John", "Tolkien");
+        template.save(author);
+        final var genre = new Genre(ObjectId.get().toString(), "fantasy");
+        template.save(genre);
         tolkienLoR = new Book(generateSequence(template),
                 "Lord of the rings",
-                new Author(ObjectId.get().toString(), "John", "Tolkien"),
-                new Genre(ObjectId.get().toString(), "fantasy"));
+                author,
+                genre);
         template.save(tolkienLoR);
     }
 
     @ChangeSet(order = "003", id = "initConanDoyle", author = "me", runAlways = true)
     public void initConanDoyle(MongoTemplate template) {
+        final var author = new Author(ObjectId.get().toString(), "Arthur", "Conan Doyle");
+        template.save(author);
+        final var genre = new Genre(ObjectId.get().toString(), "detective");
+        template.save(genre);
         template.save(new Book(generateSequence(template),
                 "Sherlock Holmes",
-                new Author(ObjectId.get().toString(), "Arthur", "Conan Doyle"),
-                new Genre(ObjectId.get().toString(), "detective")));
+                author,
+                genre));
     }
 
     @ChangeSet(order = "005", id = "initComments", author = "me", runAlways = true)

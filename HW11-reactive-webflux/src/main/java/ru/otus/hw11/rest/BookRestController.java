@@ -32,17 +32,17 @@ public class BookRestController {
 //        return bookRepository.findTitles();
 //    }
 
-    @GetMapping("api/books")
+    @GetMapping("/api/books")
     public Flux<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    @GetMapping("api/books/identifiers")
+    @GetMapping("/api/books/identifiers")
     public Flux<Long> getAllIDs() {
         return bookRepository.getAllIDs().map(Book::getId);
     }
 
-    @GetMapping("api/books/{id}")
+    @GetMapping("/api/books/{id}")
     public Mono<Book> getBookById(@PathVariable long id) {
         return bookRepository.findById(id);
     }

@@ -23,13 +23,13 @@ public class BookController {
         return "list";
     }
 
-//    @GetMapping("/update")
-//    public String editPage(@RequestParam("id") long id, Model model) {
+    @GetMapping("/update")
+    public String editPage(@RequestParam("id") long id) {
 //        final Book book = service.readById(id).orElseThrow(NotFoundException::new);
 //        model.addAttribute("book", book);
-//        return "update";
-//    }
-//
+        return "update";
+    }
+
 //    @PostMapping("/update")
 //    public String updateBook(
 //            @RequestParam("id") long id,

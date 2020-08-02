@@ -8,7 +8,7 @@
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
 <div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
-<form id="edit-form" th:action="@{/update(id=${book.id})}" th:method="post" action="update.html">
+<form id="edit-form"> <!--th:action="@{/update(id=${book.id})}" th:method="post" action="update.html"-->
     <h1>Book Info:</h1>
 
     <div class="row">
@@ -87,6 +87,7 @@
             $("#comment").append('<h2><a href="/comments/add?id=' + id + '">Comment</a></h2>')
         })
     })
+    $('input').attr('autocomplete', 'off');
 </script>
 </body>
 </html>
