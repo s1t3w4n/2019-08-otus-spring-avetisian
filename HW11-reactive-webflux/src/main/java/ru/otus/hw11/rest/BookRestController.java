@@ -27,14 +27,19 @@ public class BookRestController {
 //        this.service = service;
 //    }
 
+//    @GetMapping("api/books/titles")
+//    public Flux<SingleField> getAllTitles() {
+//        return bookRepository.findTitles();
+//    }
+
     @GetMapping("api/books")
     public Flux<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     @GetMapping("api/books/identifiers")
-    public Flux<Book> getAllIDs() {
-        return bookRepository.getAllIDs();
+    public Flux<Long> getAllIDs() {
+        return bookRepository.getAllIDs().map(Book::getId);
     }
 
     @GetMapping("api/books/{id}")

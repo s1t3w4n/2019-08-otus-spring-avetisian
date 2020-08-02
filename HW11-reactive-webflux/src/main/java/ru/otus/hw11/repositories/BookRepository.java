@@ -11,6 +11,5 @@ public interface BookRepository extends ReactiveMongoRepository<Book, Long> {
 
     @Query(value = "{}", fields = "{ '_id': 1 }")
     Flux<Book> getAllIDs();
-//
-//    List<String> findDistinctFirstName();
+
 }
