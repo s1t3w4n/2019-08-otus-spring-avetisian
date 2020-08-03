@@ -12,12 +12,12 @@
 
     <div class="row">
         <label for="title-input">Book Title:</label>
-        <input onClick="this.select();" id="title-input" name="title" type="text" value="" required/>
+        <input onClick="this.select();" id="title-input" name="title" type="text" value="1" required/>
     </div>
 
     <div class="row">
         <label for="first-name-input">Author First Name:</label>
-        <input id="first-name-input" list="first-name-datalist" name="firstName" type="text" value="" required>
+        <input id="first-name-input" list="first-name-datalist" name="firstName" type="text" value="1" required>
         <datalist id="first-name-datalist">
             <!--            api/names/first-->
         </datalist>
@@ -25,7 +25,7 @@
 
     <div class="row">
         <label for="last-name-input">Author Second Name:</label>
-        <input id="last-name-input" list="last-name-datalist" name="lastName" type="text" value="" required>
+        <input id="last-name-input" list="last-name-datalist" name="lastName" type="text" value="1" required>
         <datalist id="last-name-datalist">
             <!--            api/names/last-->
         </datalist>
@@ -33,7 +33,7 @@
 
     <div class="row">
         <label for="genre-input">Book Genre:</label>
-        <input id="genre-input" list="genre-datalist" name="genre" type="text" value="" required>
+        <input id="genre-input" list="genre-datalist" name="genre" type="text" value="1" required>
         <datalist id="genre-datalist">
             <!--            api/genre-->
         </datalist>
@@ -55,7 +55,8 @@
         $(getData('/api/genre', '#genre-datalist'));
         $('form').submit(function (event) {
             event.preventDefault();
-            $.post('/api/books/', {
+            // $.get('/api/booksss', { //сохраняет но со странным поведение
+            $.post('/api/books', { //ошибка 400
                 'title': $('#title-input').val(),
                 'firstName': $('#first-name-input').val(),
                 'lastName': $('#last-name-input').val(),

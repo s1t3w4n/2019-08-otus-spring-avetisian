@@ -9,13 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "books")
 public class Book {
-
-//    @Transient
-//    public static final String SEQUENCE_NAME = "books_sequence";
 
     @MongoId
     private String id;

@@ -13,7 +13,7 @@ public class BookController {
     }
 
     @GetMapping("/update")
-    public String editPage(@RequestParam("id") long id) {
+    public String editPage(@RequestParam("id") String id) {
         return "update";
     }
 
