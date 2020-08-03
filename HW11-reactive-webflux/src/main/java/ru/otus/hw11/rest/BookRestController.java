@@ -7,6 +7,7 @@ import ru.otus.hw11.models.Author;
 import ru.otus.hw11.models.Book;
 import ru.otus.hw11.models.Genre;
 import ru.otus.hw11.models.dto.BookDto;
+import ru.otus.hw11.models.dto.BookWithIdDto;
 import ru.otus.hw11.repositories.AuthorRepository;
 import ru.otus.hw11.repositories.BookRepository;
 import ru.otus.hw11.repositories.CommentRepository;
@@ -58,6 +59,17 @@ public class BookRestController {
                 genreRepository.findByGenre(dto.getGenre())
                         .switchIfEmpty(genreRepository.save(new Genre(NO_ID, dto.getGenre()))))
                 .flatMap(data -> bookRepository.save(new Book(NO_ID, dto.getTitle(), data.getT1(), data.getT2())))
+                .map(Book::getId);
+    }
+
+    @PutMapping("/api/books")
+    public Mono<String> updateBook(BookWithIdDto dto) {
+        return Mono.zip(
+                authorRepository.findByFirstNameAndLastName(dto.getFirstName(), dto.getLastName())
+                        .switchIfEmpty(authorRepository.save(new Author(NO_ID, dto.getFirstName(), dto.getLastName()))),
+                genreRepository.findByGenre(dto.getGenre())
+                        .switchIfEmpty(genreRepository.save(new Genre(NO_ID, dto.getGenre()))))
+                .flatMap(data -> bookRepository.save(new Book(dto.getId(), dto.getTitle(), data.getT1(), data.getT2())))
                 .map(Book::getId);
     }
 }

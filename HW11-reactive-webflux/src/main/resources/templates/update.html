@@ -90,12 +90,16 @@
     $('input').attr('autocomplete', 'off');
     $('form').submit(function (event) {
         event.preventDefault();
-        $.put('/api/books/', {
-            'id': $('#id-input').val(),
-            'title': $('#title-input').val(),
-            'firstName': $('#first-name-input').val(),
-            'lastName': $('#last-name-input').val(),
-            'genre': $('#genre-input').val()
+        $.ajax({
+            url: "/api/books/" + $(this).val(),
+            type: 'PUT',
+            data: {
+                'id': $('#id-input').val(),
+                'title': $('#title-input').val(),
+                'firstName': $('#first-name-input').val(),
+                'lastName': $('#last-name-input').val(),
+                'genre': $('#genre-input').val()
+            }
         }).done(function (data) {
             window.location.href = '/read?id=' + data;
         })
