@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 import ru.otus.hw11.models.Author;
 import ru.otus.hw11.models.Book;
 import ru.otus.hw11.models.Genre;
+import ru.otus.hw11.models.dto.BookDto;
 import ru.otus.hw11.repositories.AuthorRepository;
 import ru.otus.hw11.repositories.BookRepository;
 import ru.otus.hw11.repositories.CommentRepository;
@@ -49,19 +50,14 @@ public class BookRestController {
         return bookRepository.deleteById(id).concatWith(commentRepository.deleteAllByBook_Id(id));
     }
 
-    @PostMapping("/api/books") //400
-//    @GetMapping("/api/booksss") //странное поведение поменял адрес урл чтобы не ругалось
-    public Mono<String> createBook(
-            @RequestParam("title") String title,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("genre") String genre) {
+    @PostMapping("/api/books")
+    public Mono<String> createBook(BookDto dto) {
         return Mono.zip(
-                authorRepository.findByFirstNameAndLastName(firstName, lastName)
-                        .switchIfEmpty(authorRepository.save(new Author(NO_ID, firstName, lastName))),
-                genreRepository.findByGenre(genre)
-                        .switchIfEmpty(genreRepository.save(new Genre(NO_ID, genre))))
-                .flatMap(data -> bookRepository.save(new Book(NO_ID, title, data.getT1(), data.getT2())))
+                authorRepository.findByFirstNameAndLastName(dto.getFirstName(), dto.getLastName())
+                        .switchIfEmpty(authorRepository.save(new Author(NO_ID, dto.getFirstName(), dto.getLastName()))),
+                genreRepository.findByGenre(dto.getGenre())
+                        .switchIfEmpty(genreRepository.save(new Genre(NO_ID, dto.getGenre()))))
+                .flatMap(data -> bookRepository.save(new Book(NO_ID, dto.getTitle(), data.getT1(), data.getT2())))
                 .map(Book::getId);
     }
 }
