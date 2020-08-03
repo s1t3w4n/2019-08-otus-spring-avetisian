@@ -4,33 +4,25 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw11.models.Book;
+import ru.otus.hw11.repositories.AuthorRepository;
 import ru.otus.hw11.repositories.BookRepository;
-
-import java.util.List;
-//import ru.otus.hw10.exceptions.NotFoundException;
-//import ru.otus.hw10.models.Book;
-//import ru.otus.hw10.service.LibraryService;
-
-//import java.util.List;
+import ru.otus.hw11.repositories.CommentRepository;
+import ru.otus.hw11.repositories.GenreRepository;
 
 @RestController
 public class BookRestController {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
+    private final CommentRepository commentRepository;
 
-    public BookRestController(BookRepository bookRepository) {
+    public BookRestController(BookRepository bookRepository, AuthorRepository authorRepository, GenreRepository genreRepository, CommentRepository commentRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
+        this.genreRepository = genreRepository;
+        this.commentRepository = commentRepository;
     }
-//    private final LibraryService service;
-//
-//    public BookRestController(LibraryService service) {
-//        this.service = service;
-//    }
-
-//    @GetMapping("api/books/titles")
-//    public Flux<SingleField> getAllTitles() {
-//        return bookRepository.findTitles();
-//    }
 
     @GetMapping("/api/books")
     public Flux<Book> getAllBooks() {
@@ -38,27 +30,28 @@ public class BookRestController {
     }
 
     @GetMapping("/api/books/identifiers")
-    public Flux<Long> getAllIDs() {
-        return bookRepository.getAllIDs().map(Book::getId);
+    public Flux<Book> getAllIDs() {
+        return bookRepository.getAllTitles();
     }
 
     @GetMapping("/api/books/{id}")
-    public Mono<Book> getBookById(@PathVariable long id) {
+    public Mono<Book> getBookById(@PathVariable String id) {
         return bookRepository.findById(id);
     }
-//
-//    @DeleteMapping("api/books/{id}")
-//    public Mono<Void> deleteBookById(@PathVariable long id) {
-//        return bookRepository.deleteById(id);
-//    }
-//
+
+    //https://stackoverflow.com/questions/50058861/how-to-use-db-references-with-reactive-spring-data-mongodb
+    @DeleteMapping("api/books/{id}")
+    public Flux<Void> deleteBookById(@PathVariable String id) {
+        return bookRepository.deleteById(id).concatWith(commentRepository.deleteAllByBook_Id(id));
+    }
+
 //    @PostMapping("/api/books/")
-//    public long createBook(
+//    public Mono<Long> createBook(
 //            @RequestParam("title") String title,
 //            @RequestParam("firstName") String firstName,
 //            @RequestParam("lastName") String lastName,
 //            @RequestParam("genre") String genre) {
-//        final Book book = service.createBook(title, firstName, lastName, genre);
-//        return book.getId();
+//        return Mono.zip(authorRepository.findByFirstNameAndLastName(firstName, lastName),
+//                genreRepository.findByGenre(genre), ((a, g) -> bookRepository.save()))
 //    }
 }

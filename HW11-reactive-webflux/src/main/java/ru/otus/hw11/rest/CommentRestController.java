@@ -21,7 +21,7 @@ public class CommentRestController {
     }
 
     @GetMapping("api/comments/book/{id}")
-    public Flux<Comment> getBookComments(@PathVariable long id) {
+    public Flux<Comment> getBookComments(@PathVariable String id) {
         return repository.findAllByBook_Id(id);
     }
 }

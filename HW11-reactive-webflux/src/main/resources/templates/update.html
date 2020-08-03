@@ -8,7 +8,7 @@
 <body>
 <header th:insert="fragments.html :: style"> Adding Styles</header>
 <div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
-<form id="edit-form"> <!--th:action="@{/update(id=${book.id})}" th:method="post" action="update.html"-->
+<form id="edit-form">
     <h1>Book Info:</h1>
 
     <div class="row">
@@ -88,6 +88,18 @@
         })
     })
     $('input').attr('autocomplete', 'off');
+    $('form').submit(function (event) {
+        event.preventDefault();
+        $.put('/api/books/', {
+            'id': $('#id-input').val(),
+            'title': $('#title-input').val(),
+            'firstName': $('#first-name-input').val(),
+            'lastName': $('#last-name-input').val(),
+            'genre': $('#genre-input').val()
+        }).done(function (data) {
+            window.location.href = '/read?id=' + data;
+        })
+    })
 </script>
 </body>
 </html>

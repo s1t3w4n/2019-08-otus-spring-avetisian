@@ -19,7 +19,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public Flux<Comment> findAllByBook_Id(long id) {
+    public Flux<Comment> findAllByBook_Id(String id) {
         Aggregation aggregation = newAggregation(Comment.class,
                 match(Criteria.where("book.$id").is(id)));
         return mongoTemplate.aggregate(aggregation, Comment.class, Comment.class);

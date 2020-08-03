@@ -76,7 +76,7 @@
         $.get('/api/books/identifiers').done(function (identifiers) {
             const id = getUrlParameter('id');
             identifiers.forEach(function (identifier) {
-                $('#id-select').append('<option value="' + identifier + '">Book with id: ' + identifier + '</option>');
+                $('#id-select').append('<option value="' + identifier.id + '">Book with title: ' + identifier.title + '</option>');
             });
             if (id != null) {
                 $('#id-select option[value=' + id + ']').prop('selected', true);

@@ -7,8 +7,8 @@ import reactor.core.publisher.Flux;
 import ru.otus.hw11.models.Book;
 
 @Repository
-public interface BookRepository extends ReactiveMongoRepository<Book, Long> {
+public interface BookRepository extends ReactiveMongoRepository<Book, String> {
 
-    @Query(value = "{}", fields = "{ '_id': 1 }")
-    Flux<Book> getAllIDs();
+    @Query(value = "{}", fields = "{ '_id': 1, 'title': 1 }")
+    Flux<Book> getAllTitles();
 }

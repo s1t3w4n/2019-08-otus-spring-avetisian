@@ -4,5 +4,5 @@ import reactor.core.publisher.Flux;
 import ru.otus.hw11.models.Comment;
 
 public interface CommentRepositoryCustom {
-    Flux<Comment> findAllByBook_Id(long id);
+    Flux<Comment> findAllByBook_Id(String id);
 }

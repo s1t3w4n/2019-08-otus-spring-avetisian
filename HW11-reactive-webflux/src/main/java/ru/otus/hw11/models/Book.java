@@ -14,11 +14,11 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Document(collection = "books")
 public class Book {
 
-    @Transient
-    public static final String SEQUENCE_NAME = "books_sequence";
+//    @Transient
+//    public static final String SEQUENCE_NAME = "books_sequence";
 
     @MongoId
-    private long id;
+    private String id;
 
     @Field("title")
     private String title;

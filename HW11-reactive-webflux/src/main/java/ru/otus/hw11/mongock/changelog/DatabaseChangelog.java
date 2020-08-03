@@ -5,16 +5,8 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
 import ru.otus.hw11.models.Book;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Update;
 import ru.otus.hw11.models.*;
-
-import java.util.Objects;
-
-import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 @SuppressWarnings("unused")
 @ChangeLog
@@ -34,7 +26,7 @@ public class DatabaseChangelog {
         template.save(author);
         final var genre = new Genre(ObjectId.get().toString(), "novel");
         template.save(genre);
-        pushkinCD = new Book(generateSequence(template),
+        pushkinCD = new Book(ObjectId.get().toString(),
                 "Captain`s daughter",
                 author,
                 genre);
@@ -47,7 +39,7 @@ public class DatabaseChangelog {
         template.save(author);
         final var genre = new Genre(ObjectId.get().toString(), "fantasy");
         template.save(genre);
-        tolkienLoR = new Book(generateSequence(template),
+        tolkienLoR = new Book(ObjectId.get().toString(),
                 "Lord of the rings",
                 author,
                 genre);
@@ -60,7 +52,7 @@ public class DatabaseChangelog {
         template.save(author);
         final var genre = new Genre(ObjectId.get().toString(), "detective");
         template.save(genre);
-        template.save(new Book(generateSequence(template),
+        template.save(new Book(ObjectId.get().toString(),
                 "Sherlock Holmes",
                 author,
                 genre));
@@ -78,13 +70,6 @@ public class DatabaseChangelog {
                 "Boring...",
                 tolkienLoR));
 
-    }
-
-    private long generateSequence(MongoOperations mongoOperations) {
-        DatabaseSequence counter = mongoOperations.findAndModify(query(where("_id").is(Book.SEQUENCE_NAME)),
-                new Update().inc("seq", 1), options().returnNew(true).upsert(true),
-                DatabaseSequence.class);
-        return !Objects.isNull(counter) ? counter.getSeq() : 1;
     }
 
 }
