@@ -1,5 +1,6 @@
 package ru.otus.hw11.rest;
 
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -58,7 +59,7 @@ public class BookRestController {
                         .switchIfEmpty(authorRepository.save(new Author(NO_ID, dto.getFirstName(), dto.getLastName()))),
                 genreRepository.findByGenre(dto.getGenre())
                         .switchIfEmpty(genreRepository.save(new Genre(NO_ID, dto.getGenre()))))
-                .flatMap(data -> bookRepository.save(new Book(NO_ID, dto.getTitle(), data.getT1(), data.getT2())))
+                .flatMap(data -> bookRepository.save(new Book(ObjectId.get().toString(), dto.getTitle(), data.getT1(), data.getT2())))
                 .map(Book::getId);
     }
 
