@@ -84,7 +84,7 @@
             $('#first-name-input').val(book.author.firstName);
             $('#last-name-input').val(book.author.lastName);
             $('#genre-input').val(book.genre.genre);
-            $("#comment").append('<h2><a href="/comments/add?id=' + id + '">Comment</a></h2>')
+            $("#comment").append('<h2><a href="/book/' + id + '/comments/add">Comment</a></h2>')
         })
     })
     $('input').attr('autocomplete', 'off');

@@ -19,7 +19,7 @@
     <a th:href="@{${url}}" href="update.html" th:text="${book}? 'Update' : ''"></a>
 </div>
 
-<div th:fragment="comment" th:with="url=(${book}? ('/comments/add?id='+(${book.id})) : '')">
+<div th:fragment="comment" th:with="url=(${book}? ('/book/' + (${book.id}) + '/comments/add') : '')">
     <a th:href="@{${url}}" href="update.html" th:text="${book}? 'Comment' : ''"></a>
 </div>
 

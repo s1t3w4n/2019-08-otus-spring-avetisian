@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.servlet.view.RedirectView;
 //import ru.otus.hw11.exceptions.NotFoundException;
 //import ru.otus.hw11.models.Book;
+import org.springframework.web.bind.annotation.PathVariable;
 import ru.otus.hw11.repositories.CommentRepository;
 //import ru.otus.hw11.service.LibraryService;
 
@@ -26,12 +27,10 @@ public class CommentController {
         return "commentsList";
     }
 
-//    @GetMapping("/comments/add")
-//    public String commentAddPage(@RequestParam("id") long bookId, Model model) {
-//        final Book book = service.readById(bookId).orElseThrow(NotFoundException::new);
-//        model.addAttribute("book", book);
-//        return "addComment";
-//    }
+    @GetMapping("/book/{id}/comments/add")
+    public String commentAddPage(@PathVariable String id) {
+        return "addComment";
+    }
 //
 //    @PostMapping("/comments/add")
 //    public RedirectView leaveComment(
