@@ -26,7 +26,7 @@ public class DatabaseChangelog {
         template.save(author);
         final var genre = new Genre(ObjectId.get().toString(), "novel");
         template.save(genre);
-        pushkinCD = new Book(ObjectId.get().toString(),
+        pushkinCD = new Book("5f3009a749f3ae78c5195dee",
                 "Captain`s daughter",
                 author,
                 genre);
