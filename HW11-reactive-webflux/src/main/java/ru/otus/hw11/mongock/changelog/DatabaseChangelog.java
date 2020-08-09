@@ -69,7 +69,6 @@ public class DatabaseChangelog {
         template.save(new Comment(ObjectId.get().toString(),
                 "Boring...",
                 tolkienLoR));
-
     }
 
 }
