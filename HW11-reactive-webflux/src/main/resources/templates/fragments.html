@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<!--suppress ThymeleafVariablesResolveInspection -->
+<!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Fragment thymeleaf</title></head>
@@ -19,9 +19,9 @@
     <a th:href="@{${url}}" href="update.html" th:text="${book}? 'Update' : ''"></a>
 </div>
 
-<div th:fragment="comment" th:with="url=(${book}? ('/book/' + (${book.id}) + '/comments/add') : '')">
-    <a th:href="@{${url}}" href="update.html" th:text="${book}? 'Comment' : ''"></a>
-</div>
+<!--<div th:fragment="comment" th:with="url=(${book}? ('/book/' + (${book.id}) + '/comments/add') : '')">-->
+<!--    <a th:href="@{${url}}" href="update.html" th:text="${book}? 'Comment' : ''"></a>-->
+<!--</div>-->
 
 </body>
 </html>
