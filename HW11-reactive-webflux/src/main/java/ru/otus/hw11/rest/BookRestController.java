@@ -49,7 +49,7 @@ public class BookRestController {
     //https://stackoverflow.com/questions/50058861/how-to-use-db-references-with-reactive-spring-data-mongodb
     @DeleteMapping("/api/books/{id}")
     public Mono<Void> deleteBookById(@PathVariable String id) {
-        return bookRepository.deleteById(id).concatWith(commentRepository.deleteAllByBook_Id(id)).then();
+        return bookRepository.deleteById(id).then(commentRepository.deleteAllByBook_Id(id));
     }
 
     @PostMapping("/api/books")
