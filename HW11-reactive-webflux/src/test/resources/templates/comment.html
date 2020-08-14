@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Leave comment</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<div class="test"></div>
+<form id="edit-form">
+    <h1>Comment the book:</h1>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" type="text" readonly="readonly" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" readonly="readonly" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" readonly="readonly" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" type="text" readonly="readonly" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" type="text" readonly="readonly" value=""/>
+    </div>
+    <div class="row">
+        <label for="comment-input"> Your comment:</label>
+        <textarea id="comment-input" name="text" required onClick="this.select();"></textarea>
+    </div>
+    <div class="row">
+        <button type="submit">Comment</button>
+    </div>
+</form>
+<script>
+    const getUrlParameter = function getUrlParameter(sParam) {
+        let sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    $(function () {
+        const id = getUrlParameter('id');
+        if (id != null) {
+            $.get('/api/books/' + id).done(function (book) {
+                $('#id-input').val(book.id);
+                $('#title-input').val(book.title);
+                $('#first-name-input').val(book.author.firstName);
+                $('#last-name-input').val(book.author.lastName);
+                $('#genre-input').val(book.genre.genre);
+            })
+        }
+    })
+    $('form').submit(function (event) {
+        event.preventDefault();
+        $.post('/api/comments', {
+            'text': $('#comment-input').val(),
+            'bookId': $('#id-input').val(),
+        }).done(function (data) {
+            window.location.href = '/read?id=' + data;
+        })
+    })
+    $('input').attr('autocomplete', 'off');
+</script>
+</body>
+</html>

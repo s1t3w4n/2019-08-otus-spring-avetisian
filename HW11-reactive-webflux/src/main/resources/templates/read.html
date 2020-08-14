@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--suppress JSUnresolvedVariable -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Read the book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<form id="edit-form">
+    <h1>Book Info:</h1>
+    <div id="update"></div>
+    <div class="row">
+        <label for="id-select">ID:</label>
+        <select id="id-select" name="id" required>
+            <option selected disabled>Choose book identifier</option>
+            <!--            /api/identifiers-->
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" readonly="readonly" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" readonly="readonly" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" type="text" readonly="readonly" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" type="text" readonly="readonly" value=""/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Show</button>
+    </div>
+</form>
+<h1>Comments of this book</h1>
+<div id="comment"></div>
+<table class="comments">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Text</th>
+        <th>Book</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--    api/comments/book-->
+    </tbody>
+</table>
+<script>
+    const getUrlParameter = function getUrlParameter(sParam) {
+        let sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    $(function () {
+        $.get('/api/books/identifiers').done(function (identifiers) {
+            const id = getUrlParameter('id');
+            identifiers.forEach(function (identifier) {
+                $('#id-select').append('<option value="' + identifier.id + '">Book with title: ' + identifier.title + '</option>');
+            });
+            if (id != null) {
+                $('#id-select option[value=' + id + ']').prop('selected', true);
+            }
+        });
+    });
+    $(function () {
+        const id = getUrlParameter('id');
+        if (id != null) {
+            $.get('/api/comments/book/' + id).done(function (comments) {
+                comments.forEach(function (comment) {
+                    $('tbody').append(`
+                    <tr>
+                        <td>${comment.id}</td>
+                        <td>${comment.text}</td>
+                        <td>${comment.book.title}</td>
+                    </tr>
+                `)
+                });
+            })
+        }
+    });
+    $(function () {
+        const id = getUrlParameter('id');
+        if (id != null) {
+            $.get('/api/books/' + id).done(function (book) {
+                $('#title-input').val(book.title);
+                $('#first-name-input').val(book.author.firstName);
+                $('#last-name-input').val(book.author.lastName);
+                $('#genre-input').val(book.genre.genre);
+                $("#update").append('<h2><a href="/update?id=' + id + '">Update</a></h2>')
+                $("#comment").append('<h2><a href="/comment?id=' + id + '">Comment</a></h2>')
+            })
+        }
+    })
+</script>
+</body>
+</html>

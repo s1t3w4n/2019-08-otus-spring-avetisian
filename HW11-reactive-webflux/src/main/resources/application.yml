@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      port: 0
+      database: library
+
+  jackson:
+    default-property-inclusion: non_null
+
+logging:
+  level:
+    ROOT: ERROR
