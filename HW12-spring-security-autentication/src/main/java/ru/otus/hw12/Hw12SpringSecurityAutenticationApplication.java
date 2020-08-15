@@ -1,4 +1,4 @@
-package ru.orus.hw12;
+package ru.otus.hw12;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

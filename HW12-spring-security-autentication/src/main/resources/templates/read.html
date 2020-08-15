@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Read the book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<form id="edit-form" th:action="@{/read(id=${book?.id})}" th:method="get" action="read.html">
+    <h1>Book Info:</h1>
+    <div th:insert="fragments.html :: update"> Conditional update link</div>
+    <div class="row">
+        <label for="id-select">ID:</label>
+        <select id="id-select" name="id" required>
+            <option selected disabled>Choose book identifier</option>
+            <option th:each="identifier : ${identifiers}"
+                    th:value="${identifier}"
+                    th:text="${'Book with id: ' + identifier}"
+                    th:selected="${book?.id == identifier}">Identifier
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" readonly="readonly" type="text" th:value="${book?.title}" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" readonly="readonly" type="text"
+               th:value="${book?.author?.firstName}" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" type="text" readonly="readonly" th:value="${book?.author?.lastName}"
+               value=""/>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" type="text" readonly="readonly" th:value="${book?.genre?.genre}" value=""/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Show</button>
+    </div>
+</form>
+<h1>Comments of this book</h1>
+<div th:insert="fragments.html :: comment"> Conditional comment link</div>
+<table class="comments">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Text</th>
+        <th>Book</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.id}">1</td>
+        <td th:text="${comment.text}">The Best Book</td>
+        <td th:text="${comment.book.title}">Title</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
