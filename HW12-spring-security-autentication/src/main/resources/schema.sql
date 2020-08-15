@@ -29,6 +29,6 @@ create table comments (
 create table users (
     id bigserial,
     login varchar(20),
-    password varchar(20),
+    password varchar(255),
     primary key (id)
 )

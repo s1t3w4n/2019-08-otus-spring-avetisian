@@ -10,6 +10,8 @@ insert into books (id, author_id, genre_id, title) values (3, 3, 3, 'Sherlock Ho
 insert into comments (id, text, book_id) values (1, 'The best book in the world!!!', 1);
 insert into comments (id, text, book_id) values (2, 'Greatest I have ever seen', 1);
 insert into comments (id, text, book_id) values (3, 'Boring...', 2);
-insert into users (id, login, password) values (1, 'admin', 'admin');
-insert into users (id, login, password) values (2, 'user', 'user');
-insert into users (id, login, password) values (3, 'guest', 'guest');
+-- https://bcrypt-generator.com/
+-- login == password (example: l/p - admin/admin )
+insert into users (id, login, password) values (1, 'admin', '$2y$06$2toScVggylkdjSm7jsfwhec/4afHqHh6ElmIkSKpzxxri9ZbrtzSe');
+insert into users (id, login, password) values (2, 'user', '$2y$06$wr/Ml.SjcoQNAv/UYtciz.zBdSHw3FTc/3WQe5JIMx4yfm4oC97XK');
+insert into users (id, login, password) values (3, 'guest', '$2y$06$ilavE6lBH8zJhon89gMY6OFZTVL/naEP1a4eGpJ4JRiClStyrMa56');
