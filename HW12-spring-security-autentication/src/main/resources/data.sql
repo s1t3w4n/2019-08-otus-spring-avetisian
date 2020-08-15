@@ -9,3 +9,7 @@ insert into books (id, author_id, genre_id, title) values (2, 2, 2, 'Lord of the
 insert into books (id, author_id, genre_id, title) values (3, 3, 3, 'Sherlock Holmes');
 insert into comments (id, text, book_id) values (1, 'The best book in the world!!!', 1);
 insert into comments (id, text, book_id) values (2, 'Greatest I have ever seen', 1);
+insert into comments (id, text, book_id) values (3, 'Boring...', 2);
+insert into users (id, login, password) values (1, 'admin', 'admin');
+insert into users (id, login, password) values (2, 'user', 'user');
+insert into users (id, login, password) values (3, 'guest', 'guest');
