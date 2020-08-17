@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw12.models.Author;
 import ru.otus.hw12.models.Book;
@@ -26,11 +27,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CommentController.class)
 class CommentControllerTest {
 
-    public static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
-    public static final Genre GENRE = new Genre(1, "novel");
-    public static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
-    public static final String NEW_COMMENT = "New Comment";
-    public static final String THERE_IS_NO_BOOK_WITH_SUCH_ID = "There is no book with such id";
+    private static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
+    private static final Genre GENRE = new Genre(1, "novel");
+    private static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
+    private static final String NEW_COMMENT = "New Comment";
+    private static final String THERE_IS_NO_BOOK_WITH_SUCH_ID = "There is no book with such id";
+    private static final String ANY = "any";
 
     @Autowired
     private MockMvc mvc;
@@ -38,6 +40,7 @@ class CommentControllerTest {
     @MockBean
     private LibraryService service;
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should load page with all comments")
     @Test
     void shouldLoadPageWithAllComments() throws Exception {
@@ -53,6 +56,7 @@ class CommentControllerTest {
                 .andExpect(content().string(containsString("Good")));
     }
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should render add comment page for current book")
     @Test
     void shouldRenderAddCommentPage() throws Exception {
@@ -67,6 +71,7 @@ class CommentControllerTest {
                 .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
     }
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should sent post method request to add comment it a book")
     @Test
     void leaveComment() throws Exception {
@@ -94,6 +99,7 @@ class CommentControllerTest {
                 .andExpect(content().string(containsString(NEW_COMMENT)));
     }
 
+    @WithMockUser(username = ANY)
     @Test
     void adviceTesting() throws Exception {
         given(service.readById(BOOK.getId()))

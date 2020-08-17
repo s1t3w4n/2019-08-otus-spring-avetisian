@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import ru.otus.hw12.models.Author;
@@ -28,9 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BookController.class)
 class BookControllerTest {
 
-    public static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
-    public static final Genre GENRE = new Genre(1, "novel");
-    public static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
+    private static final Author AUTHOR = new Author(1, "Alexander", "Pushkin");
+    private static final Genre GENRE = new Genre(1, "novel");
+    private static final Book BOOK = new Book(1, "Captain`s daughter", AUTHOR, GENRE);
+    private static final String ANY = "any";
 
     @Autowired
     private MockMvc mvc;
@@ -51,6 +53,7 @@ class BookControllerTest {
                 .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
     }
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should render update page with current book data by get method")
     @Test
     void shouldRenderUpdatePageWithBookData() throws Exception {
@@ -86,6 +89,7 @@ class BookControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should render create page by get method")
     @Test
     void shouldRenderCreatePage() throws Exception {
@@ -113,6 +117,7 @@ class BookControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should render empty read page by get method with books ids")
     @Test
     void shouldRenderReadPage() throws Exception {
@@ -125,6 +130,7 @@ class BookControllerTest {
                 .andExpect(content().string(containsString("<option value=\"3\">Book with id: 3</option>")));
     }
 
+    @WithMockUser(username = ANY)
     @DisplayName("Should render read page by get method by current book id")
     @Test
     void shouldRenderReadPageByBookId() throws Exception {
