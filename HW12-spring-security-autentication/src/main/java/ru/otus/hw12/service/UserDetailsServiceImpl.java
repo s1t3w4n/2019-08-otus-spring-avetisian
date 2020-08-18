@@ -21,8 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        final var byLogin = userRepository.findByLogin(login)
+        return userRepository.findByLogin(login)
+                .map(user -> new User(user.getLogin(), user.getPassword(), Collections.emptySet()))
                 .orElseThrow(() -> new UsernameNotFoundException(login));
-        return new User(byLogin.getLogin(), byLogin.getPassword(), Collections.emptySet());
     }
 }
