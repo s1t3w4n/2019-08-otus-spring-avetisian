@@ -12,6 +12,7 @@ insert into comments (id, text, book_id) values (2, 'Greatest I have ever seen',
 insert into comments (id, text, book_id) values (3, 'Boring...', 2);
 -- https://bcrypt-generator.com/
 -- login == password (example: l/p - admin/admin )
-insert into users (id, login, password) values (1, 'admin', '$2y$06$2toScVggylkdjSm7jsfwhec/4afHqHh6ElmIkSKpzxxri9ZbrtzSe');
-insert into users (id, login, password) values (2, 'user', '$2y$06$wr/Ml.SjcoQNAv/UYtciz.zBdSHw3FTc/3WQe5JIMx4yfm4oC97XK');
-insert into users (id, login, password) values (3, 'guest', '$2y$06$ilavE6lBH8zJhon89gMY6OFZTVL/naEP1a4eGpJ4JRiClStyrMa56');
+insert into users (id, login, password, role) values
+(1, 'admin', '$2y$06$2toScVggylkdjSm7jsfwhec/4afHqHh6ElmIkSKpzxxri9ZbrtzSe', 'ADMIN'),
+(2, 'user', '$2y$06$wr/Ml.SjcoQNAv/UYtciz.zBdSHw3FTc/3WQe5JIMx4yfm4oC97XK', 'USER'),
+(3, 'guest', '$2y$06$ilavE6lBH8zJhon89gMY6OFZTVL/naEP1a4eGpJ4JRiClStyrMa56', 'GUEST');

@@ -1,5 +1,6 @@
 package ru.otus.hw13.service;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         return userRepository.findByLogin(login)
-                .map(user -> new User(user.getLogin(), user.getPassword(), Collections.emptySet()))
+                .map(user -> new User(user.getLogin(), user.getPassword(), Collections.singletonList(
+                        new SimpleGrantedAuthority(user.getRole()))))
                 .orElseThrow(() -> new UsernameNotFoundException(login));
     }
 }

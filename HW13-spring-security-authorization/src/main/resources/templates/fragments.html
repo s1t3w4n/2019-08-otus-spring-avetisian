@@ -11,7 +11,7 @@
 
 <div th:fragment="header">
     <h1><a href="/">HOME</a> | <a href="/create">CREATE</a> | <a href="/read">READ</a> | <a
-            href="/comments">COMMENTS</a></h1>
+            href="/comments">COMMENTS</a> | <a th:href="@{logout}">LOGOUT</a></h1>
 </div>
 
 <div th:fragment="update" th:with="url=(${book}? ('/update?id='+(${book.id})) : '')">

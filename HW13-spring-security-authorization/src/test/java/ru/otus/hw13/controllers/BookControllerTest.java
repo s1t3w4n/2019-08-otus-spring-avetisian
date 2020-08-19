@@ -53,7 +53,8 @@ class BookControllerTest {
                 .andExpect(content().string(containsString(BOOK.getGenre().getGenre())));
     }
 
-    @WithMockUser(username = ANY)
+    @WithMockUser(username = ANY,
+            authorities = "USER")
     @DisplayName("Should render update page with current book data by get method")
     @Test
     void shouldRenderUpdatePageWithBookData() throws Exception {
@@ -89,7 +90,8 @@ class BookControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
-    @WithMockUser(username = ANY)
+    @WithMockUser(username = ANY,
+            authorities = "ADMIN")
     @DisplayName("Should render create page by get method")
     @Test
     void shouldRenderCreatePage() throws Exception {
