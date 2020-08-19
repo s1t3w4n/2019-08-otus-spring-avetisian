@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header">Here is a menu of main functional</div>
+<form id="edit-form" th:action="@{/create}" th:method="post" action="create.html">
+    <h1>Fill Book Info:</h1>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" name="title" type="text" required autocomplete="off"/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" name="firstName" type="text" required autocomplete="off"
+               list="first-name-datalist"/>
+        <datalist id="first-name-datalist">
+            <option th:each="first : ${firstNames}"
+                    th:value="${first}"
+                    th:text="${first}">
+            </option>
+        </datalist>
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" name="lastName" type="text" required autocomplete="off" list="last-name-datalist"/>
+        <datalist id="last-name-datalist">
+            <option th:each="last : ${lastNames}"
+                    th:value="${last}"
+                    th:text="${last}">
+            </option>
+        </datalist>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" name="genre" type="text" required autocomplete="off" list="genre-datalist"/>
+        <datalist id="genre-datalist">
+            <option th:each="genre : ${genre}"
+                    th:value="${genre}"
+                    th:text="${genre}">
+            </option>
+        </datalist>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+</body>
+</html>
