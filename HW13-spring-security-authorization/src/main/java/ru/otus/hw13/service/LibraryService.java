@@ -1,6 +1,5 @@
 package ru.otus.hw13.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw13.models.Book;
 import ru.otus.hw13.models.Comment;
 
@@ -26,12 +25,9 @@ public interface LibraryService {
 
     List<Comment> readAllComments();
 
-    @Transactional(readOnly = true)
     List<String> getAllFirstNames();
 
-    @Transactional(readOnly = true)
     List<String> getAllLastNames();
 
-    @Transactional(readOnly = true)
     List<String> getAllGenre();
 }
