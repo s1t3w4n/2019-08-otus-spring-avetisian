@@ -2,6 +2,7 @@ package ru.otus.hw13.service;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,6 +122,7 @@ public class LibraryServiceImpl implements LibraryService {
         commentRepository.save(new Comment(NO_ID, text, book));
     }
 
+    @PostFilter("hasPermission(filterObject, 'READ')")
     @Transactional(readOnly = true)
     @Override
     public List<Comment> readAllComments() {
