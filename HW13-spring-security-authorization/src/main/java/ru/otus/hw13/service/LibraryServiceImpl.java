@@ -1,9 +1,16 @@
 package ru.otus.hw13.service;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.MutableAclService;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Sid;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw13.models.Author;
@@ -26,15 +33,18 @@ public class LibraryServiceImpl implements LibraryService {
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final CommentRepository commentRepository;
+    private final MutableAclService mutableAclService;
 
     public LibraryServiceImpl(BookRepository bookRepository,
                               AuthorRepository authorRepository,
                               GenreRepository genreRepository,
-                              CommentRepository commentRepository) {
+                              CommentRepository commentRepository,
+                              MutableAclService mutableAclService) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
         this.commentRepository = commentRepository;
+        this.mutableAclService = mutableAclService;
     }
 
     @Transactional
@@ -119,7 +129,13 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     @Override
     public void leaveCommentToBook(Book book, String text) {
-        commentRepository.save(new Comment(NO_ID, text, book));
+        final var comment = commentRepository.save(new Comment(NO_ID, text, book));
+        final Sid owner = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication());
+        final ObjectIdentity oid = new ObjectIdentityImpl(comment.getClass(), comment.getId());
+        final MutableAcl acl = mutableAclService.createAcl(oid);
+        acl.setOwner(owner);
+        acl.insertAce(acl.getEntries().size(), BasePermission.READ, owner, true);
+        mutableAclService.updateAcl(acl);
     }
 
     @PostFilter("hasPermission(filterObject, 'READ')")
