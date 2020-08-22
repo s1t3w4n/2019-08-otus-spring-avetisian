@@ -58,7 +58,7 @@ public class LibraryServiceImpl implements LibraryService {
                         checkForGenre(genre)));
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> readById(long id) {
