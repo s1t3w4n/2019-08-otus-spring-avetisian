@@ -1,5 +1,6 @@
 package ru.otus.hw13.service;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,19 +58,13 @@ public class LibraryServiceImpl implements LibraryService {
                         checkForGenre(genre)));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-//    не работает с этими аннотациями
-//    @Secured("ADMIN")
-//    @Secured("ROLE_ADMIN")
-//    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-//    @Secured({"ADMIN", "USER"})
+    @Secured("ROLE_ADMIN")
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> readById(long id) {
         return bookRepository.findById(id);
     }
 
-    // на POST выпадает HttpRequestMethodNotSupportedException
     @PostAuthorize("hasAuthority('ADMIN')")
     @Transactional
     @Override
@@ -78,7 +73,6 @@ public class LibraryServiceImpl implements LibraryService {
                 new Book(id, tittle, checkForAuthor(firstName, lastName), checkForGenre(genre)));
     }
 
-    // на POST выпадает HttpRequestMethodNotSupportedException
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     @Override
