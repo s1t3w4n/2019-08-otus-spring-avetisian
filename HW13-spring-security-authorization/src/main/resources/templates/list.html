@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books, .books td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<h1>Library:</h1>
+
+<table class="books">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Update</th>
+        <th>Read</th>
+        <th>Delete</th>
+        <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.title}">Thinking in Java (4th Edition)</td>
+        <td th:text="${book.author.firstName+' '+book.author.lastName}">Bruce Eckel</td>
+        <td th:text="${book.genre.genre}">programming</td>
+        <td>
+            <a th:href="@{/update(id=${book.id})}" href="update.html">Update</a>
+        </td>
+        <td>
+            <a th:href="@{/read(id=${book.id})}" href="read.html">Read</a>
+        </td>
+        <td>
+            <form method="POST" th:action="@{/delete(id=${book.id})}">
+                <button type="submit">Delete</button>
+            </form>
+        <td>
+            <a th:href="@{/comments/add(id=${book.id})}" href="addComment.html">Comment</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
