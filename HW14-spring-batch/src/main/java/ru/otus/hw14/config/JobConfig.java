@@ -18,7 +18,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.hw14.models.jpa.Author;
+import ru.otus.hw14.models.jpa.Genre;
 import ru.otus.hw14.repositories.jpa.AuthorJpaRepository;
+import ru.otus.hw14.repositories.jpa.GenreJpaRepository;
 import ru.otus.hw14.services.EntityMapperService;
 
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class JobConfig {
     private final MongoTemplate mongoTemplate;
 
     private final AuthorJpaRepository authorJpaRepository;
+    private final GenreJpaRepository genreJpaRepository;
 
     private final EntityMapperService entityMapperService;
 
@@ -50,8 +53,25 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<Author, ru.otus.hw14.models.mongo.Author> processor() {
+    public RepositoryItemReader<Genre> genreReader() {
+        return new RepositoryItemReaderBuilder<Genre>()
+                .name("genreReader")
+                .sorts(new HashMap<>())
+                .repository(genreJpaRepository)
+                .methodName("findAll")
+                .build();
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessor<Author, ru.otus.hw14.models.mongo.Author> authorProcessor() {
         return entityMapperService::mapAuthor;
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessor<Genre, ru.otus.hw14.models.mongo.Genre> genreProcessor() {
+        return entityMapperService::mapGenre;
     }
 
     @StepScope
@@ -63,24 +83,46 @@ public class JobConfig {
                 .build();
     }
 
+    @StepScope
     @Bean
-    public Job myJob(Step step) {
-        return jobBuilderFactory.get(MY_JOB)
-                .incrementer(new RunIdIncrementer())
-                .flow(step)
-                .end()
+    public MongoItemWriter<ru.otus.hw14.models.mongo.Genre> genreWriter() {
+        return new MongoItemWriterBuilder<ru.otus.hw14.models.mongo.Genre>()
+                .collection("genre")
+                .template(mongoTemplate)
                 .build();
     }
 
     @Bean
     public Step authorStep(ItemReader<Author> reader,
-                                 ItemProcessor<Author, ru.otus.hw14.models.mongo.Author> itemProcessor,
-                                 ItemWriter<ru.otus.hw14.models.mongo.Author> writer) {
+                           ItemProcessor<Author, ru.otus.hw14.models.mongo.Author> itemProcessor,
+                           ItemWriter<ru.otus.hw14.models.mongo.Author> writer) {
         return stepBuilderFactory.get("authorsStep")
                 .<Author, ru.otus.hw14.models.mongo.Author>chunk(3)
                 .reader(reader)
                 .processor(itemProcessor)
                 .writer(writer)
+                .build();
+    }
+
+    @Bean
+    public Step genreStep(ItemReader<Genre> reader,
+                          ItemProcessor<Genre, ru.otus.hw14.models.mongo.Genre> itemProcessor,
+                          ItemWriter<ru.otus.hw14.models.mongo.Genre> writer) {
+        return stepBuilderFactory.get("genreStep")
+                .<Genre, ru.otus.hw14.models.mongo.Genre>chunk(3)
+                .reader(reader)
+                .processor(itemProcessor)
+                .writer(writer)
+                .build();
+    }
+
+    @Bean
+    public Job myJob() {
+        return jobBuilderFactory.get(MY_JOB)
+                .incrementer(new RunIdIncrementer())
+                .flow(authorStep(authorReader(), authorProcessor(), authorWriter()))
+                .next(genreStep(genreReader(), genreProcessor(), genreWriter()))
+                .end()
                 .build();
     }
 }
