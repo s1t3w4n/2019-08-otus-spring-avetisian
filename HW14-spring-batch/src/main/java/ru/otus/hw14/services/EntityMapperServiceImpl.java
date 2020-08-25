@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import ru.otus.hw14.models.mongo.Author;
 import ru.otus.hw14.models.mongo.Book;
+import ru.otus.hw14.models.mongo.Comment;
 import ru.otus.hw14.models.mongo.Genre;
 import ru.otus.hw14.repositories.mongo.AuthorMongoRepository;
 import ru.otus.hw14.repositories.mongo.BookMongoRepository;
@@ -34,9 +35,15 @@ public class EntityMapperServiceImpl implements EntityMapperService {
                         book.getAuthor().getFirstName(),
                         book.getAuthor().getLastName());
         final var mongoGenre = genreMongoRepository.findByGenre(book.getGenre().getGenre());
-        return new Book(ObjectId.get().toString(),
+        return new Book(book.getId(),
                 book.getTitle(),
                 mongoAuthor.orElseThrow(),
                 mongoGenre.orElseThrow());
+    }
+
+    @Override
+    public Comment mapComment(ru.otus.hw14.models.jpa.Comment comment) {
+        final var byId = bookMongoRepository.findById(comment.getBook().getId());
+        return new Comment(ObjectId.get().toString(), comment.getText(), byId.orElseThrow());
     }
 }

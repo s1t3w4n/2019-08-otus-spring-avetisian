@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 public class Book {
 
     @MongoId
-    private String id;
+    private Long id;
 
     @Field("title")
     private String title;
