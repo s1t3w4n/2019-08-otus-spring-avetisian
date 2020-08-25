@@ -29,7 +29,6 @@ import ru.otus.hw14.services.EntityMapperService;
 
 import java.util.HashMap;
 
-@SuppressWarnings("SpringFacetCodeInspection")
 @AllArgsConstructor
 @Configuration
 public class JobConfig {

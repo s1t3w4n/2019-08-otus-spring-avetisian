@@ -14,6 +14,8 @@ import ru.otus.hw14.repositories.mongo.BookMongoRepository;
 import ru.otus.hw14.repositories.mongo.CommentMongoRepository;
 import ru.otus.hw14.repositories.mongo.GenreMongoRepository;
 
+import static ru.otus.hw14.config.JobConfig.*;
+
 @AllArgsConstructor
 @Service
 public class LibraryServiceImpl implements LibraryService {
@@ -69,7 +71,7 @@ public class LibraryServiceImpl implements LibraryService {
     public void dbMigration() {
         try {
             clean();
-            jobOperator.startNextInstance("myJob");
+            jobOperator.startNextInstance(MY_JOB);
         } catch (Exception ignored) {
         }
     }

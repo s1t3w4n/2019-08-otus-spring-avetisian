@@ -6,7 +6,6 @@ import org.springframework.batch.core.configuration.support.JobRegistryBeanPostP
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@SuppressWarnings("SpringFacetCodeInspection")
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
