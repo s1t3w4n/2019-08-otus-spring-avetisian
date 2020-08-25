@@ -1,6 +1,7 @@
 package ru.otus.hw14.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.stereotype.Service;
 import ru.otus.hw14.repositories.jpa.AuthorJpaRepository;
 import ru.otus.hw14.repositories.jpa.BookJpaRepository;
@@ -29,6 +30,8 @@ public class LibraryServiceImpl implements LibraryService {
     private final GenreMongoRepository genreMongoRepository;
     private final CommentMongoRepository commentMongoRepository;
 
+    private final JobOperator jobOperator;
+
     @Override
     public String getJPAData() {
         return String.format(DATA_IN_JPA_REPOSITORY, JPA) +
@@ -47,5 +50,13 @@ public class LibraryServiceImpl implements LibraryService {
                 "Author count: " + authorMongoRepository.count() + NEW_LINE +
                 "Genre count: " + genreMongoRepository.count() + NEW_LINE +
                 "Comment count: " + commentMongoRepository.count();
+    }
+
+    @Override
+    public void dbMigration() {
+        try {
+            jobOperator.start("myJob", "");
+        } catch (Exception ignored) {
+        }
     }
 }

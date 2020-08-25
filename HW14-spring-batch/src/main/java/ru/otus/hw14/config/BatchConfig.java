@@ -1,4 +1,4 @@
-package ru.otus.hw14.models.config;
+package ru.otus.hw14.config;
 
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.support.JobRegistryBeanPostP
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@SuppressWarnings("SpringFacetCodeInspection")
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {

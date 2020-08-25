@@ -4,4 +4,6 @@ public interface LibraryService {
     String getJPAData();
 
     String getMongoData();
+
+    void dbMigration();
 }
