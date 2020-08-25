@@ -164,6 +164,7 @@ public class JobConfig {
                 .reader(reader)
                 .processor(itemProcessor)
                 .writer(writer)
+                .allowStartIfComplete(true)
                 .build();
     }
 
@@ -176,6 +177,7 @@ public class JobConfig {
                 .reader(reader)
                 .processor(itemProcessor)
                 .writer(writer)
+                .allowStartIfComplete(true)
                 .build();
     }
 
@@ -188,6 +190,7 @@ public class JobConfig {
                 .reader(reader)
                 .processor(itemProcessor)
                 .writer(writer)
+                .allowStartIfComplete(true)
                 .build();
     }
 
@@ -200,6 +203,7 @@ public class JobConfig {
                 .reader(reader)
                 .processor(itemProcessor)
                 .writer(writer)
+                .allowStartIfComplete(true)
                 .build();
     }
 

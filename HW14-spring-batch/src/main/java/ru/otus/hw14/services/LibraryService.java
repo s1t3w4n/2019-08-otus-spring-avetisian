@@ -6,4 +6,6 @@ public interface LibraryService {
     String getMongoData();
 
     void dbMigration();
+
+    void clean();
 }

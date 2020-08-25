@@ -29,6 +29,12 @@ public class ShellCommands implements PromptProvider {
         libraryService.dbMigration();
     }
 
+    @SneakyThrows
+    @ShellMethod(value = "Clean", key = {"clean", "c"})
+    public void clean() {
+        libraryService.clean();
+    }
+
     @Override
     public AttributedString getPrompt() {
         return new AttributedString("Batch:>>>");

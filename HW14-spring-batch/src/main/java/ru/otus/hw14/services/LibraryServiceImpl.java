@@ -3,6 +3,8 @@ package ru.otus.hw14.services;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.stereotype.Service;
+import ru.otus.hw14.models.mongo.Book;
+import ru.otus.hw14.models.mongo.Comment;
 import ru.otus.hw14.repositories.jpa.AuthorJpaRepository;
 import ru.otus.hw14.repositories.jpa.BookJpaRepository;
 import ru.otus.hw14.repositories.jpa.CommentJpaRepository;
@@ -44,19 +46,39 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public String getMongoData() {
-        return String.format(DATA_IN_JPA_REPOSITORY, MONGO) +
+        final var stringBuilder = new StringBuilder(String.format(DATA_IN_JPA_REPOSITORY, MONGO) +
                 NEW_LINE +
                 "Book count: " + bookMongoRepository.count() + NEW_LINE +
                 "Author count: " + authorMongoRepository.count() + NEW_LINE +
                 "Genre count: " + genreMongoRepository.count() + NEW_LINE +
-                "Comment count: " + commentMongoRepository.count();
+                "Comment count: " + commentMongoRepository.count());
+        if (bookMongoRepository.count() != 0) {
+            for (Book book : bookMongoRepository.findAll()) {
+                stringBuilder.append(NEW_LINE).append(book);
+            }
+            for (Comment comment : commentMongoRepository.findAll()) {
+                stringBuilder.append(NEW_LINE).append(comment);
+            }
+        } else {
+            stringBuilder.append(NEW_LINE).append("DB is Empty");
+        }
+        return stringBuilder.toString();
     }
 
     @Override
     public void dbMigration() {
         try {
-            jobOperator.start("myJob", "");
+            clean();
+            jobOperator.startNextInstance("myJob");
         } catch (Exception ignored) {
         }
+    }
+
+    @Override
+    public void clean() {
+        commentMongoRepository.deleteAll();
+        bookMongoRepository.deleteAll();
+        genreMongoRepository.deleteAll();
+        authorMongoRepository.deleteAll();
     }
 }
