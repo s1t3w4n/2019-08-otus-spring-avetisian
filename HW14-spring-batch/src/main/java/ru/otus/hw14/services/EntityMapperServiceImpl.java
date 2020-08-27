@@ -7,43 +7,39 @@ import ru.otus.hw14.models.mongo.Author;
 import ru.otus.hw14.models.mongo.Book;
 import ru.otus.hw14.models.mongo.Comment;
 import ru.otus.hw14.models.mongo.Genre;
-import ru.otus.hw14.repositories.mongo.AuthorMongoRepository;
 import ru.otus.hw14.repositories.mongo.BookMongoRepository;
-import ru.otus.hw14.repositories.mongo.GenreMongoRepository;
 
 @AllArgsConstructor
 @Service
 public class EntityMapperServiceImpl implements EntityMapperService {
-    private final AuthorMongoRepository authorMongoRepository;
-    private final GenreMongoRepository genreMongoRepository;
     private final BookMongoRepository bookMongoRepository;
+
+    private final IdHolderService idHolderService;
 
     @Override
     public Author mapAuthor(ru.otus.hw14.models.jpa.Author author) {
-        return new Author(ObjectId.get().toString(), author.getFirstName(), author.getLastName());
+        return new Author(author.getFirstName(), author.getLastName());
     }
 
     @Override
     public Genre mapGenre(ru.otus.hw14.models.jpa.Genre genre) {
-        return new Genre(ObjectId.get().toString(), genre.getGenre());
+        return new Genre(genre.getGenre());
     }
 
     @Override
-    public Book mapBook(ru.otus.hw14.models.jpa.Book book) {
-        final var mongoAuthor = authorMongoRepository
-                .findByFirstNameAndLastName(
-                        book.getAuthor().getFirstName(),
-                        book.getAuthor().getLastName());
-        final var mongoGenre = genreMongoRepository.findByGenre(book.getGenre().getGenre());
-        return new Book(book.getId(),
-                book.getTitle(),
-                mongoAuthor.orElseThrow(),
-                mongoGenre.orElseThrow());
+    public Book mapBook(ru.otus.hw14.models.jpa.Book jpaBook) {
+        final var mongoBook =
+                new Book(ObjectId.get().toString(),
+                        jpaBook.getTitle(),
+                        mapAuthor(jpaBook.getAuthor()),
+                        mapGenre(jpaBook.getGenre()));
+        idHolderService.addBookMongoID(jpaBook.getId(), mongoBook.getId());
+        return mongoBook;
     }
 
     @Override
     public Comment mapComment(ru.otus.hw14.models.jpa.Comment comment) {
-        final var byId = bookMongoRepository.findById(comment.getBook().getId());
-        return new Comment(ObjectId.get().toString(), comment.getText(), byId.orElseThrow());
+        final var byId = bookMongoRepository.findById(idHolderService.getBookMongoId(comment.getBook().getId()));
+        return new Comment(comment.getText(), byId.orElseThrow());
     }
 }

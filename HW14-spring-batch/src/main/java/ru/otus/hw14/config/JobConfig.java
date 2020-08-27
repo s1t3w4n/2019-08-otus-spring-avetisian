@@ -5,18 +5,16 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.data.MongoItemWriter;
-import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import ru.otus.hw14.config.writers.BookWriter;
 import ru.otus.hw14.models.jpa.Author;
 import ru.otus.hw14.models.jpa.Book;
 import ru.otus.hw14.models.jpa.Comment;
@@ -50,9 +48,8 @@ public class JobConfig {
 
     private final EntityMapperService entityMapperService;
 
-    @StepScope
     @Bean
-    public RepositoryItemReader<Author> authorReader() {
+    public ItemReader<Author> authorReader() {
         return new RepositoryItemReaderBuilder<Author>()
                 .name("authorReader")
                 .sorts(new HashMap<>())
@@ -61,9 +58,8 @@ public class JobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
-    public RepositoryItemReader<Genre> genreReader() {
+    public ItemReader<Genre> genreReader() {
         return new RepositoryItemReaderBuilder<Genre>()
                 .name("genreReader")
                 .sorts(new HashMap<>())
@@ -72,9 +68,8 @@ public class JobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
-    public RepositoryItemReader<Book> bookReader() {
+    public ItemReader<Book> bookReader() {
         return new RepositoryItemReaderBuilder<Book>()
                 .name("booksReader")
                 .sorts(new HashMap<>())
@@ -83,9 +78,8 @@ public class JobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
-    public RepositoryItemReader<Comment> commentReader() {
+    public ItemReader<Comment> commentReader() {
         return new RepositoryItemReaderBuilder<Comment>()
                 .name("commentReader")
                 .sorts(new HashMap<>())
@@ -94,60 +88,44 @@ public class JobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
     public ItemProcessor<Author, ru.otus.hw14.models.mongo.Author> authorProcessor() {
         return entityMapperService::mapAuthor;
     }
 
-    @StepScope
     @Bean
     public ItemProcessor<Genre, ru.otus.hw14.models.mongo.Genre> genreProcessor() {
         return entityMapperService::mapGenre;
     }
 
-    @StepScope
     @Bean
     public ItemProcessor<Book, ru.otus.hw14.models.mongo.Book> bookProcessor() {
         return entityMapperService::mapBook;
     }
 
-    @StepScope
     @Bean
     public ItemProcessor<Comment, ru.otus.hw14.models.mongo.Comment> commentProcessor() {
         return entityMapperService::mapComment;
     }
 
-    @StepScope
     @Bean
-    public MongoItemWriter<ru.otus.hw14.models.mongo.Author> authorWriter() {
+    public ItemWriter<ru.otus.hw14.models.mongo.Author> authorWriter() {
         return new MongoItemWriterBuilder<ru.otus.hw14.models.mongo.Author>()
                 .collection("authors")
                 .template(mongoTemplate)
                 .build();
     }
 
-    @StepScope
     @Bean
-    public MongoItemWriter<ru.otus.hw14.models.mongo.Genre> genreWriter() {
+    public ItemWriter<ru.otus.hw14.models.mongo.Genre> genreWriter() {
         return new MongoItemWriterBuilder<ru.otus.hw14.models.mongo.Genre>()
                 .collection("genre")
                 .template(mongoTemplate)
                 .build();
     }
 
-    @StepScope
     @Bean
-    public MongoItemWriter<ru.otus.hw14.models.mongo.Book> bookWriter() {
-        return new MongoItemWriterBuilder<ru.otus.hw14.models.mongo.Book>()
-                .collection("books")
-                .template(mongoTemplate)
-                .build();
-    }
-
-    @StepScope
-    @Bean
-    public MongoItemWriter<ru.otus.hw14.models.mongo.Comment> commentWriter() {
+    public ItemWriter<ru.otus.hw14.models.mongo.Comment> commentWriter() {
         return new MongoItemWriterBuilder<ru.otus.hw14.models.mongo.Comment>()
                 .collection("comments")
                 .template(mongoTemplate)
@@ -207,12 +185,12 @@ public class JobConfig {
     }
 
     @Bean
-    public Job myJob() {
+    public Job myJob(BookWriter bookWriter) {
         return jobBuilderFactory.get(MY_JOB)
                 .incrementer(new RunIdIncrementer())
                 .flow(authorStep(authorReader(), authorProcessor(), authorWriter()))
                 .next(genreStep(genreReader(), genreProcessor(), genreWriter()))
-                .next(bookStep(bookReader(), bookProcessor(), bookWriter()))
+                .next(bookStep(bookReader(), bookProcessor(), bookWriter))
                 .next(commentStep(commentReader(), commentProcessor(), commentWriter()))
                 .end()
                 .build();
