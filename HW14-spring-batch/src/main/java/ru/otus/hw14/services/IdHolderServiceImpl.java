@@ -2,15 +2,15 @@ package ru.otus.hw14.services;
 
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class IdHolderServiceImpl implements IdHolderService {
     private final Map<Long, String> bookIdMap;
 
     public IdHolderServiceImpl() {
-        this.bookIdMap = new HashMap<>();
+        this.bookIdMap = new ConcurrentHashMap<>();
     }
 
     @Override
