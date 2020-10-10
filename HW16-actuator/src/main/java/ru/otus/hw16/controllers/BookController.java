@@ -1,4 +1,4 @@
-package ru.otus.hw13.controllers;
+package ru.otus.hw16.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import ru.otus.hw13.exceptions.NotFoundException;
-import ru.otus.hw13.models.Book;
-import ru.otus.hw13.models.Comment;
-import ru.otus.hw13.service.LibraryService;
+import ru.otus.hw16.exceptions.NotFoundException;
+import ru.otus.hw16.models.Book;
+import ru.otus.hw16.models.Comment;
+import ru.otus.hw16.service.LibraryService;
 
 import java.util.List;
 

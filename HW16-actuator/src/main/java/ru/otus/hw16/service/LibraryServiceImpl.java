@@ -1,4 +1,4 @@
-package ru.otus.hw13.service;
+package ru.otus.hw16.service;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -14,14 +14,14 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw13.models.Author;
-import ru.otus.hw13.models.Book;
-import ru.otus.hw13.models.Comment;
-import ru.otus.hw13.models.Genre;
-import ru.otus.hw13.repositories.AuthorRepository;
-import ru.otus.hw13.repositories.BookRepository;
-import ru.otus.hw13.repositories.CommentRepository;
-import ru.otus.hw13.repositories.GenreRepository;
+import ru.otus.hw16.models.Author;
+import ru.otus.hw16.models.Book;
+import ru.otus.hw16.models.Comment;
+import ru.otus.hw16.models.Genre;
+import ru.otus.hw16.repositories.AuthorRepository;
+import ru.otus.hw16.repositories.BookRepository;
+import ru.otus.hw16.repositories.CommentRepository;
+import ru.otus.hw16.repositories.GenreRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,14 +58,14 @@ public class LibraryServiceImpl implements LibraryService {
                         checkForGenre(genre)));
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+//    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> readById(long id) {
         return bookRepository.findById(id);
     }
 
-    @PostAuthorize("hasAuthority('ADMIN')")
+//    @PostAuthorize("hasAuthority('ADMIN')")
     @Transactional
     @Override
     public Book updateBook(long id, String tittle, String firstName, String lastName, String genre) {
@@ -73,7 +73,7 @@ public class LibraryServiceImpl implements LibraryService {
                 new Book(id, tittle, checkForAuthor(firstName, lastName), checkForGenre(genre)));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     @Override
     public void deleteById(long id) {

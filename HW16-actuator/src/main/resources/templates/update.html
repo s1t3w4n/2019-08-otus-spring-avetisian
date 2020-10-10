@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+</head>
+<body>
+<header th:insert="fragments.html :: style"> Adding Styles</header>
+<div th:insert="fragments.html :: header"> Here is a menu of main functional</div>
+<form id="edit-form" th:action="@{/update(id=${book.id})}" th:method="post" action="update.html">
+    <h1>Book Info:</h1>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" type="text" readonly="readonly" th:value="${book.id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="title-input">Book Title:</label>
+        <input id="title-input" name="title" type="text" th:value="${book.title}"
+               value="Thinking in Java (4th Edition)" required autocomplete="off"/>
+    </div>
+
+    <div class="row">
+        <label for="first-name-input">Author First Name:</label>
+        <input id="first-name-input" name="firstName" type="text" th:value="${book.author.firstName}" value="Bruce"
+               required autocomplete="off" list="first-name-datalist"/>
+        <datalist id="first-name-datalist">
+            <option th:each="first : ${firstNames}"
+                    th:value="${first}"
+                    th:text="${first}">
+            </option>
+        </datalist>
+
+    </div>
+
+    <div class="row">
+        <label for="last-name-input">Author Second Name:</label>
+        <input id="last-name-input" name="lastName" type="text" th:value="${book.author.lastName}" value="Eckel"
+               required autocomplete="off" list="last-name-datalist"/>
+        <datalist id="last-name-datalist">
+            <option th:each="last : ${lastNames}"
+                    th:value="${last}"
+                    th:text="${last}">
+            </option>
+        </datalist>
+    </div>
+
+    <div class="row">
+        <label for="genre-input">Book Genre:</label>
+        <input id="genre-input" name="genre" type="text" th:value="${book.genre.genre}" value="programming" required
+               autocomplete="off" list="genre-datalist"/>
+        <datalist id="genre-datalist">
+            <option th:each="genre : ${genre}"
+                    th:value="${genre}"
+                    th:text="${genre}">
+            </option>
+        </datalist>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+<div th:insert="fragments.html :: comment"> Conditional comment link</div>
+</body>
+</html>
